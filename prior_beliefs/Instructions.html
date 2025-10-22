@@ -160,7 +160,7 @@ Block 3
     The probability of winning the ${{C.PRIZE}} is then given by:
 </p>
 
-<p>
+<p style="text-align: center;">
   <math xmlns="http://www.w3.org/1998/Math/MathML">
     <mtext>winning probability</mtext>
     <mo>=</mo>
@@ -187,38 +187,81 @@ Block 3
 
 <h4> Example: </h4>
 <p>
- Suppose that you are tasked with assessing the probability that Team
+    Suppose that you believe that Team
     {{ if participant.belief_ref == "ingroup" }}
     {{ participant.group }}
     {{ elif participant.belief_ref == "outgroup" }}
     {{ participant.outgroup }}
     {{ endif }}
-   won against Team
+    won against Team
     {{ if participant.belief_ref == "ingroup" }}
     {{ participant.outgroup }}
     {{ elif participant.belief_ref == "outgroup" }}
     {{ participant.group }}
     {{ endif }}
-    in a task.
-    And suppose that your belief that they won is 68%. The following table shows your winning probability based on the formula.
-    The columns represent a number of hypothetical answers you may give. As you can see, your chance of winning the ${{C.PRIZE}} is highest when you report your true belief of 68%.
+    with a probability of 68%.
 </p>
-<table>
-    <tr>
-        <td> Report</td>
-        <td> 19% </td>
-        <td> 42% </td>
-        <td> <b>68%</b> </td>
-        <td>87%</td>
-    </tr>
-    <tr>
-        <td> Winning Probability </td>
-        <td> 54.23% </td>
-        <td> 71.48% </td>
-        <td> <b>78.24%</b> </td>
-        <td> 74.63% </td>
-    </tr>
-</table>
+<p>
+There are two options:
+        <ul>
+            <li> If Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}
+    {{ endif }} won (R=1), your winning probability based on the formula is: 89.76%.
+            </li>
+            <li> If Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.outgroup }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.group }}
+    {{ endif }} won (R=0), your winning probability based on the formula is: 53.76%.
+    </li>
+        </ul>
+Since you would think that
+{{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}s
+    {{ endif }}
+are better in 68% of cases,
+68% of the time you expect the first case to happen, and 32% of the time the second case to happen.
+This results in an average ("expected") probability of winning of 78.24%.
+</p>
+
+<p>
+    Any other possible report would lead to a lower expected winning probability:
+    <ul>
+        <li>
+    For example, you may consider <b>reporting 100%</b> (i.e., being completely certain that Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}
+    {{ endif }} won).
+    In this case, you would get the prize with a probability of 100% if Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}
+    {{ endif }} actually won, but with a probability of 0% if they lost.
+    If they actually won in 68% of the cases (as your belief would indicate in this example),
+    your expected winning probability would be only 68%, which is lower than
+    the 78.24% you would get by reporting your true belief of 68%.
+            </li>
+        <li>
+    As another example, consider <b>reporting a lower belief of 40%</b>.
+    In this case, you would get the prize with a probability of 64% if Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}
+    {{ endif }} actually won, and with a probability of 84% if they lost.
+    This would lead to an expected winning probability of only 70.4%, which is again lower than the 78.24% you would get by reporting your true belief of 68%.
+        </li>
+    </ul>
+</p>
 
 
         <br>

@@ -63,11 +63,13 @@ class Player(BasePlayer):
         initial=0,
     )
     pagetime_feedback = models.FloatField(initial=0.0)
+    pagetime_instr_feedback = models.FloatField(initial=0.0)
 
 
 # PAGES
 class InstructionsFeedback(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['pagetime_instr_feedback']
 
 
 class Feedback(Page):

@@ -149,6 +149,7 @@ class Player(BasePlayer):
             [3, 'I was largely focused, with a few minor distractions.'],
             [4, 'I was fully focused, no distractions at all.']
         ])
+    pagetime_survey = models.FloatField(initial=0.0)
 
 
 # PAGES
@@ -183,7 +184,7 @@ class Survey(Page):
                    #'political_affiliation', 'political_orientation','feedback_trust',
                    'information_search', 'information_source',
                     'memory', #'understand', 'recall_memory'
-                    'purpose', 'comment', 'attention_check', 'effort_report', 'pasteAttempts']
+                    'purpose', 'comment', 'attention_check', 'effort_report', 'pasteAttempts', 'pagetime_survey']
 
 
     #@staticmethod

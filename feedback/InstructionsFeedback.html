@@ -86,6 +86,9 @@
 </div>
 
 
+<input type="hidden" name="pagetime_instr_feedback" id="pagetime_instr_feedback" value="0">
+{{ formfield_errors 'pagetime_instr_feedback' }}
+
 
 {{ endblock }}
 
@@ -237,6 +240,14 @@ table.table2 th {
     document.getElementById("infobox2").classList.remove("hidden");
     document.getElementById("container2").classList.add("hidden");
     });
+</script>
+<script>
+let pageEnterTime = Date.now();
+
+document.querySelector("form").addEventListener("submit", function() {
+    let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
+    document.getElementById("pagetime_instr_feedback").value = duration.toFixed(2);
+});
 </script>
  {{ endblock }}
 

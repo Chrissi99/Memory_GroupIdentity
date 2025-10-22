@@ -97,7 +97,8 @@
 
 {{ next_button }}
 
-
+<input type="hidden" name="pagetime_selfconf" id="pagetime_selfconf" value="0">
+{{ formfield_errors 'pagetime_selfconf' }}
 
 </div>
 </div>
@@ -161,6 +162,10 @@ p + div {
     justify-content: center;
     align-items: center;
 }
+#container2 {
+    text-align: center;
+    item-align: center;
+}
 .task_selfest {
     }
 .button {
@@ -211,6 +216,14 @@ p + div {
     document.getElementById("infobox2").classList.remove("hidden");
     document.getElementById("container2").classList.add("hidden");
     });
+</script>
+<script>
+let pageEnterTime = Date.now();
+
+document.querySelector("form").addEventListener("submit", function() {
+    let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
+    document.getElementById("pagetime_selfconf").value = duration.toFixed(2);
+});
 </script>
 {{ endblock }}
 

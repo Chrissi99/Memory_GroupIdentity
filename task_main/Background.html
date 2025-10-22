@@ -134,6 +134,10 @@ The Competition:
 
 {{ next_button }}
 
+
+<input type="hidden" name="pagetime_background" id="pagetime_background" value="0">
+{{ formfield_errors 'pagetime_background }}
+
 {{ endblock }}
 
 
@@ -298,5 +302,55 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+</script>
+
+<script>
+    let focusEvents = [];
+    let blurStartTime = null;
+
+    document.addEventListener('visibilitychange', function () {
+        const now = Date.now();
+        if (document.hidden) {
+            blurStartTime = now;
+            focusEvents.push({ event: 'blur', timestamp: now });
+        } else {
+            const unfocusedDuration = blurStartTime ? now - blurStartTime : 0;
+            focusEvents.push({
+                event: 'focus',
+                timestamp: now,
+                unfocused_duration_ms: unfocusedDuration
+            });
+            blurStartTime = null;
+        }
+    });
+
+    // Ensure we always add a hidden input named focus_data on submit (default '[]')
+    document.querySelector('form').addEventListener('submit', function (e) {
+        // Remove any previous input to avoid duplicates
+        const old = this.querySelector('input[name="focus_data"]');
+        if (old) old.remove();
+
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'focus_data';
+        // If no events, send an empty array string
+        hiddenInput.value = JSON.stringify(focusEvents.length ? focusEvents : []);
+        this.appendChild(hiddenInput);
+    });
+
+    // Also save on page unload (optional, helps with some browsers)
+    window.addEventListener('beforeunload', function () {
+        // If form not submitted, this won't reach server — but still safe to set
+        // (no DOM submission here; this is just a precaution)
+        // — nothing to do, main guarantee is on submit above.
+    });
+</script>
+<script>
+let pageEnterTime = Date.now();
+
+document.querySelector("form").addEventListener("submit", function() {
+    let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
+    document.getElementById("pagetime_background").value = duration.toFixed(2);
+});
 </script>
 {{ endblock }}

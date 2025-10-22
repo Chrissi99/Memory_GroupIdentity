@@ -35,11 +35,12 @@ class Player(BasePlayer):
         min=0,
         max=10,
     )
+    pagetime_selfconf = models.FloatField(initial=0.0)
 
 
 # PAGES
 class SelfEstimationPost(Page):
     form_model = 'player'
-    form_fields = ['ranking_post', 'own_score_post']
+    form_fields = ['ranking_post', 'own_score_post', 'pagetime_selfconf']
 
 page_sequence = [SelfEstimationPost]
