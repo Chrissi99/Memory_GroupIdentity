@@ -1,0 +1,270 @@
+{{ block title }}
+
+{{ endblock }}
+{{ block content }}
+<h3> Additional Questions on the Competition Outcome: </h3>
+<p> Please indicate below, what you think the total scores of the two groups are. <br>
+Remember that the total score is the sum of the scores of all {{C.NUM_GROUPMEMBERS}} group members and that the test
+    consisted of {{C.NUM_QUESTIONS}} questions with one
+    point each. Thus, <b>the maximum total group score is {{C.MAX_TOTAL_GROUP}}.</b></p>
+</p>
+
+
+<table id="text2">
+    <tr>
+        <td width ="10%"> </td>
+        <td width="38%" style="text-align:center; font-size:20px"> Total Score of Group
+            <span style=""><b>{{ participant.group }}</b> </span>:</td>
+        <td width="12%" style="text-align:left">{{formfield 'post_abs1'}}</td>
+        <td width="40%"></td>
+    </tr>
+    <tr>
+        <td width ="10%"> </td>
+        <td width="38%" style="text-align:center; font-size:20px"> Total Score of Group
+            <span style=""><b>{{ participant.outgroup }}</b> </span>:</td>
+        <td width="12%" style="text-align:left">{{formfield 'post_abs2'}}</td>
+        <td width="40%"></td>
+    </tr>
+</table>
+
+
+<!--
+<h3> Task: </h3>
+<p id="text"> As in the previous task, you are akes to estimate the total scores of the Groups
+    <b>{{ participant.group }}s</b> and <b>{{ participant.outgroup }}s</b>.
+    Remember that the total score is the sum of the scores of all group members and that the task consisted of {{C.NUM_QUESTIONS}} questions with one
+    point each. Thus, <b>the maximum total group score is {{C.MAX_TOTAL_GROUP}}.</b>
+</p>
+
+<h3> Bonus: </h3>
+<p> At the end of the study, a random draw will determine which of the two estimates for the two total group scores is relevant for your bonus.
+    If - for the drawn estimate - your entered value is not more than {{C.MAX_DIST_ABS}} points away from the actual total
+    score of the corresponding group, you will receive a bonus of ${{C.BONUS_ABS}}.
+</p>
+
+
+<p id="container">
+<b class="openbox" id="openbox">
+    <button type="button" class="button_normal"> Next </button>
+</b> </p>
+<div class="infobox hidden" id="infobox">
+<div class="belief_task">
+
+<hr>
+
+
+<table id="text2">
+    <tr>
+        <td colspan="4" style="text-align:center;">
+            Now, please enter your estimate of the <b>total scores</b> of the two groups, respectively:
+        </td>
+    </tr>
+    <tr>
+        <td width ="10%"> </td>
+        <td width="38%" style="text-align:center; font-size:20px"> Total Score of Group
+            <span style=""><b>{{ participant.group }}</b> </span>:</td>
+        <td width="12%" style="text-align:left">formfield 'post_abs1'</td>
+        <td width="40%"></td>
+    </tr>
+    <tr>
+        <td width ="10%"> </td>
+        <td width="38%" style="text-align:center; font-size:20px"> Total Score of Group
+            <span style=""><b>{{ participant.outgroup }}</b> </span>:</td>
+        <td width="12%" style="text-align:left">formfield 'post_abs2'</td>
+        <td width="40%"></td>
+    </tr>
+</table>
+-->
+
+
+<br>
+
+    {{ next_button }}
+
+</div>
+</div>
+
+{{ endblock }}
+
+
+{{ block styles}}
+<style>
+.highlight_green {
+    color: green;
+}
+.highlight_orange {
+    color: orange;
+}
+.highlight_blue {
+    color: blue;
+}
+.highlight_purple {
+    color: purple;
+}
+
+.hidden {
+	display:none;
+}
+
+    .infobox {
+    // background-color:#f0f0f5
+    }
+
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+
+
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.belief_task {
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+}
+
+table {
+        margin: auto; /* Center the table on the page */
+        width: 100%;
+        font-size: 16px;
+    }
+
+    td {
+        /* border: 1px solid #ccc; */
+        padding: 5px;
+    }
+
+    .empty_col {
+        width: 1px;
+        border-right: 1px solid black;
+    }
+
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 70px;
+    }
+
+    .center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+    .center-text {
+        align-items: center;
+        text-align: center;
+    }
+
+
+</style>
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text');
+    const wordsToHighlight = ['Green'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_green">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text');
+    const wordsToHighlight = ['Orange'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_orange">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text');
+    const wordsToHighlight = ['Blue'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_blue">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text');
+    const wordsToHighlight = ['Purple'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_purple">${word}</span>`);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text2');
+    const wordsToHighlight = ['Green'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_green">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text2');
+    const wordsToHighlight = ['Orange'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_orange">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text2');
+    const wordsToHighlight = ['Blue'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_blue">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text2');
+    const wordsToHighlight = ['Purple'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_purple">${word}</span>`);
+    });
+});
+
+</script>
+
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+
+
+
+ {{ endblock }}

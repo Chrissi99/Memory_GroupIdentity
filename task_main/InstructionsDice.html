@@ -1,0 +1,36 @@
+{{ block title }}
+{{ if participant.task1 == "luck" }}
+    Block 1 - Luck Task
+{{ elif participant.task2 == "luck" }}
+    Block 2 - Luck Task
+{{ elif participant.task3 == "luck" }}
+    Block 3 - Luck Task
+{{ endif }}
+{{ endblock }}
+{{ block content }}
+
+<h4>Instructions:</h4>
+<p>
+    On the following page, you will be asked to roll a die {{C.DICE_ROLLS}} times.
+</p>
+<h4> Score and Payment: </h4>
+<p>
+    The die is a fair dice with equal probability of rolling a 1, 2, 3, 4, 5 or 6. Thus, what you roll is completely random
+    and you have no influence on the outcome. <br>
+
+    You can receive a bonus payment for this game which depends on your score.
+
+    You receive {{C.POINTS_SIX}} points for each 6 you roll and {{C.POINTS_FIVE}} point for each 5 you roll.
+    <b>Each point is then converted into a payment of ${{C.BONUS_DICE}}</b>.
+    This means that you earn ${{C.BONUS_SIX}} for every 6 you roll and ${{C.BONUS_FIVE}} for every 5 you roll - if
+    this block is drawn as the block-that-counts.
+</p>
+
+<p>
+    Please click on "Next" when you have understood the instructions and are ready to start the game.
+</p>
+
+    {{ formfields }}
+    {{ next_button }}
+
+{{ endblock }}

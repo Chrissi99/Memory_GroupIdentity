@@ -1,0 +1,235 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+
+<p>
+    <b>Imagine the following situation:</b> An institution has to decide how to allocate scholarships between people who are
+    all equally in need of financial support. The institution has a limited budget and can only allocate a certain number of scholarships.
+    Scholarships could be allocated to students based on their performance, based on their effort, or based on a lottery.
+    What do you think is the best way to allocate scholarships?
+</p>
+<p id="container">
+<b class="openbox" id="openbox">
+    <button type="button" class="button_normal"> Next </button>
+</b> </p>
+<div class="infobox hidden" id="infobox">
+
+<p>
+    To answer this question, please allocate weights to the three allocation methods. Weights are assigned as a number
+    between 0 and 100, reflecting the importance of each method in the allocation process. A weight of 0 means that the method is not
+    considered at all, while a weight of 100 means that the method is the only one considered. The sum of the weights for all three methods
+    must equal 100.
+</p>
+
+<table class="table">
+    <tr>
+      <th colspan="3">
+        {% if domain1 == "logic" %}Performance based allocation
+        {% elif domain1 == "effort" %}Effort based allocation
+        {% elif domain1 == "luck" %}Lottery based allocation
+        {% endif %}
+      </th>
+      <th colspan="3">
+        {% if domain2 == "logic" %}Performance based allocation
+        {% elif domain2 == "effort" %}Effort based allocation
+        {% elif domain2 == "luck" %}Lottery based allocation
+        {% endif %}
+      </th>
+      <th colspan="3">
+        {% if domain3 == "logic" %}Performance based allocation
+        {% elif domain3 == "effort" %}Effort based allocation
+        {% elif domain3 == "luck" %}Lottery based allocation
+        {% endif %}
+      </th>
+    </tr>
+    <tr>
+        <td width="10%"></td>
+      <td width="13%">
+        {% if domain1 == "logic" %}{{ formfield "logic_weight" label="" }}
+        {% elif domain1 == "effort" %}{{ formfield "effort_weight" label="" }}
+        {% elif domain1 == "luck" %}{{ formfield "luck_weight" label="" }}
+        {% endif %}
+      </td>
+        <td width="10%"></td>
+        <td width="10%"></td>
+      <td width="14%">
+        {% if domain2 == "logic" %}{{ formfield "logic_weight" label="" }}
+        {% elif domain2 == "effort" %}{{ formfield "effort_weight" label="" }}
+        {% elif domain2 == "luck" %}{{ formfield "luck_weight" label="" }}
+        {% endif %}
+      </td>
+        <td width="10%"></td>
+        <td width="10%"></td>
+      <td width="14%">
+        {% if domain3 == "logic" %}{{ formfield "logic_weight" label="" }}
+        {% elif domain3 == "effort" %}{{ formfield "effort_weight" label="" }}
+        {% elif domain3 == "luck" %}{{ formfield "luck_weight" label="" }}
+        {% endif %}
+      </td>
+        <td width="10%"></td>
+    </tr>
+</table>
+
+
+{{ formfield_errors "logic_weight" }}
+{{ formfield_errors "effort_weight" }}
+{{ formfield_errors "luck_weight" }}
+
+<div class="center">
+    <p id="sum-display">Current sum allocated: 0 / 100</p>
+    <p id="remaining-display">Remaining points to allocate: 100</p>
+    <button id="next-button" class="button-normal" disabled>Next</button>
+</div>
+
+</div>
+
+{{ endblock }}
+
+
+{{ block styles }}
+<style>
+.center {
+    text-align: center;
+    items-align: center;
+}
+
+.enabled-button{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+#next-button:disabled {
+        background-color: #ECEDEF;
+        color: white;
+        cursor: not-allowed;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        padding: 7px 14px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+    /* background-color: #81DAF5; */
+}
+
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.hidden {
+	display:none;
+}
+
+.disabled-button {
+  background-color: #ECEDEF;
+  color: white;
+  cursor: not-allowed;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 14px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  table-layout: fixed; /* Ensures equal width for each column */
+}
+
+.table th, .table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
+}
+.table td .formfield {
+  margin: 0 auto;
+  display: inline-block;
+  text-align: center;
+}
+
+input[type=number] {
+  width: 70px;
+  padding: 6px;
+  font-size: 14px;
+  text-align: right;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+</style>
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const firstNextBtn = document.querySelector('.button_normal'); // first Next button
+  const infobox = document.getElementById('infobox');            // hidden form container
+  const nextButton = document.getElementById('next-button');     // second Next button inside form
+  const sumDisplay = document.getElementById('sum-display');     // sum display element
+
+  // Show form and enable next button, hide first button
+  firstNextBtn.addEventListener('click', () => {
+  infobox.classList.remove('hidden');
+  firstNextBtn.style.display = 'none';
+  updateSum(); // Immediately evaluate current sum and update button state
+    });
+
+  // Select all weight inputs inside the infobox (adjust selector as needed)
+  const weightInputs = infobox.querySelectorAll('input[type="number"]');
+
+  // Function to update the sum display
+  function updateSum() {
+    let sum = 0;
+    weightInputs.forEach(input => {
+      const val = parseInt(input.value);
+      if (!isNaN(val)) sum += val;
+    });
+    sumDisplay.textContent = `Current sum allocated: ${sum} / 100`;
+    const remaining = 100 - sum;
+    document.getElementById('remaining-display').textContent = `Remaining points to allocate: ${remaining}`;
+    nextButton.disabled = sum !== 100;
+    nextButton.classList.toggle('enabled-button', sum === 100);
+    nextButton.classList.toggle('disabled-button', sum !== 100);
+}
+
+  // Attach input event listener to each weight input to update sum live
+  weightInputs.forEach(input => input.addEventListener('input', updateSum));
+});
+
+</script>
+{{ endblock }}

@@ -1,0 +1,29 @@
+{% block styles  %}
+    <link href="{% static 'real_effort.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{{ block title }}
+Counting Task
+{{ endblock }}
+
+{{ block content }}
+
+<div class="d-flex flex-column align-items-center">
+    <img class="captcha m-1" id="captcha-img">
+
+<br>
+    <div class="input-group m-1">
+        <input type="{{ input_type }}" id="answer-inp" class="form-control" maxlength="4"
+               placeholder="{{ placeholder }}"
+               autocorrect="off" autocapitalize="off" spellcheck="false">
+        <button type="button" id="submit-btn" class="btn btn-outline-secondary">Submit</button>
+    </div>
+</div>
+<br>
+{{ include C.instructions_template }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'real_effort.js' }}"></script>
+{{ endblock }}

@@ -1,0 +1,298 @@
+{{ block title }}
+
+{{ endblock }}
+{{ block content }}
+
+<!--
+{{ if player.round_number == 1}}
+    {{ if participant.task1 == "logic" }}
+    <h4> Logic Task </h4>
+    {{ elif participant.task1 == "effort" }}
+    <h4> Counting Task </h4>
+    {{ elif participant.task1 == "luck" }}
+    <h4> Dice Task </h4>
+    {{ endif }}
+{{ elif player.round_number == 7 }}
+    {{ if participant.task2 == "logic" }}
+    <h4> Logic Task </h4>
+    {{ elif participant.task2 == "effort" }}
+    <h4> Counting Task </h4>
+    {{ elif participant.task2 == "luck" }}
+    <h4> Dice Task </h4>
+    {{ endif }}
+{{ elif player.round_number == 13 }}
+    {{ if participant.task3 == "logic" }}
+    <h4> Logic Task </h4>
+    {{ elif participant.task3 == "effort" }}
+    <h4> Counting Task </h4>
+    {{ elif participant.task3 == "luck" }}
+    <h4> Dice Task </h4>
+    {{ endif }}
+{{ endif }} -->
+
+<p>
+    The
+    {{ if player.round_number == 1}}
+    first {{C.ROUNDS_P_Q}} questions concern the team competition in the
+    {{ if participant.task1 == "logic" }} <b>Logic Task</b>.
+    {{ elif participant.task1 == "effort" }} <b>Counting Task</b>.
+    {{ elif participant.task1 == "luck" }} <b>Dice Task</b>.
+    {{ endif }}
+    <i>(Click <b id="instructions_trigger" style="color:blue">here </b> if you want to see an example screenshot of the task again.)</i>
+    <span style="inline-block; margin-bottom: 10px;">
+    That is, choosing Option A in these questions means receiving ${{C.BONUS_REL}} if the {{C.NUM_MEMBERS_W}} {{ participant.group }}s
+    who competed in the
+    {{ if participant.task1 == "logic" }} Logic Task
+    {{ elif participant.task1 == "effort" }} Counting Task
+    {{ elif participant.task1 == "luck" }} Dice Task
+    {{ endif }}
+    won against the {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}s.
+        </span>
+    <div id="logicmodal" class="modal">
+    <span id="logicclose" class="close">&times;</span>
+    <div id="logiccaption">
+        {{ if participant.task1 == "logic" }}
+    <div>
+        <img src="{% static 'global/screenshot_logic.png' %}"
+         width="600px"
+         class="annotatable"/>
+        </div>
+    {{ elif participant.task1 == "effort" }}
+    <div>
+        <img src="{% static 'global/screenshot_counting.png' %}"
+         width="600px"
+         class="annotatable"/>
+        </div>
+    {{ elif participant.task1 == "luck" }}
+    <div>
+        <img src="{% static 'global/screenshot_dice.png' %}"
+         width="600px"
+         class="annotatable"/>
+        </div>
+    {{ endif }}
+    </div>
+    </div>
+    {{ elif player.round_number == 7}}
+    second {{C.ROUNDS_P_Q}} questions concern the team competition in the
+    {{ if participant.task2 == "logic" }} <b>Logic Task</b>.
+    {{ elif participant.task2 == "effort" }} <b>Counting Task</b>.
+    {{ elif participant.task2 == "luck" }} <b>Dice Task</b>.
+    {{ endif }}
+    <i>(Click <b id="instructions_trigger" style="color:blue">here </b> if you want to see an example screenshot of the task again.)</i>
+    <span style="inline-block; margin-bottom: 10px;">
+    That is, choosing Option A in these questions means receiving ${{C.BONUS_REL}} if the {{C.NUM_MEMBERS_W}} {{ participant.group }}s
+    who competed in the
+    {{ if participant.task2 == "logic" }} Logic Task
+    {{ elif participant.task2 == "effort" }} Counting Task
+    {{ elif participant.task2 == "luck" }} Dice Task
+    {{ endif }}
+    won against the {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}s.
+        </span>
+    <div id="logicmodal" class="modal">
+    <span id="logicclose" class="close">&times;</span>
+    <div id="logiccaption">
+        {{ if participant.task2 == "logic" }}
+    <div>
+        <img src="{% static 'global/screenshot_logic.png' %}"
+         width="600px"
+         class="annotatable"/>
+        </div>
+    {{ elif participant.task2 == "effort" }}
+    <div>
+        <img src="{% static 'global/screenshot_counting.png' %}"
+         width="600px"
+         class="annotatable"/>
+        </div>
+    {{ elif participant.task2 == "luck" }}
+    <div>
+        <img src="{% static 'global/screenshot_dice.png' %}"
+         width="600px"
+         class="annotatable"/>
+    </div>
+    {{ endif }}
+    </div>
+    </div>
+    {{ elif player.round_number == 13}}
+    last {{C.ROUNDS_P_Q}} questions concern the team competition in the
+    {{ if participant.task3 == "logic" }} <b>Logic Task</b>.
+    {{ elif participant.task3 == "effort" }} <b>Counting Task</b>.
+    {{ elif participant.task3 == "luck" }} <b>Dice Task</b>.
+    {{ endif }}
+    <i>(Click <b id="instructions_trigger" style="color:blue">here </b> if you want to see an example screenshot of the task again.)</i>
+    <span style="inline-block; margin-bottom: 10px;">
+    That is, choosing Option A in these questions means receiving ${{C.BONUS_REL}} if the {{C.NUM_MEMBERS_W}} {{ participant.group }}s
+    who competed in the
+    {{ if participant.task3 == "logic" }} Logic Task
+    {{ elif participant.task3 == "effort" }} Counting Task
+    {{ elif participant.task3 == "luck" }} Dice Task
+    {{ endif }}
+    won against the {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}s.
+        </span>
+    <div id="logicmodal" class="modal">
+    <span id="logicclose" class="close">&times;</span>
+    <div id="logiccaption">
+        {{ if participant.task3 == "logic" }}
+    <div>
+        <img src="{% static 'global/screenshot_logic.png' %}"
+         width="600px"
+         class="annotatable"/>
+        </div>
+    {{ elif participant.task3 == "effort" }}
+    <div>
+        <img src="{% static 'global/screenshot_counting.png' %}"
+         width="600px"
+         class="annotatable"/>
+        </div>
+    {{ elif participant.task3 == "luck" }}
+    <div>
+        <img src="{% static 'global/screenshot_dice.png' %}"
+         width="600px"
+         class="annotatable"/>
+    </div>
+    {{ endif }}
+    </div>
+    </div>
+    {{ endif }}
+
+</p>
+
+<p>
+    Remember that if this block is drawn as the block-that-counts,
+    one of your choices will be implemented and if you win the ${{C.BONUS_REL}}, it will be paid to you!
+</p>
+
+<p>
+    Please click 'Next' to start with the first question.
+</p>
+
+{{ next_button }}
+
+
+{{ endblock }}
+
+
+{{ block styles }}
+<style>
+.modal-content {
+    width: 500px;
+    }
+
+
+    .long-option {
+        white-space: nowrap; /* Prevent line break */
+        font-size: 16px;
+    }
+.modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+
+    #instructions_trigger:hover{
+        cursor: pointer;
+        }
+
+    #dict_trigger:hover{
+        cursor: pointer;
+        }
+
+    #re_trigger:hover{
+        cursor: pointer;
+        }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        }
+
+    #logiccaption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+        }
+
+    .modal-content, #caption {
+        animation-name: zoom;
+        animation-duration: 0.6s;
+        }
+
+    @keyframes zoom {
+        from {transform:scale(0)}
+        to {transform:scale(1)}
+        }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+    @media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+        }
+    }
+
+
+</style>
+
+{{ endblock }}
+
+
+{{ block scripts }}
+<script>
+// Get the modal
+var logicmodal = document.getElementById("logicmodal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var logictrigger = document.getElementById("instructions_trigger");
+var logicmodalImg = document.getElementById("logicimg");
+var logiccaptionText = document.getElementById("logiccaption");
+logictrigger.onclick = function(){
+    logicmodal.style.display = "block";
+    logiccaptionText.innerHTML = logicmodalImg.alt;
+};
+
+// Get the <span> element that closes the modal
+var logicspan = document.getElementById("logicclose");
+
+// When the user clicks on <span> (x), close the modal
+    logicspan.onclick = function() {
+        logicmodal.style.display = "none";
+};
+</script>
+
+
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+});
+</script>
+{{ endblock }}
+

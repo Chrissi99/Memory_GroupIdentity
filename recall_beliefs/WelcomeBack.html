@@ -1,0 +1,105 @@
+{{ block title }}
+    Welcome Back
+{{ endblock }}
+{{ block content }}
+<p> Welcome back to Part II of the study. Thank you for participating. <br>
+    </p>
+
+<p>
+    Remember that in Part I of the study, you first completed {{C.NUM_TASKS_W}} short tasks on your own. Then, you were told that in
+    an earlier experiment, each of these tasks was conducted as a competition between
+    a <b>team of {{C.NUM_MEMBERS_W}} {{ group_first }}s
+    and a team of {{C.NUM_MEMBERS_W}} {{ group_second }}s</b>.
+    You were then asked to estimate the outcome of these {{C.NUM_TASKS_W}} team competitions.
+    Finally, you were given information about the actual performance of the two teams in each task.
+    However, <b>you did not know whether one of the {{C.creatures_true}} Truth Tellers or one of the {{C.creatures_false}} Liars provided each piece of information</b>.
+    Thus, only in {{C.SIGNAL_ACC_FQ}} of {{C.SIGNAL_TOT_FQ}} cases was the information you received correct.
+</p>
+
+
+<p id="container">
+<b class="openbox" id="openbox">
+    <button type="button" class="button_normal"> Next </button>
+</b> </p>
+<div class="infobox hidden" id="infobox">
+<div class="belief_task">
+
+<hr>
+
+<h3> Part II: </h3>
+<p>
+    Part II consists of two blocks and a final questionnaire. This will take about 6-8 minutes.
+</p>
+<p>
+    As explained in Part I, you have the chance to earn a bonus payment in addition to the fixed participation fee.
+    You have completed {{C.BLOCKS_FIRST}} blocks in Part I and will now complete {{C.BLOCKS_SECOND}} more blocks in this part.
+    One of the {{C.PARTS_MEMORY}} blocks of Part I and Part II will be randomly selected to determine your bonus payment.
+    This is called the "block-that-counts".
+    Details on the bonus payment for the blocks will be provided at the beginning of each block.
+</p>
+
+{{ if label == 0 }}
+{{ formfields }}
+{{ endif }}
+
+    {{ next_button }}
+</div>
+</div>
+
+{{ endblock }}
+
+
+{{ block styles}}
+<style>
+.hidden {
+	display:none;
+}
+
+    .infobox {
+    // background-color:#f0f0f5
+    }
+
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+
+
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.belief_task {
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+}
+
+</style>
+{{ endblock }}
+
+{{ block scripts}}
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+
+ {{ endblock }}

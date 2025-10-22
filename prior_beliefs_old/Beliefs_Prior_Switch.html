@@ -1,0 +1,372 @@
+{{ block title }}
+Part II
+{{ endblock }}
+{{ block content }}
+
+<h4> Instructions </h4>
+<p> We want to know how you assess the performance of the {{ participant.group }} teams in the competitions.
+    Specifically, <b>for each of the three tasks</b>, we want you to estimate the
+    <b>probability that the team of {{C.NUM_MEMBERS_W}} {{ participant.group }}s won against the
+    team of {{C.NUM_MEMBERS_W}} {{participant.outgroup}}s</b>, thus had a higher team score than Team {{ participant.outgroup }}
+    (or had the same score and won due to the tie-breaking rule).
+    <!-- (Remember, the team score is the sum of the individual scores of all {{C.NUM_MEMBERS_W}} members.) -->
+    </p>
+
+<p> To determine this, you will be asked the following questions: </p>
+
+<!--
+<p> To determine this, you will decide between two options for winning a fixed prize of ${{ C.BONUS_REL }}:
+</p>
+    <ul>
+        <li> Option A: You win ${{ C.BONUS_REL }} if Team {{ participant.group }} won the competition against Team {{ participant.outgroup }} in a task. </li>
+        <li> Option B: You win ${{ C.BONUS_REL }} based on a certain probability. </li>
+</ul>
+<p>
+    These are the questions:
+</p> -->
+
+<!--
+<p style="text-align: center; font-size:19px">
+    <b> Which option do you prefer in each case? </b>
+</p> -->
+
+<table style="text-align: center">
+    <th width="6%">
+        Question
+    </th>
+    <th width="20%"> </th>
+    <th width="37%">
+        Option A
+    </th>
+    <th> </th>
+    <th width="32%">
+        Option B
+    </th>
+    <tr style="border-bottom:1px solid black">
+    <td> 1) </td>
+    <td> What do you prefer: </td>
+    <td> ${{C.BONUS_REL}} if Team <b>{{ participant.group }}</b> has won </td>
+    <td> or </td>
+    <td> 1% chance of winning ${{C.BONUS_REL}} </td>
+    </tr>
+    <tr style="border-bottom:1px solid black">
+    <td> 2) </td>
+        <td> What do you prefer: </td>
+    <td> ${{C.BONUS_REL}} if Team <b>{{ participant.group }}</b> has won </td>
+    <td> or </td>
+    <td> 2% chance of winning ${{C.BONUS_REL}} </td>
+    </tr>
+    <tr style="border-bottom:1px solid black">
+    <td> 3) </td>
+    <td> What do you prefer: </td>
+    <td> ${{C.BONUS_REL}} if Team <b>{{ participant.group }}</b> has won </td>
+    <td> or </td>
+    <td> 3% chance of winning ${{C.BONUS_REL}} </td>
+    </tr>
+    <tr style="border-bottom:1px solid black">
+        <td> &#8285; </td>
+        <td> &#8285; </td>
+        <td> &#8285; </td>
+        <td> &#8285; </td>
+        <td> &#8285; </td>
+    </tr>
+    <tr style="border-bottom:1px solid black">
+    <td> 99) </td>
+    <td> What do you prefer: </td>
+    <td> ${{C.BONUS_REL}} if Team <b>{{ participant.group }}</b> has won </td>
+    <td> or </td>
+    <td> 99% chance of winning ${{C.BONUS_REL}} </td>
+    </tr>
+    <tr style="border-bottom:1px solid black">
+    <td> 100) </td>
+    <td> What do you prefer: </td>
+    <td> ${{C.BONUS_REL}} if Team <b>{{ participant.group }}</b> has won </td>
+    <td> or </td>
+    <td> 100% chance of winning ${{C.BONUS_REL}} </td>
+    </tr>
+</table>
+
+
+<p id="container">
+<b class="openbox" id="openbox">
+    <br>
+    <button type="button" class="button_normal"> Next Information </button>
+</b> </p>
+<div class="infobox hidden" id="infobox">
+<hr>
+
+<p>
+    In each question, you pick either Option A or Option B.
+    You will answer these 100 questions for each of the three tasks, i.e. team competitions.
+    At the end, one of them will be randomly selected
+    and your choice for that question will be implemented - if this part is drawn to be the "part-that-counts".
+</p>
+<p>
+    It is therefore optimal to always choose the option in which you think you have a higher chance of winning the fixed price
+    because otherwise, you end up with the option you like less if this question is drawn.
+</p>
+
+    <!--
+<p>
+    <b> Example:</b>
+    Question 20 is randomly selected to be implemented.
+    If you chose Option A in that question, you win ${{C.BONUS_REL}} if Team {{ participant.group }} won the competition against Team {{ participant.outgroup }}.
+    If you chose Option B, you have a 20% chance of winning ${{C.BONUS_REL}}, namely if the lottery game is won. <br>
+</p>
+-->
+
+<p id="container2">
+<b class="openbox" id="openbox2">
+    <button type="button" class="button_normal"> Next Information </button>
+</b> </p>
+    </div>
+<div class="infobox2 hidden" id="infobox2">
+
+    <hr>
+
+<p>
+    Probably, you prefer Option A for at least the first few questions, and switch to Option B
+    for at least the last few questions.
+    </p>
+
+
+   <!--  <p>
+    So there should be one of the 100 questions where you switch from choosing Option A to choosing Option B. <br>
+    For instance, if you think Team {{ participant.group }} has a 70% chance of winning, you would choose Option A for
+    probabilities 1% to 70% and Option B from 71% onward.
+</p> -->
+
+<p>
+    To save time, instead of answering all 100 questions for each task, <b>you will be asked to directly state this switching point</b>. <br>
+    Based on your answer, we will fill out the remaining questions for you, and one will be randomly selected for payment.
+</p>
+    <p> Click "Next" if you understood the instructions and are ready to enter your decision.
+    </p>
+
+    <!--
+    <p id="container4">
+<b class="openbox" id="openbox4">
+    <button type="button" class="button_normal"> Next Information </button>
+</b> </p>
+    </div>
+<div class="infobox4 hidden" id="infobox4">
+
+<p>
+    Instead of answering all 100 questions, <b>you will be asked to directly state this switching point</b>. <br>
+    Based on your answer, we will fill out the remaining questions for you, and one will be randomly selected for payment.
+</p>
+    <p> Click "Next" if you understood the instructions and are ready to enter your decision.
+    </p>
+-->
+
+<p id="container3">
+<b class="openbox" id="openbox3">
+    <button type="button" class="button_normal"> Next </button>
+</b> </p>
+</div>
+<div class="infobox3 hidden" id="infobox3">
+<div class="belief_task">
+
+    </div>
+
+<hr>
+<h4> Your Decisions: </h4>
+
+<table>
+    <tr>
+        <!-- <td colspan="6" style="text-align:center"> Please indicate the probability of winning the lottery where you would switch from
+            receiving the ${{C.BONUS_REL}} if the {{participant.group}}s won (Option A) to receiving the ${{C.BONUS_REL}} based on the lottery (Option B) in the...
+        </td> -->
+        <td colspan="6" style="text-align:center">
+        At which probability of winning the lottery would you switch from receiving the ${{C.BONUS_REL}} if Team {{participant.group}} won (Option A)
+            to receiving the ${{C.BONUS_REL}} based on the lottery (Option B) in the...
+        </td>
+        <!-- <td colspan="6" style="text-align:center"> Estimate the probability that the {{participant.group}} team won by indicating at what
+            probability of winning the lottery you would switch from option A (${{C.BONUS_REL}} if the {{participant.group}}s won) to option B (the lottery) in the...
+        </td> -->
+        <!-- <td colspan="6" style="text-align:center"> Winning probability of lottery where you would switch from choosing
+            Option A (${{C.BONUS_REL}} if {{participant.group}}s won) to Option B (the lottery) in the... </td> -->
+    </tr>
+    <tr height="4px"> </tr>
+    <tr>
+        <td widht="20%"></td>
+        <td width="35%" style="font-size:22px"> {{ if participant.prior_first == "logic" }}
+            <b>Logical Reasoning Test:</b>
+            {{ elif participant.prior_first == "effort" }}
+            <b>Counting Task:</b>
+            {{ else }}
+            <b>Dice Game:</b>
+            {{ endif }}
+        </td>
+        {{ if participant.prior_first == "logic" }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="belief_prior_logic" id="belief_prior_logic" class="input_belief"/> </td>
+        {{ elif participant.prior_first == "effort" }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="belief_prior_effort" id="belief_prior_effort" class="input_belief"/> </td>
+        {{ else }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="belief_prior_luck" id="belief_prior_luck" class="input_belief"/> </td>
+        {{ endif }}
+        <td width="1%"> </td>
+      <td width="1%" style="font-size:20px; vertical-align: middle;"> <span style="font-size: 20px;"> % </span> </td>
+        <td width="30%"> </td>
+    </tr>
+    <tr>
+        <td width="20%"></td>
+        <td width="40%" style="font-size:22px"> {{ if participant.prior_second == "logic" }}
+            <b>Logical Reasoning Test:</b>
+            {{ elif participant.prior_second == "effort" }}
+            <b>Counting Task:</b>
+            {{ else }}
+            <b>Dice Game:</b>
+            {{ endif }}
+        </td>
+        {{ if participant.prior_second == "logic" }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="belief_prior_logic" id="belief_prior_logic" class="input_belief"/> </td>
+        {{ elif participant.prior_second == "effort" }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="belief_prior_effort" id="belief_prior_effort" class="input_belief"/> </td>
+        {{ else }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="belief_prior_luck" id="belief_prior_luck" class="input_belief"/> </td>
+        {{ endif }}
+        <td width="1%"> </td>
+      <td width="1%" style="font-size:20px; vertical-align: middle;"> <span style="font-size: 20px;"> % </span> </td>
+        <td width="25%"> </td>
+    </tr>
+    <tr>
+        <td width="20%"></td>
+        <td width="40%" style="font-size:22px"> {{ if participant.prior_third == "logic" }}
+            <b>Logical Reasoning Test:</b>
+            {{ elif participant.prior_third == "effort" }}
+            <b>Counting Task:</b>
+            {{ else }}
+            <b>Dice Game:</b>
+            {{ endif }}
+        </td>
+        {{ if participant.prior_third == "logic" }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="belief_prior_logic" id="belief_prior_logic" class="input_belief"/> </td>
+        {{ elif participant.prior_third == "effort" }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="belief_prior_effort" id="belief_prior_effort" class="input_belief"/> </td>
+        {{ else }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="belief_prior_luck" id="belief_prior_luck" class="input_belief"/> </td>
+        {{ endif }}
+        <td width="1%"> </td>
+      <td width="1%" style="font-size:20px; vertical-align: middle;"> <span style="font-size: 20px;"> % </span> </td>
+        <td width="25%"> </td>
+    </tr>
+</table>
+<br>
+
+    {{ next_button }}
+
+</div>
+</div>
+</div>
+
+{{ endblock }}
+
+{{formfield_errors 'belief_prior_logic'}}
+{{formfield_errors 'belief_prior_effort'}}
+{{formfield_errors 'belief_prior_luck'}}
+
+
+{{ block styles}}
+<style>
+p + ul {
+    margin-top: -15px;
+}
+table{
+    font-size: 18px;
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+table th {
+        border-bottom: 2px solid black;
+        font-size: 16px;
+    }
+.input_belief{
+    font-size: 20px;
+    text-align: center;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin: auto;
+    vertical-align: middle;
+    item-align:center;
+}
+.hidden {
+	display:none;
+}
+
+    .infobox {
+    // background-color:#f0f0f5
+    }
+
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+
+
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.belief_task {
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+}
+
+.example_img {
+    width: 150px;
+    height: auto;
+}
+
+</style>
+
+{{ endblock}}
+
+
+{{ block scripts }}
+
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    document.getElementById("infobox2").classList.add("hidden");
+    document.getElementById("infobox3").classList.add("hidden");
+    });
+</script>
+<script>
+    document.getElementById("openbox2").addEventListener("click", function(){
+    document.getElementById("infobox2").classList.remove("hidden");
+    document.getElementById("container2").classList.add("hidden");
+    document.getElementById("infobox3").classList.add("hidden");
+    });
+</script>
+<script>
+    document.getElementById("openbox3").addEventListener("click", function(){
+    document.getElementById("infobox3").classList.remove("hidden");
+    document.getElementById("container3").classList.add("hidden");
+    document.getElementById("infobox").classList.add("hidden");
+    document.getElementById("infobox2").classList.add("hidden");
+    });
+</script>
+{{ endblock }}

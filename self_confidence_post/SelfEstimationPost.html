@@ -1,0 +1,216 @@
+{{ block title }}
+    Your Own Performance in the Logic Test
+<img class="task_icon" src="{% static 'global/logic_task_icon.png' %}" alt="task icon logic">
+{{ endblock }}
+
+{{ block content }}
+
+<p> Remember that in the first part of the study, you took the same {{C.NUM_QUESTIONS}}-question logical reasoning test as the participants
+    from Teams {{participant.group2}} and {{participant.outgroup2}} in the previous experiment.
+</p>
+
+<p>
+    We would now like to know how you rate your own performance on this logic test compared to that of the other participants.
+    To do this, we will randomly select {{ C.SAMPLE_RANKING_OTHER }} participants from the current study, including both supporters of both, the Democratic and the Republican parties,
+    as well as independents. We will then create a ranking based on the number of questions answered correctly in the logic test.
+    The person with the highest score will be ranked first, the person with the
+    second highest score will be ranked second, and so on. If two people have the same score, a random draw will determine who is ranked higher.
+</p>
+
+<p>
+    We would now like you to <b>estimate your own rank</b> in this ranking. If you correctly guess your rank, you will receive a <b>${{C.BONUS_SELF}} bonus</b> if this task is selected for payment.
+</p>
+
+
+<p id="container">
+<b class="openbox" id="openbox">
+    <button type="button" class="button_normal"> Next </button>
+</b> </p>
+<div class="infobox hidden" id="infobox">
+
+<hr>
+
+
+<div class="question-box">
+    <p>What do you think is your rank? </p>
+
+    <div class="dropdown-container">
+        <select onchange="CheckIndpol(this);"
+                name="ranking_post"
+                id="rank"
+                class="form-control score-select">
+        <option selected value> --------- </option>
+        <option  value="1"> Rank 1 </option >
+        <option  value="2"> Rank 2 </option >
+        <option  value="3"> Rank 3 </option >
+        <option value="4"> Rank 4 </option >
+        <option value="5"> Rank 5 </option >
+        <option value="6"> Rank 6 </option >
+        <option value="7"> Rank 7 </option >
+        <option value="8"> Rank 8 </option >
+        <option value="9"> Rank 9 </option >
+        <option value="10"> Rank 10 </option >
+        </select>
+</select>
+    </div>
+
+
+
+{{ formfield_errors 'ranking_post' }}
+
+
+
+
+<p id="container2">
+<b class="openbox" id="openbox2">
+    <button type="button" class="button_normal"> Next </button>
+</b> </p>
+<div class="infobox2 hidden" id="infobox2">
+<div class="task_selfest">
+
+    </div>
+
+<hr>
+    <br>
+<h5> Additional Question: </h5>
+<div class="question-box">
+    <p>How many questions do you think you answered correctly (out of the {{ C.NUM_QUESTIONS }})?</p>
+
+    <div class="dropdown-container">
+        <select onchange="CheckIndpol(this);"
+                name="own_score_post"
+                id="own_score_post"
+                class="form-control score-select">
+            <option selected value> --------- </option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+    </div>
+
+    {{ formfield_errors 'own_score_post' }}
+</div>
+
+{{ next_button }}
+
+
+
+</div>
+</div>
+{{ endblock }}
+
+{{ block styles }}
+<style>
+table{
+    font-size: 20px;
+    // width: 80%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+td {
+    // text-align: center;
+}
+table.table_score{
+    font-size: 18px;
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+    vertical-align: middle;
+}
+p + div {
+    margin-top: 10px;
+}
+.input_score{
+    font-size: 20px;
+    text-align: center;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin: auto;
+    vertical-align: middle;
+    item-align:center;
+}
+.hidden {
+	display:none;
+}
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.task_selfest {
+    }
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+}
+.task_icon {
+    width: 60px;    /* adjust as needed */
+    height: auto;
+}
+.question-box {
+    text-align: center;
+    margin: 20px auto;
+    font-size: 20px;
+}
+.question-box > p {
+  margin-bottom: 0 !important;
+}
+.dropdown-container {
+    display: flex;
+    justify-content: center;   /* horizontal centering */
+    align-items: center;       /* vertical centering */
+    height: 70px;              /* space for vertical centering */
+    margin-top: 10px;
+}
+
+.score-select {
+    font-size: 20px;
+    text-align: center;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+</style>
+    {{ endblock }}
+
+{{ block scripts }}
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+<script>
+    document.getElementById("openbox2").addEventListener("click", function(){
+    document.getElementById("infobox2").classList.remove("hidden");
+    document.getElementById("container2").classList.add("hidden");
+    });
+</script>
+{{ endblock }}
+

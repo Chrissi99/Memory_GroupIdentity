@@ -1,0 +1,45 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+
+{{ if participant.treat_first == "RECALL" }}
+<h2> Part 6 </h2>
+{{ else }}
+<h2> Part 5 </h2>
+{{ endif }}
+
+<h4> Instructions </h4>
+<p>
+    In this block, we would now like to know what you now think which of the two competing teams,
+     <b>{{ participant.group2}}s</b> and <b>{{ participant.outgroup2 }}s</b>,
+    won the competition and therefore performed better in the
+    <b>
+    {{ if participant.post2_first == 'logic'}}
+    Logical Reasoning Test.
+    {{ elif participant.post2_first == 'effort'}}
+    Counting Exercise.
+    {{ else }}
+    Dice Game.
+    {{ endif }}
+        </b>
+    </p>
+<p>
+    For that, on the next page, you will be asked to estimate the outcome of the competition between the
+    Team {{ participant.group2}} and the Team {{ participant.outgroup2 }} in the
+    {{ if participant.post2_first == 'logic'}}
+    Logical Reasoning Test.
+    {{ elif participant.post2_first == 'effort'}}
+    Counting Exercise.
+    {{ else }}
+    Dice Game.
+    {{ endif }}
+</p>
+<p> You can earn a bonus for this task. You will be informed of the bonus payment and details of the task
+    on the next page.
+</p>
+
+    {{ next_button }}
+{{ endblock }}
+
+

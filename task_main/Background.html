@@ -1,0 +1,302 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+
+
+<!-- <h2> Task </h2> -->
+
+<h3> Background </h3>
+
+<p id="text">
+    In a previous study, participants who were supporters of either the {{participant.group}}s or the {{participant.outgroup}}s
+    completed the same {{C.NUM_TASKS_W}} tasks that you have just completed:
+    {{ if participant.task1 == "logic" }} Logic Task
+    {{ elif participant.task1 == "luck" }} Luck Task
+    {{ endif }} and
+    {{ if participant.task2 == "logic" }} Logic Task.
+    {{ elif participant.task2 == "luck" }} Luck Task.
+    {{ endif }}
+</p>
+<p>
+    For each task, a Team of {{ C.NUM_MEMBERS_W}} {{participant.group}}s competed against a Team of {{ C.NUM_MEMBERS_W}}  {{participant.outgroup}}s.
+    Teams were randomly selected and could consist of different people for each task.
+</p>
+
+<table style="item-align:center;">
+    <th width="5%"> </th>
+    <th width="18%" style="text-align:left"> Task </th>
+    <th width="8%" style="item-align:center">
+        {{ if participant.group == "Democrat" }}
+        <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+        {{ else}}
+        <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+        {{ endif }}
+    </th>
+    <th width="18%" style="text-align:left">
+        {{ participant.group}}s <br>
+    </th>
+    <th width="4%"> </th>
+    <th width="5%"> </th>
+    <th width="8%" style="item-align:left">
+        {{ if participant.outgroup == "Democrat" }}
+        <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+        {{ else}}
+        <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+        {{ endif }}
+    </th>
+    <th width="18%" style="text-align:left">
+        {{ participant.outgroup}}s <br>
+    </th>
+    <tr height="5px" style="border-bottom: 3px solid black"></tr>
+    <tr height="2px"></tr>
+    <tr>
+        <td>
+            {{ if participant.task1 == "logic" }} <img class="task_icon" src="{% static "global/logic_task_icon.png" %}" alt="icon logic">
+            {{ elif participant.task1 == "luck" }} <img class="task_icon" src="{% static "global/dice3.png" %}" alt="icon luck">
+            {{ endif }}
+        </td>
+        <td class="task_col"> {{ if participant.task1 == "logic" }} Logic Task
+            {{ elif participant.task1 == "luck" }} Luck Task
+            {{ endif }}
+        </td>
+        <td colspan="2" style="text-align:center">
+            {{ if participant.group == "Democrat" }}
+            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </td>
+        <td style="text-align:center"> <b>vs.</b> </td>
+        <td> </td>
+        <td colspan="2" style="text-align:center">
+            {{ if participant.outgroup == "Democrat" }}
+            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </td>
+    </tr>
+    <tr height="3px" style="border-bottom:1px solid black"></tr>
+    <tr height="3px"> </tr>
+    <tr>
+        <td>
+            {{ if participant.task2 == "logic" }} <img class="task_icon" src="{% static "global/logic_task_icon.png" %}" alt="icon logic">
+            {{ elif participant.task2 == "luck" }} <img class="task_icon" src="{% static "global/dice3.png" %}" alt="icon luck">
+            {{ endif }}
+        </td>
+        <td> {{ if participant.task2 == "logic" }} Logic Task
+            {{ elif participant.task2 == "luck" }} Luck Task
+            {{ endif }}
+        </td>
+        <td colspan="2" style="text-align:center">
+            {{ if participant.group == "Democrat" }}
+            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </td>
+        <td style="text-align:center"> <b>vs.</b> </td>
+        <td> </td>
+        <td colspan="2" style="text-align:center">
+            {{ if participant.outgroup == "Democrat" }}
+            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </td>
+    </tr>
+    <!-- <tr height="3px" style="border-bottom:1px solid black"></tr>
+    <tr height="3px"> </tr> -->
+</table>
+<br>
+The Competition:
+<ul>
+    <li>
+        Each team member completed their assigned task individually.
+    </li>
+    <li>
+        Each team's total score was the sum of the individual scores of its {{ C.NUM_MEMBERS_W}} members.
+    </li>
+    <li>
+        The team with the higher total score won the competition for that task. In case of a tie in the total scores, a coin flip was used to determine which team won the competition.
+    </li>
+    <li>
+        Members of the winning team for each task received a bonus payment.
+    </li>
+</ul>
+
+<p>
+    <u>Example</u>: In the Logic Task, the sum of solved questions from all {{ C.NUM_MEMBERS_W}} {{ingroup_ref}}s was compared to the sum of
+    solved questions from all {{ C.NUM_MEMBERS_W}} {{outgroup_ref}}s.
+    If the {{ingroup_ref}}s solved, for example, a total of 25 questions and the {{outgroup_ref}}s solved 23, team {{participant.group}} won.
+</p>
+
+{{ next_button }}
+
+{{ endblock }}
+
+
+
+{{ block styles}}
+<style>
+.no-space {
+        letter-spacing: -0.01em; /* Adjust the value as needed */
+    }
+table{
+    font-size: 20px;
+    width: 70%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+table th{
+    font-size: 24px;
+}
+
+table td{
+    text-align: left;
+}
+.hidden {
+	display:none;
+}
+
+.infobox {
+    // background-color:#f0f0f5
+    }
+
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+
+
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.belief_task {
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+}
+
+.logo {
+    width:90%;
+    height: auto;
+   }
+
+.group_img {
+    width:50%;
+    height: auto;
+   }
+.task_icon {
+    width:95%;
+    height: auto;
+    align-items: left;
+   }
+
+</style>
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text');
+    const wordsToHighlight = ['Green'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_green">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text');
+    const wordsToHighlight = ['Orange'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_orange">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text');
+    const wordsToHighlight = ['Blue'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_blue">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text');
+    const wordsToHighlight = ['Purple'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_purple">${word}</span>`);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text2');
+    const wordsToHighlight = ['Green'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_green">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text2');
+    const wordsToHighlight = ['Orange'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_orange">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text2');
+    const wordsToHighlight = ['Blue'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_blue">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text2');
+    const wordsToHighlight = ['Purple'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_purple">${word}</span>`);
+    });
+});
+
+
+</script>
+{{ endblock }}

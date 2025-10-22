@@ -1,0 +1,28 @@
+{{ block title }}
+    Counting Task
+{{ endblock }}
+{{ block content }}
+
+<h4>Instructions</h4>
+<p>
+    On each of the following pages, you will see a matrix with arrows pointing in different directions.
+    Your task is to count the number of arrows that point to the right (<span style="font-size:20px"><b>→</b></span>).
+</p>
+<h4> Score</h4>
+<p>
+    You have <b>{{ C.TIME_EFFORT_MIN }} minutes</b> to solve as many matrices as possible.
+    You receive one point for each correct answer, thus correctly counted
+    number of arrows that point to the right.
+    <!-- The bonus payment is based on your score.
+    You receive <b>${{C.BONUS_EFFORT}}</b> for each correct answer. -->
+</p>
+
+<p>
+    Please click on "Next" when you have understood the instructions and are ready to start the task.
+    You will then see the first matrix and the {{ C.TIME_EFFORT_MIN }} minutes timer will start.
+</p>
+
+    {{ formfields }}
+    {{ next_button }}
+
+{{ endblock }}

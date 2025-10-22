@@ -1,0 +1,493 @@
+{{ block title }}
+Block 4
+{{ endblock }}
+
+{{ block content }}
+
+
+<h4> Your Task </h4>
+<p>
+    Based on the information you have received about the team competition outcomes, please estimate
+    the probability that the team of {{C.NUM_MEMBERS_W}}
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}s
+    {{ endif }}
+    won against the team of {{C.NUM_MEMBERS_W}}
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.outgroup }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.group }}s
+    {{ endif }}
+    in each of the {{C.NUM_TASKS}} tasks:
+    {{ if participant.task1 == "logic" }} Logic Task
+    {{ elif participant.task1 == "luck" }} Luck Task
+    {{ endif }}
+    and
+    {{ if participant.task2 == "logic" }} Logic Task.
+    {{ elif participant.task2 == "luck" }} Luck Task.
+    {{ endif }}
+<br>
+        Remember that the
+        {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}
+    {{ endif }}
+        team won if it had a higher total score than the
+        {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.outgroup }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.group }}
+    {{ endif }} team (or tied and won the coin flip).
+</p>
+<p>
+    To give your estimate, you will use a slider on the next pages to state your probability estimate between 0% to 100% for each task.
+</p>
+
+   <p id="container">
+<b class="openbox" id="openbox">
+    <button type="button" class="button_normal"> Next Information </button>
+</b> </p>
+
+<div class="infobox hidden" id="infobox">
+<div class="explanation_feedback">
+
+<hr>
+
+<h4> Bonus Payment </h4>
+<p>
+    You can earn a <b>${{C.PRIZE}} bonus prize </b> based on the accuracy of your estimates.
+<br>
+    Crucially, your <b>chance of winning the ${{C.PRIZE}} is highest when you report your true, honest belief</b>:
+</p>
+    <ul>
+        <li>
+            High Probability (near 100%): If you are almost certain the
+            {{ if participant.belief_ref == "ingroup" }}
+            {{ participant.group }}
+            {{ elif participant.belief_ref == "outgroup" }}
+            {{ participant.outgroup }}
+            {{ endif }} team won.
+        </li>
+        <li>
+            Medium Probability (near 50%): If you are completely uncertain about whether the
+            {{ if participant.belief_ref == "ingroup" }}
+            {{ participant.group }}
+            {{ elif participant.belief_ref == "outgroup" }}
+            {{ participant.outgroup }}
+            {{ endif }}
+            team won or lost.
+        </li>
+        <li>
+            Low Probability (near 0%): If you are almost certain the
+            {{ if participant.belief_ref == "ingroup" }}
+            {{ participant.group }}
+            {{ elif participant.belief_ref == "outgroup" }}
+            {{ participant.outgroup }}
+            {{ endif }}
+            team lost.
+        </li>
+    </ul>
+
+<p id="container2">
+<b class="openbox2" id="openbox2">
+    <button type="button" class="button_normal"> Next Information </button>
+</b> </p>
+    </div>
+<div class="infobox2 hidden" id="infobox2">
+
+
+<p>
+    <u>Note:</u>
+    Any deviation from your true belief – whether understating or overstating – will reduce your chance of winning the ${{C.PRIZE}} prize.
+    When you click on the button “Procedure” below you can read more comprehensive information about the exact payment mechanism.
+    But note that it is <b>not important that you understand the procedure in detail</b>.
+    What matters is that you know that you maximize
+    your probability of winning when you report your true belief.
+</p>
+
+<p class="procedure">
+    <div class="container_procedure">
+     <b id="instructions_trigger" style="color:#4D4A49">Procedure</b>
+    </div>
+</p>
+
+
+<div id="logicmodal" class="modal">
+    <span id="logicclose" class="close">&times;</span>
+    <div id="logiccaption">
+
+<p> How a given answer maps into your chance of winning ${{C.PRIZE}} is based on a formula.
+    This formula is designed to make sure that you have the best chance of winning the prize when you state your true belief that
+    <!--you maximize your chance of winning if you report your true belief that a-->
+    Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}
+    {{ endif }}
+    won against Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.outgroup }}.
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.group }}.
+    {{ endif }}
+    Suppose that the correct answer is represented by "R", which is equal to 1 if the
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}s
+    {{ endif }}
+    won and equal to 0 if they lost.
+    The variable "r" represents your reported answer, i.e. the probability of the
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}s
+    {{ endif }}
+    winning against the
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.outgroup }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.group }}s
+    {{ endif }}
+    (ranging from 0% to 100%).
+    The probability of winning the ${{C.PRIZE}} is then given by:
+</p>
+<p>
+  <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mtext>winning probability</mtext>
+    <mo>=</mo>
+    <mn>100</mn>
+    <mo>−</mo>
+    <mn>100</mn>
+    <mo>×</mo>
+    <msup>
+      <mrow>
+        <mo stretchy="true">(</mo>
+        <mi>R</mi>
+        <mo>−</mo>
+        <mfrac>
+          <mi>r</mi>
+          <mn>100</mn>
+        </mfrac>
+        <mo stretchy="true">)</mo>
+      </mrow>
+      <mn>2</mn>
+    </msup>
+  </math>
+</p>
+
+
+<h4> Example: </h4>
+<p>
+ Suppose that you are tasked with assessing the probability that Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}
+    {{ endif }}
+   won against Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.outgroup }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.group }}
+    {{ endif }}
+    in a task.
+    And suppose that your belief that they won is 68%. The following table shows your winning probability based on the formula.
+    The columns represent a number of hypothetical answers you may give. As you can see, your chance of winning the ${{C.PRIZE}} is highest when you report your true belief of 68%.
+</p>
+<table>
+    <tr>
+        <td> Report</td>
+        <td> 19% </td>
+        <td> 42% </td>
+        <td> <b>68%</b> </td>
+        <td>87%</td>
+    </tr>
+    <tr>
+        <td> Winning Probability </td>
+        <td> 54.23% </td>
+        <td> 71.48% </td>
+        <td> <b>78.24%</b> </td>
+        <td> 74.63% </td>
+    </tr>
+</table>
+
+
+        <br>
+</div>
+</div>
+
+<p>
+    To determine your payment, if this is the “block-that-counts, one of the two tasks will be randomly selected and you
+    receive money according to your winning probability that is based on your estimate and the true answer.
+</p>
+
+        {{ next_button }}
+
+    </div>
+</div>
+
+
+<input type="hidden" name="procedure_click_post1" id="procedure_click_post1" value="0">
+<input type="hidden" name="procedure_time_post1" id="procedure_time_post1" value="0">
+<input type="hidden" name="pagetime_instr_post1" id="pagetime_instr_post1" value="0">
+{{ formfield_errors 'procedure_click_post1' }}
+{{ formfield_errors 'procedure_time_post1' }}
+{{ formfield_errors 'pagetime_instr_post1' }}
+
+
+{{ endblock }}
+
+{{ block styles }}
+<style>
+table {
+  border-collapse: collapse;   /* neat borders */
+  width: 70%;                 /* adjust width */
+  margin: 40px auto;           /* center on page */
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* soft shadow */
+}
+
+td {
+  border: 1px solid #ddd;
+  padding: 12px 18px;          /* spacing inside cells */
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;   /* zebra stripe rows */
+}
+
+tr:hover {
+  background-color: #f1f7ff;   /* highlight on hover */
+}
+
+td b {
+  color: #007BFF;              /* highlight bold values */
+}
+p + ul{
+    margin-top: -14px;
+}
+.procedure {
+    text-align: center;
+    margin-top: -25px;
+    margin-bottom: 30px;
+    }
+#instructions_trigger {
+      display: inline-block;
+      padding: 6px 12px;
+      background-color: #C7C3C3;
+      color: white;
+      border: 2px solid #4D4A49;
+      border-radius: 8px;
+      font-weight: bold;
+      text-align: center;
+      cursor: default; /* stays like text, not a clickable hand */
+    }
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+.openbox2 {
+    cursor: pointer;
+	margin: 15px 0;
+		  }
+.modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+
+    #instructions_trigger:hover{
+        cursor: pointer;
+        }
+
+    #dict_trigger:hover{
+        cursor: pointer;
+        }
+
+    #re_trigger:hover{
+        cursor: pointer;
+        }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        }
+
+    #logiccaption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+        }
+
+    .modal-content, #caption {
+        animation-name: zoom;
+        animation-duration: 0.6s;
+        }
+
+    @keyframes zoom {
+        from {transform:scale(0)}
+        to {transform:scale(1)}
+        }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+    @media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+        }
+    }
+.hidden {
+	display:none;
+}
+.button_show{
+    background-color: grey;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container_procedure {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 6vh;
+      margin-top: 30px;
+    }
+</style>
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+// Get the modal
+var logicmodal = document.getElementById("logicmodal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var logictrigger = document.getElementById("instructions_trigger");
+var logicmodalImg = document.getElementById("logicimg");
+var logiccaptionText = document.getElementById("logiccaption");
+logictrigger.onclick = function(){
+    logicmodal.style.display = "block";
+    logiccaptionText.innerHTML = logicmodalImg.alt;
+};
+
+// Get the <span> element that closes the modal
+var logicspan = document.getElementById("logicclose");
+
+// When the user clicks on <span> (x), close the modal
+    logicspan.onclick = function() {
+        logicmodal.style.display = "none";
+};
+</script>
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+<script>
+    document.getElementById("openbox2").addEventListener("click", function(){
+    document.getElementById("infobox2").classList.remove("hidden");
+    document.getElementById("container2").classList.add("hidden");
+    });
+</script>
+<script>
+let modalOpenTime = null;
+let totalTime = 0;
+let clickCount = 0;
+
+var logicmodal = document.getElementById("logicmodal");
+var logictrigger = document.getElementById("instructions_trigger");
+var logicspan = document.getElementById("logicclose");
+
+// Open modal
+logictrigger.onclick = function(){
+    logicmodal.style.display = "block";
+    modalOpenTime = Date.now();
+    clickCount += 1;
+    document.getElementById("procedure_click_post1").value = clickCount;
+};
+
+// Close modal
+logicspan.onclick = function() {
+    logicmodal.style.display = "none";
+    if (modalOpenTime !== null) {
+        let duration = (Date.now() - modalOpenTime) / 1000.0;  // seconds
+        totalTime += duration;
+        document.getElementById("procedure_time_post1").value = totalTime.toFixed(2);
+        modalOpenTime = null;
+    }
+};
+</script>
+<script>
+let pageEnterTime = Date.now();
+
+document.querySelector("form").addEventListener("submit", function() {
+    let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
+    document.getElementById("pagetime_instr_post1").value = duration.toFixed(2);
+});
+</script>
+{{ endblock }}

@@ -1,0 +1,319 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+
+
+<p>
+    We are interested in how certain you are that you correctly recalled the information you received in Part I about the
+    outcomes of the team competitions in the {{C.NUM_TASKS_W}} tasks{{if recall_NA_some}}(except for the task(s) where you said that you do not recall the information){{endif}}.
+    For each task, please indicate how certain you are by selecting a number between 0 and 10, where 0 means "not at all certain" (i.e. you are guessing)
+    and 10 means "completely certain".
+<p>
+
+{{ if recall_logic != "?" }}
+<div class="task-header">
+    <h4 class="task-title">Logic Task</h4>
+    <img class="task_icon" src="{% static 'global/logic_task_icon.png' %}" alt="task icon logic">
+</div>
+<p class="center">
+    {{ if participant.belief_ref == "ingroup" }}
+    You recalled that the information in Part I indicated that the team of {{ participant.group2 }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    You recalled that the information in Part I indicated that the team of {{ participant.outgroup2 }}s
+    {{ endif }}
+    <b>
+    {{ if recall_logic == ">" }}
+    won
+    {{ elif recall_logic == "<" }}
+    lost
+    {{ endif }}
+    </b>
+    {{ if participant.belief_ref == "ingroup" }}
+    against the team of {{ participant.outgroup2 }}s.
+    {{ elif participant.belief_ref == "outgroup" }}
+    against the team of {{ participant.group2 }}s.
+    {{ endif }}
+    <br>
+    How certain are you that you recalled this correctly?
+</p>
+<div class="likert-wrapper">
+    <div class="likert-scale">
+        {% for i in range(0, 11) %}
+            <label>
+                <input type="radio" name="recall_confidence_logic" value="{{ i }}" onchange="activateLikert('logic', {{ i }})">
+                <span>{{ i }}</span>
+            </label>
+        {% endfor %}
+    </div>
+    <div class="likert-labels">
+        <span class="likert-left-label">not certain at all</span>
+        <span class="likert-right-label">completely certain</span>
+    </div>
+</div>
+<br>
+{{ endif }}
+
+
+
+{{ if recall_luck != "?" }}
+<div class="task-header">
+    <h4 class="task-title">Luck Task</h4>
+    <img class="task_icon" src="{% static 'global/dice3.png' %}" alt="task icon luck">
+</div>
+<p class="center">
+    {{ if participant.belief_ref == "ingroup" }}
+    You recalled that the information in Part I indicated that the team of {{ participant.group2 }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    You recalled that the information in Part I indicated that the team of {{ participant.outgroup2 }}s
+    {{ endif }}
+    <b>
+    {{ if recall_luck == ">" }}
+    won
+    {{ elif recall_luck == "<" }}
+    lost
+    {{ endif }}
+    </b>
+    {{ if participant.belief_ref == "ingroup" }}
+    against the team of {{ participant.outgroup2 }}s.
+    {{ elif participant.belief_ref == "outgroup" }}
+    against the team of {{ participant.group2 }}s.
+    {{ endif }}
+    <br>
+    How certain are you that you recalled this correctly?
+</p>
+<div class="likert-wrapper">
+    <div class="likert-scale">
+        {% for i in range(0, 11) %}
+            <label>
+                <input type="radio" name="recall_confidence_luck" value="{{ i }}" onchange="activateLikert('luck', {{ i }})">
+                <span>{{ i }}</span>
+            </label>
+        {% endfor %}
+    </div>
+    <div class="likert-labels">
+        <span class="likert-left-label">not certain at all</span>
+        <span class="likert-right-label">completely certain</span>
+    </div>
+</div>
+     <br>
+{{ endif }}
+
+
+
+
+{{ formfield_errors 'recall_confidence_logic' }}
+{{ formfield_errors 'recall_confidence_luck' }}
+
+
+<br>
+<div class="center">
+    <button id="next-button" class="button-normal" disabled>Next</button>
+</div>
+
+
+<input type="hidden" name="pagetime_recall_conf" id="pagetime_recall_conf" value="0">
+{{ formfield_errors 'pagetime_recall_conf' }}
+
+
+{{ endblock }}
+
+{{ block styles}}
+<style type="text/css">
+.likert-wrapper {
+    display: flex;
+    flex-direction: column; /* <-- THIS is the fix */
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+.likert-scale {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.likert-scale label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+
+.likert-scale input[type="radio"]:checked + span {
+    font-weight: bold;
+    color: #0B60DB;
+}
+
+.likert-scale input[type="radio"] {
+    width: 22px;       /* increase size */
+    height: 22px;
+    cursor: pointer;
+    accent-color: #0B60DB; /* modern browsers: custom color for checked circle */
+    margin-bottom: 2px; /* space between radio and number */
+}
+.likert-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width:900px;
+    font-size: 14px;
+    color: #555;
+    margin-top: 0.5em;
+}
+.likert-left-label {
+    text-align: left;
+}
+
+.likert-right-label {
+    text-align: right;
+}
+.task-header {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* centers the whole block */
+    gap: 12px; /* space between text and icon */
+    margin-bottom: 10px;
+}
+
+.task-title {
+    margin: 0;
+    font-size: 1.45rem; /* match <h4> size */
+    text-align: center;
+}
+
+.task_icon {
+    width: 40px;
+    height: auto;
+}
+.center {
+    text-align: center;
+    item-align: center;
+}
+.inline-block {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.hidden-input {
+    color: white;
+    background-color: white;
+}
+
+.hidden{
+    display:none;
+}
+
+.highlight_block {
+        /* display: inline-block; */
+        padding: 5px;
+        background-color: #D8D8D8;
+        border-radius: 5px;
+        width: 55px;
+        text-align: center;
+        item-align: center;
+    }
+
+.enabled-button{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+#next-button:disabled {
+        background-color: #ECEDEF;
+        color: white;
+        cursor: not-allowed;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        padding: 7px 14px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+    /* background-color: #81DAF5; */
+}
+
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type=range] {
+    background: linear-gradient(to right, #d3d3d3 0%, #d3d3d3 100%); /* #de86f2 */
+}
+
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+</style>
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+let likertInteracted = {
+    logic: {% if recall_logic == "?" %}true{% else %}false{% endif %},
+    luck: {% if recall_luck == "?" %}true{% else %}false{% endif %}
+};
+
+function activateLikert(task, value) {
+    likertInteracted[task] = true;
+    checkAllLikertInteracted();
+}
+
+function checkAllLikertInteracted() {
+    if (likertInteracted.logic && likertInteracted.luck) {
+        enableNextButton();
+    }
+}
+
+function enableNextButton() {
+    const nextButton = document.getElementById('next-button');
+    nextButton.disabled = false;
+    nextButton.classList.add('enabled-button');
+}
+</script>
+<script>
+let pageEnterTime = Date.now();
+
+document.querySelector("form").addEventListener("submit", function() {
+    let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
+    document.getElementById("pagetime_recall_conf").value = duration.toFixed(2);
+});
+</script>
+{{ endblock }}

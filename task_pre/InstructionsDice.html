@@ -1,0 +1,24 @@
+{{ block title }}
+    Dice Game
+{{ endblock }}
+{{ block content }}
+
+<h4>Instructions</h4>
+<p>
+    On the following page, you will be asked to roll a dice {{C.DICE_ROLLS}} times. You do this by clicking on the
+    displayed dice.
+</p>
+<h4> Score </h4>
+<p>
+    Your score is determined by your dice rolls.
+    You receive {{C.POINTS_SIX}} points for every 6 you roll and {{C.POINTS_FIVE}} point for every 5 you roll.
+</p>
+
+<p>
+    Please click on "Next" when you have understood the instructions and are ready to start the game.
+</p>
+
+    {{ formfields }}
+    {{ next_button }}
+
+{{ endblock }}

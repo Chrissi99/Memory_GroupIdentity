@@ -1,0 +1,717 @@
+{{ block title }}
+{{ endblock }}
+{{ block content }}
+
+<h3 class="center"> Luck Task</h3>
+
+<div class="paragraph-with-icon">
+    <img class="task_icon" src="{% static 'global/dice3.png' %}" alt="task icon logic">
+
+    <p class="center">
+    {{ if participant.belief_ref == "ingroup" }}
+    What do you think is the <b>probability</b> that the team of {{C.NUM_MEMBERS_W}} {{ participant.group }}s won against the
+    team of {{C.NUM_MEMBERS_W}} {{participant.outgroup}}s in the <b>Luck Task</b>? <br>
+    {{ else }}
+    What do you think is the <b>probability</b> that the team of {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}s won against the
+    team of {{C.NUM_MEMBERS_W}} {{participant.group}}s in the <b>Luck Task</b>? <br>
+    {{ endif }}
+    Remember that your chance of winning the ${{C.PRIZE}} is highest if you give your true estimate.<br>
+        If you want to read the instructions again, click <b id="instructions_trigger" style="color:blue">here</b>.
+    </p>
+    <br>
+</div>
+<div id="logicmodal" class="modal">
+    <span id="logicclose" class="close">&times;</span>
+    <div id="logiccaption">
+
+<h4> Your Task </h4>
+<p>
+    Your task is to estimate the probability that the team of {{C.NUM_MEMBERS_W}}
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}s
+    {{ endif }}
+    won against the team of {{C.NUM_MEMBERS_W}}
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.outgroup }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.group }}s
+    {{ endif }}
+    in each of the {{C.NUM_TASKS}} tasks:
+    {{ if participant.task1 == "logic" }} Logic Task
+    {{ elif participant.task1 == "luck" }} Luck Task
+    {{ endif }}
+    and
+    {{ if participant.task2 == "logic" }} Logic Task.
+    {{ elif participant.task2 == "luck" }} Luck Task.
+    {{ endif }}
+<br>
+        Remember that the
+        {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}
+    {{ endif }}
+        team won if it had a higher total score than the
+        {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.outgroup }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.group }}
+    {{ endif }} team (or tied and won the coin flip).
+</p>
+<p>
+    To give your estimate, you will use a slider on the next pages to state your probability estimate between 0% to 100% for each task.
+</p>
+<h4> Bonus Payment </h4>
+<p>
+    You can earn a <b>${{C.PRIZE}} bonus prize </b> based on the accuracy of your estimates.
+<br>
+    Crucially, your <b>chance of winning the ${{C.PRIZE}} is highest when you report your true, honest belief</b>:
+</p>
+    <ul>
+        <li>
+            High Probability (near 100%): If you are almost certain the
+            {{ if participant.belief_ref == "ingroup" }}
+            {{ participant.group }}
+            {{ elif participant.belief_ref == "outgroup" }}
+            {{ participant.outgroup }}
+            {{ endif }} team won.
+        </li>
+        <li>
+            Medium Probability (near 50%): If you are completely uncertain about whether the
+            {{ if participant.belief_ref == "ingroup" }}
+            {{ participant.group }}
+            {{ elif participant.belief_ref == "outgroup" }}
+            {{ participant.outgroup }}
+            {{ endif }}
+            team won or lost.
+        </li>
+        <li>
+            Low Probability (near 0%): If you are almost certain the
+            {{ if participant.belief_ref == "ingroup" }}
+            {{ participant.group }}
+            {{ elif participant.belief_ref == "outgroup" }}
+            {{ participant.outgroup }}
+            {{ endif }}
+            team lost.
+        </li>
+    </ul>
+
+<p>
+    <u>Note:</u>
+    <!--The payment procedure is designed so that your <b>chance of winning the bonus is highest when you report your true belief</b>.-->
+    Any deviation from your true belief – whether understating or overstating – will reduce your chance of winning the ${{C.PRIZE}} prize.
+    When you click on the button “Procedure” below you can read more comprehensive information about the exact payment mechanism.
+    But note that it is <b>not important that you understand the procedure in detail</b>.
+    What matters is that you know that you maximize
+    your probability of winning when you report your true belief.
+</p>
+
+
+<h4>Details about Procedure:</h4>
+<p> How a given answer maps into your chance of winning ${{C.PRIZE}} is based on a formula.
+    This formula is designed to make sure that you have the best chance of winning the prize when you state your true belief that
+    <!--you maximize your chance of winning if you report your true belief that a-->
+    Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}
+    {{ endif }}
+    won against Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.outgroup }}.
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.group }}.
+    {{ endif }}
+    Suppose that the correct answer is represented by "R", which is equal to 1 if the
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}s
+    {{ endif }}
+    won and equal to 0 if they lost.
+    The variable "r" represents your reported answer, i.e. the probability of the
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}s
+    {{ endif }}
+    winning against the
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.outgroup }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.group }}s
+    {{ endif }}
+    (ranging from 0% to 100%).
+    The probability of winning the ${{C.PRIZE}} is then given by:
+</p>
+<p>
+  <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mtext>winning probability</mtext>
+    <mo>=</mo>
+    <mn>100</mn>
+    <mo>−</mo>
+    <mn>100</mn>
+    <mo>×</mo>
+    <msup>
+      <mrow>
+        <mo stretchy="true">(</mo>
+        <mi>R</mi>
+        <mo>−</mo>
+        <mfrac>
+          <mi>r</mi>
+          <mn>100</mn>
+        </mfrac>
+        <mo stretchy="true">)</mo>
+      </mrow>
+      <mn>2</mn>
+    </msup>
+  </math>
+</p>
+
+
+<h4> Example: </h4>
+<p>
+ Suppose that you are tasked with assessing the probability that Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}
+    {{ endif }}
+   won against Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.outgroup }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.group }}
+    {{ endif }}
+    in a task.
+    And suppose that your belief that they won is 68%. The following table shows your winning probability based on the formula.
+    The columns represent a number of hypothetical answers you may give. As you can see, your chance of winning the ${{C.PRIZE}} is highest when you report your true belief of 68%.
+</p>
+<table>
+    <tr>
+        <td> Report</td>
+        <td> 19% </td>
+        <td> 42% </td>
+        <td> <b>68%</b> </td>
+        <td>87%</td>
+    </tr>
+    <tr>
+        <td> Winning Probability </td>
+        <td> 54.23% </td>
+        <td> 71.48% </td>
+        <td> <b>78.24%</b> </td>
+        <td> 74.63% </td>
+    </tr>
+</table>
+
+
+
+        <br>
+</div>
+</div>
+
+
+
+<div class="slider-wrapper">
+    <input id="belief" type="range" step="1" min="0" max="100" oninput="calcBelief()" name="prior_luck" class="prior_luck notclicked" onclick="activateSlider('belief')">
+
+    <div class="scale">
+        <span class="scale-label">0%</span>
+        <span class="scale-label">100%</span>
+    </div>
+</div>
+<div id="answer-display" class="hidden">
+    <div class="belief_field" style="font-size:18px">
+        {{ if participant.belief_ref == "ingroup" }}
+        Your estimate: The probability that the {{ participant.group }}s won against the {{participant.outgroup}}s in the Luck Task is:
+        {{ else }}
+        Your estimate: The probability that the {{ participant.outgroup }}s won against the {{participant.group}}s in the Luck Task is:
+        {{ endif }}
+    </div>
+    <div class="bonus_field">
+        <div class="highlight_block">
+            <span style="white-space: nowrap;">
+                <span id="current-slider-value" style="font-weight:bold; font-size:22px;">&nbsp;</span>
+                <span id="percent-symbol" style="font-size:22px; display:none;">%</span>
+            </span>
+        </div>
+    </div>
+</div>
+<p class="center" id="info_slider">
+    <i> (Please click on the slider to activate it and move it to indicate your estimate.) </i>
+</p>
+
+
+{{ formfield_errors 'prior_luck' }}
+
+<br>
+<div class="center">
+    <button id="next-button" class="button-normal" disabled>Next</button>
+</div>
+
+<input type="hidden" name="pagetime_prior_luck" id="pagetime_prior_luck" value="0">
+{{ formfield_errors 'pagetime_prior_luck' }}
+
+{{ endblock }}
+
+
+{{ block styles}}
+<style type="text/css">
+table {
+  border-collapse: collapse;   /* neat borders */
+  width: 70%;                 /* adjust width */
+  margin: 40px auto;           /* center on page */
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* soft shadow */
+}
+
+td {
+  border: 1px solid #ddd;
+  padding: 12px 18px;          /* spacing inside cells */
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;   /* zebra stripe rows */
+}
+
+tr:hover {
+  background-color: #f1f7ff;   /* highlight on hover */
+}
+
+td b {
+  color: #007BFF;              /* highlight bold values */
+}
+p + ul{
+    margin-top: -14px;
+}
+.paragraph-with-icon {
+    position: relative;
+    margin-top: 30px; /* optional spacing */
+}
+
+.paragraph-with-icon .task_icon {
+    position: absolute;
+    top: -65px;     /* position icon above the paragraph */
+    right: 40px;       /* align to the right within this container */
+    width: 55px;    /* adjust as needed */
+    height: auto;
+}
+.center {
+    text-align: center;
+    item-align: center;
+}
+.inline-block {
+  display: inline-block;
+  white-space: nowrap;
+}
+input.notclicked[type=range]::-webkit-slider-thumb {
+  visibility: hidden;
+}
+
+input.notclicked[type=range]::-moz-range-thumb {
+  visibility: hidden;
+}
+
+input.notclicked[type=range]::-ms-thumb {
+  visibility: hidden;
+}
+
+#belief {
+    width: 75%;
+    height: 20px;
+    align-items: center;
+}
+.slider-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    width: 100%;
+    margin-top: 10px;
+}
+
+.slider-wrapper {
+    flex: 5;
+    position: relative;
+    display: flex;
+    flex-direction: column; /* key: stack vertically */
+    align-items: center;
+    width: 100%; /* ensure it's same as slider */
+}
+
+.scale {
+    display: flex;
+    justify-content: space-between;
+    width: 75%; /* match input width */
+    padding: 0 2px;
+    margin-top: 4px;
+    font-size: 14px;
+    color: #555;
+}
+
+.scale-label {
+    text-align: center;
+    min-width: 30px;
+}
+
+.belief_field{
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.bonus_field {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.prior_luck {
+        -webkit-appearance: none;
+        width: 100%; /* Set the full width of the screen */
+        margin: 0 auto;
+        height: 12px;
+       border-radius: 4px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+}
+
+.prior_luck::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #2E2E2E;
+  cursor: pointer;
+  /* opacity: 0; */
+}
+
+.prior_luck::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #2E2E2E;
+  cursor: pointer;
+  /* opacity: 0; */
+}
+.visible-thumb {
+    opacity: 1 !important;
+}
+
+.hidden-input {
+    color: white;
+    background-color: white;
+}
+
+.hidden{
+    display:none;
+}
+
+.highlight_block {
+        /* display: inline-block; */
+        padding: 5px;
+        background-color: #D8D8D8;
+        border-radius: 5px;
+        width: 55px;
+        text-align: center;
+        item-align: center;
+    }
+
+.enabled-button{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+#next-button:disabled {
+        background-color: #ECEDEF;
+        color: white;
+        cursor: not-allowed;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        padding: 7px 14px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+    /* background-color: #81DAF5; */
+}
+
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type=range] {
+    background: linear-gradient(to right, #d3d3d3 0%, #d3d3d3 100%); /* #de86f2 */
+}
+
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+.modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+
+    #instructions_trigger:hover{
+        cursor: pointer;
+        }
+
+    #dict_trigger:hover{
+        cursor: pointer;
+        }
+
+    #re_trigger:hover{
+        cursor: pointer;
+        }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        }
+
+    #logiccaption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+        }
+
+    .modal-content, #caption {
+        animation-name: zoom;
+        animation-duration: 0.6s;
+        }
+
+    @keyframes zoom {
+        from {transform:scale(0)}
+        to {transform:scale(1)}
+        }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+    @media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+        }
+    }
+table {
+  border-collapse: collapse;   /* neat borders */
+  width: 70%;                 /* adjust width */
+  margin: 40px auto;           /* center on page */
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* soft shadow */
+}
+
+td {
+  border: 1px solid #ddd;
+  padding: 12px 18px;          /* spacing inside cells */
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;   /* zebra stripe rows */
+}
+
+tr:hover {
+  background-color: #f1f7ff;   /* highlight on hover */
+}
+
+td b {
+  color: #007BFF;              /* highlight bold values */
+}
+</style>
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+// Get the modal
+var logicmodal = document.getElementById("logicmodal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var logictrigger = document.getElementById("instructions_trigger");
+var logicmodalImg = document.getElementById("logicimg");
+var logiccaptionText = document.getElementById("logiccaption");
+logictrigger.onclick = function(){
+    logicmodal.style.display = "block";
+    logiccaptionText.innerHTML = logicmodalImg.alt;
+};
+
+// Get the <span> element that closes the modal
+var logicspan = document.getElementById("logicclose");
+
+// When the user clicks on <span> (x), close the modal
+    logicspan.onclick = function() {
+        logicmodal.style.display = "none";
+};
+</script>
+<script>
+let nextButton = document.getElementById('next-button');
+
+// Function to enable the next button
+function enableNextButton() {
+    nextButton.disabled = false;
+    nextButton.classList.remove('disabled-button');
+    nextButton.classList.add('enabled-button');
+}
+
+// Function to disable the Next button
+function disableNextButton() {
+    nextButton.disabled = true;
+    nextButton.classList.remove('enabled-button');
+    nextButton.classList.add('disabled-button');
+}
+
+</script>
+
+<script>
+    // Initialize a flag to check if the slider has been interacted with
+   let sliderInteracted = false;
+
+//Function to update the current slider position display
+    function calcBelief() {
+        // Check if the slider has been interacted with
+        if (!sliderInteracted) {
+        // If not, simply return without updating the fields
+            return;
+        }
+        const Belief = parseFloat(document.getElementById('belief').value);
+        const prior_luck = Belief;
+
+        // Update the slider value display for belief
+        document.getElementById('current-slider-value').textContent = prior_luck.toFixed(0);
+        updateSliderColor();
+
+        // Show the percent symbol
+        document.getElementById('percent-symbol').style.display = 'inline';
+    }
+
+
+    // This function sets the slider as interacted and updates the display
+    function activateSlider() {
+        sliderInteracted = true;
+        calcBelief();
+        enableNextButton();
+        document.getElementById("belief").classList.remove('notclicked');
+        document.getElementById("answer-display").classList.remove("hidden");
+        updateSliderColor();
+        removeInfoSlider();
+
+    // Show the percent symbol
+    document.getElementById("percent-symbol").style.display = "inline";
+    }
+
+    function updateSliderColor() {
+    const slider = document.getElementById("belief");
+    const value = slider.value;
+    const min = slider.min;
+    const max = slider.max;
+
+    const percentage = ((value - min) / (max - min)) * 100;
+
+    // Update the background with a purple left side and gray right side
+    slider.style.background = `linear-gradient(to right, #16f3f3 0%, #16f3f3 ${percentage}%, #d3d3d3 ${percentage}%, #d3d3d3 100%)`;
+    }
+
+    // Add an event listener to the slider to update the display in real-time
+    document.getElementById('belief').addEventListener('input', updateSliderAndWageDisplay);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('current-slider-value').textContent = '\u00A0\u00A0';
+    });
+
+
+</script>
+
+<script>
+let infoSlider = document.getElementById('info_slider');
+
+// Function to remove the info slider text
+    function removeInfoSlider() {
+    infoSlider.style.display = 'none';
+}
+</script>
+
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+<script>
+let pageEnterTime = Date.now();
+
+document.querySelector("form").addEventListener("submit", function() {
+    let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
+    document.getElementById("pagetime_prior_luck").value = duration.toFixed(2);
+});
+</script>
+{{ endblock }}

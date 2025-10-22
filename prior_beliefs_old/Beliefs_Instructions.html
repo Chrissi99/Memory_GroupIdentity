@@ -1,0 +1,157 @@
+{{ block title }}
+Block 4
+{{ endblock }}
+{{ block content }}
+
+<h4> Instructions </h4>
+<p> We want to know how you assess the performance of the {{ participant.group }} team in the three tasks:
+    {{ if participant.task1 == "logic" }} Logic Task,
+    {{ elif participant.task1 == "effort" }} Counting Task,
+    {{ elif participant.task1 == "luck" }} Dice Task,
+    {{ endif }}
+    {{ if participant.task2 == "logic" }} Logic Task,
+    {{ elif participant.task2 == "effort" }} Counting Task,
+    {{ elif participant.task2 == "luck" }} Dice Task,
+    {{ endif }}
+    and
+    {{ if participant.task3 == "logic" }} Logic Task.
+    {{ elif participant.task3 == "effort" }} Counting Task.
+    {{ elif participant.task3 == "luck" }} Dice Task.
+    {{ endif }}
+    Specifically, for each task, we want you to estimate the
+    <b>probability that the team of {{C.NUM_MEMBERS_W}} {{ participant.group }}s won against the
+    team of {{C.NUM_MEMBERS_W}} {{participant.outgroup}}s</b>, i.e. had a higher team score than Team {{ participant.outgroup }}
+    (or had the same score and won due to the tie-breaking rule).
+    <!-- (Remember, the team score is the sum of the individual scores of all {{C.NUM_MEMBERS_W}} members.) -->
+</p>
+
+<p> To determine this, you will make several decisions on the following pages.
+    Each time, you will choose between two options to win ${{C.BONUS_REL}}:
+</p>
+    <ul>
+        <li> Option A: You receive ${{C.BONUS_REL}} if the team of {{C.NUM_MEMBERS_W}} {{ participant.group }}s won against
+        the team of {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}s in the task. </li>
+        <li> Option B: You receive ${{C.BONUS_REL}} if you win a lottery with a specified chance of winning. The probability of winning the lottery
+            will vary between questions.
+        </li>
+    </ul>
+
+<h4> Bonus Payment: </h4>
+<p>
+    For each of the {{C.NUM_TASKS_W}} tasks, i.e. team competitions, you will make {{C.ROUNDS_P_Q}} choices between
+    the two options with varying lottery winning probabilities.
+    You will therefore make a total of {{C.NUM_ROUNDS}} decisions.
+    One of the {{C.NUM_ROUNDS}} questions will be randomly chosen and implemented - if this block is drawn as
+    the block-that-counts.
+</p>
+
+
+
+<p id="container">
+<b class="openbox" id="openbox">
+    <button type="button" class="button_normal"> Next </button>
+</b> </p>
+<div class="infobox hidden" id="infobox">
+<hr>
+
+
+<span style="font-weight:bold"> <u> Example Question:</u> </span> <br>
+
+<table style="text-align:center; border: 2px solid black; item-align:center; margin-top:10px; margin-bottom: 10px" width="90%">
+    <th colspan="2">
+        Which option do you choose?
+    </th>
+    <tr>
+        <td style="padding: 5px;">
+            <div class="container" style="border: 2px solid black; border-radius: 7px; padding: 10px; background-color:#f0f0f0">
+            Option A: ${{C.BONUS_REL}} if the {{C.NUM_MEMBERS_W}} {{participant.group}}s won the Logic Task
+                </div>
+        </td>
+        <td style="padding: 5px;">
+            <div class="container" style="border: 2px solid black; border-radius: 7px; padding: 10px; background-color:#f0f0f0">
+            Option B: Lottery with 40% probability of winning ${{C.BONUS_REL}}
+                </div>
+        </td>
+    </tr>
+</table>
+
+<p>
+    If this question would be randomly drawn to be implemented and ... <br>
+    ... you chose Option A: You receive ${{C.BONUS_REL}} if the team of {{C.NUM_MEMBERS_W}} {{ participant.group }}s
+    won in the Logic Task against the team of {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}s. <br>
+    ... you chose Option B:
+    You receive ${{C.BONUS_REL}} with a 40%
+    chance, namely if you win the lottery.
+</p>
+
+{{ next_button }}
+
+</div>
+
+
+{{ endblock }}
+
+
+{{ block styles }}
+<style>
+p + ul{
+    margin-top: -10px;
+}
+
+.container {
+    display: block;
+    margin: 10px auto;
+}
+
+    .hidden {
+	display:none;
+}
+
+.infobox {
+    // background-color:#f0f0f5
+    }
+
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+
+
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+}
+
+</style>
+
+{{ endblock }}
+
+
+{{ block scripts }}
+
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+});
+</script>
+{{ endblock }}
+

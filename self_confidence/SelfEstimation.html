@@ -1,0 +1,179 @@
+{{ block title }}
+    Your Own Performance
+{{ endblock }}
+
+{{ block content }}
+<p>
+    Now we would like to know, how you rate your own performance compared to other participants on the {{C.NUM_QUESTIONS}}-question test
+    you have just completed.
+    To do this, we will draw a random sample of {{ C.SAMPLE_RANKING_OTHER }} participants from the current study and create
+    a ranking of these participants and you based on the test scores.
+    The person with the highest score is ranked first, the person with the second highest score is ranked second, and so on.
+    If two people have the same score, a random draw determines who is ranked higher.
+    You will be asked to estimate your rank in this ranking.
+</p>
+<p>
+    If you guess your rank correctly, you will receive a <b>bonus of ${{C.BONUS_SELF}}</b> when this task is drawn to be implemented for payment. <br>
+</p>
+
+
+<p id="container">
+<b class="openbox" id="openbox">
+    <button type="button" class="button_normal"> Next </button>
+</b> </p>
+<div class="infobox hidden" id="infobox">
+
+<hr>
+
+<p>
+<table>
+    <tr>
+        <td width="15%"> </td>
+        <td> Which rank do you think you have? </td>
+        <td width="15%"> </td>
+    </tr>
+    <tr height="8px"></tr>
+    <tr>
+        <td></td>
+        <td style="text-align:center">
+            <select onchange="CheckIndpol(this);" name="ranking" id="rank" class="form-control" style="text-align:center">
+        <option selected value> --------- </option>
+        <option  value="1"> Rank 1 </option >
+        <option  value="2"> Rank 2 </option >
+        <option  value="3"> Rank 3 </option >
+        <option value="4">  Rank 4 </option >
+        <option value="5">  Rank 5 </option >
+        <option value="6">  Rank 6 </option >
+        <option value="7">  Rank 7 </option >
+        <option value="8">  Rank 8 </option >
+        <option value="9">  Rank 9 </option >
+        <option value="10"> Rank 10 </option >
+        </select>
+        </td>
+        <td></td>
+    </tr>
+</table>
+{{ formfield_errors 'ranking' }}
+</p>
+
+
+
+<p id="container2">
+<b class="openbox" id="openbox2">
+    <button type="button" class="button_normal"> Next </button>
+</b> </p>
+<div class="infobox2 hidden" id="infobox2">
+<div class="task_selfest">
+
+    </div>
+
+<hr>
+
+
+
+<h5> Additional Question: </h5> <br>
+<table class="table_score">
+    <tr style="">
+        <td colspan="3" style="text-align:center"> What do you estimate is your score on the test (out of the maximum possible 15 points)? </td>
+</tr>
+    <tr>
+        <td width="20%"> </td>
+        <td style="vertical-align: middle; text-align:center; item-align:center"> <input name="own_score" id="own_score" class="input_score"/> &nbsp; </td>
+        <td width="20%"></td>
+    </tr>
+</table>
+{{ formfield_errors 'own_score' }}
+
+
+    {{ next_button }}
+
+</div>
+</div>
+{{ endblock }}
+
+{{ block styles }}
+<style>
+table{
+    font-size: 20px;
+    // width: 80%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+table.table_score{
+    font-size: 18px;
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+td {
+    // text-align: center;
+}
+.hidden {
+	display:none;
+}
+.input_score{
+    font-size: 20px;
+    text-align: center;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin: auto;
+    vertical-align: middle;
+    item-align:center;
+}
+    .infobox {
+    // background-color:#f0f0f5
+    }
+
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+
+
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.task_selfest {
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+}
+</style>
+    {{ endblock }}
+
+{{ block scripts }}
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+<script>
+    document.getElementById("openbox2").addEventListener("click", function(){
+    document.getElementById("infobox2").classList.remove("hidden");
+    document.getElementById("container2").classList.add("hidden");
+    });
+</script>
+{{ endblock }}
+

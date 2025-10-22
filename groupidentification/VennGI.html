@@ -1,0 +1,307 @@
+{% block title %}
+How Much Do You Feel Connected to {{ group_label }}?
+{% endblock %}
+
+
+{% block content %}
+
+
+<p>
+    Please click the yellow bar to reveal the draggable red circle, which indicates how much you feel connected to
+    {{ group_label }}.
+    The closer you move yourself (the red circle) towards the other, the more you feel connected to {{ group_label }}.
+</p>
+<br>
+<div class="slider-container" style="-webkit-transform: translate3d(0px, 0px, 0px);">
+
+    <input type="range" min="0" max="100" step="1" value="" class="sliderhidden"
+           name="venn_identity" id="venn_identity"
+           onclick="activateSlider('venn_identity')">
+
+    <div class="background-circle" style="border: 5px solid #032d95;"></div>
+    <div class="slider-thumb"></div>
+    <b><output class="bubble"></output></b>
+    <div class="slider-label" style="color: #032d95; left:50px; font-size:16px"><b>{{ group_label }}</b></div>
+
+</div>
+
+<p id="slider_instruction"> <em>Click the yellow bar to reveal the slider.  </em></p>
+<div class="center">
+    <button id="next-button" class="button-normal" disabled>Next</button>
+</div>
+
+<style>
+.bubble {
+    position: absolute;
+    top: -20px; /* Above the slider */
+    background: transparent;
+    color: #a60b0b;
+    padding: 4px 12px;
+    font-size: 18px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 10;
+    left: 0px;
+}
+    /******** Firefox ********/
+    .sliderhidden::-moz-range-thumb {
+        width: 80px;
+        height: 80px;
+        background: none;
+        border: 5px solid #a60b0b;
+        cursor: pointer;
+        border-radius: 50%;
+        opacity: 0;
+        appearance: None;
+        z-index: -1;
+    }
+    /***** Chrome, Safari, Opera, and Edge Chromium *****/
+    .sliderhidden::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: none; /* Removed background for transparent thumb */
+        cursor: pointer;
+        position: relative; /* Added for positioning elements */
+        z-index: -1
+    }
+
+    .sliderhidden {
+        appearance: none;
+        width: 100%;
+        height: 90px;
+        border-radius: 40px;
+        background: #f1cb09;
+        outline: none;
+        opacity: .7;
+        transition: opacity .2s;
+        z-index: 0;
+        position: absolute;
+    }
+
+
+    /***** Chrome, Safari, Opera, and Edge Chromium *****/
+    .slidershown::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: none;
+        border: 5px solid #a60b0b;
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+        margin-top: -50px;
+    }
+    /******** Firefox ********/
+    .slidershown::-moz-range-thumb {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: none;
+        border: 5px solid #a60b0b;
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+        margin-top: -50px;
+    }
+    /***** Chrome, Safari, Opera, and Edge Chromium *****/
+    input[type="range"]::-webkit-slider-runnable-track {
+        background-color: rgba(255, 130, 130, 0);
+        opacity: 1;
+        height: 80px;
+    }
+
+    /******** Firefox ********/
+    input[type="range"]::-moz-range-track {
+        background-color: rgba(255, 130, 130, 0);
+        opacity: 1;
+        height: 80px;
+    }
+    input[type="range"]:focus {
+        outline: none;
+    }
+    .slidershown {
+        appearance: none;
+        width: 845px;
+        height: 90px;
+        border-radius: 40px;
+        background-color: rgba(255, 130, 130, 0.14);
+        outline: none;
+        opacity: 1;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+        position: absolute; /* Added for positioning elements */
+        z-index: 0;
+        margin-left: 55px;
+    }
+
+    .slider-container {
+        position: relative; /* Added for positioning elements */
+        display: flex; /* Added for aligning elements side-by-side */
+        height: 200px; /* Maintained height for reference */
+        justify-content: left; /* Center elements horizontally */
+        align-items: center; /* Center elements vertically */
+        margin-bottom: 60px;
+        width: 900px;
+    }
+    .slider-instruction {
+        margin-bottom: 150px;
+    }
+    .background-circle {
+        position: absolute; /* Added for positioning elements */
+        width: 190px;
+        height: 190px;
+        border-radius: 50%; /* Creates a circle */
+        background: none; /* Removed background for transparent thumb */
+        justify-content: left; /* Center elements horizontally */
+        align-items: center; /* Center elements vertically */
+        margin: 0 auto;
+        z-index: -1;
+    }
+    #venn_identity1{
+        width: 100%;
+        margin-left: 55px;
+    }
+
+    #venn_identity2{
+        width: 100%;
+        margin-left: 55px;
+    }
+
+    input[type=range] {
+        -webkit-appearance: none;
+        margin: 18px 0;
+        width: 845px;
+        position: relative;
+    }
+    input[type=range]:-moz-focusring{
+        outline: 1px solid white;
+        outline-offset: -1px;
+    }
+    .legend-item {
+        display: flex; /* Arrange legend text and circle horizontally */
+        align-items: center; /* Align text vertically with circle */
+    }
+
+    .legend-circle {
+        border-radius: 50%;
+        background-color: transparent; /* Make circles transparent */
+        border: 3px solid; /* Set border width */
+    }
+
+    .legend-circle-big {
+        width: 40px; /* Adjust circle size as needed */
+        height: 40px; /* Adjust circle size as needed */
+        border-color: #0030aa;
+    }
+
+    .legend-circle-you {
+        width: 20px; /* Adjust circle size as needed */
+        height: 20px; /* Adjust circle size as needed */
+        border-color: #a60b0b; /* Add white border for better visibility */
+    }
+
+    .legend-text {
+        font-size: 14px; /* Adjust font size as needed */
+        color: #222f3e; /* Text color */
+        margin-left: 10px; /* Add spacing between circle and text */
+    }
+    .legend {
+        display: flex; /* Arrange legend items horizontally */
+        justify-content: space-between; /* Space items evenly */
+        width: 100%; /* Match container width */
+        margin-bottom: 10px; /* Add some space below the legend */
+    }
+    .enabled-button{
+        background-color: #0B60DB;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        padding: 7px 14px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        position: relative;
+    }
+    #next-button:disabled {
+        background-color: #ECEDEF;
+        color: white;
+        cursor: not-allowed;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        padding: 7px 14px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+    }
+    .button {
+        border-radius: 7px;
+        padding: 7px 14px;
+        /* background-color: #81DAF5; */
+    }
+    .slider-label {
+        position: absolute;
+        bottom: -30px; /* Adjust as needed */
+        text-align: left;
+        font-size: 14px; /* Adjust font size as needed */
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let sliderClicked = false; // Flag to track user interaction
+    function activateSlider() {
+        venn_identity.classList.remove('sliderhidden');
+        venn_identity.classList.add('slidershown');
+        sliderClicked = true;
+        document.getElementById("slider_instruction").style.display = 'none';
+        enableNextButton();
+
+        const range = document.getElementById("venn_identity");
+        const bubble = document.querySelector(".bubble");
+        console.log(bubble)
+        range.addEventListener("input", () => {
+            setBubble(range, bubble);
+        });
+        setBubble(range, bubble);
+    }
+    let nextButton = document.getElementById('next-button');
+    // Function to enable the next button
+    function enableNextButton() {
+        nextButton.disabled = false;
+        nextButton.classList.remove('disabled-button');
+        nextButton.classList.add('enabled-button');
+    }
+
+    function setBubble(range, bubble) {
+    const val = range.value;
+    const min = range.min ? range.min : 0;
+    const max = range.max ? range.max : 100;
+    const newVal = Number(((val - min) * 100) / (max - min));
+
+    const rangeWidth = range.offsetWidth;      // width of the slider track
+    const thumbWidth = 80;                     // width of your slider thumb
+    const percent = (val - min) / (max - min);
+    const pos = percent * (rangeWidth - thumbWidth) + thumbWidth / 2;
+
+    bubble.innerHTML = "You";
+    //bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.2}px))`;
+    bubble.style.left = `${pos}px`;
+    }
+
+
+</script>
+{{ form.errors }}
+{% endblock %}

@@ -1,0 +1,1096 @@
+{{ block title }}
+    Information on the Team Competition Outcomes
+{{ endblock }}
+{{ block content }}
+
+
+<p><i>(Click <b id="instructions_trigger" style="color:blue">here </b> if you want to read the instructions again.)</i></p>
+<div id="logicmodal" class="modal">
+    <span id="logicclose" class="close">&times;</span>
+    <div id="logiccaption">
+
+<p id ="text"> You will now receive information about the outcomes of the competitions between the
+    {{ if participant.belief_ref == "ingroup" }}
+    <b>teams of {{C.NUM_MEMBERS_W}} {{ participant.group }}s and {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}s</b>.
+    {{ else }}
+    <b>teams of {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}s and {{C.NUM_MEMBERS_W}} {{ participant.group }}s</b>.
+    {{ endif }}
+    For each task, you will receive one piece of information indicating which team won the competition, i.e.,
+    performed better on that task (or won the coin flip in case of a tie).
+    This information will be indicated by a ">" or "<" sign:
+    ">" means that the team on the left won against the team on the right
+    in the corresponding task,
+   while "<" means the opposite. In addition, winning team's background color will be highlighted in green.
+</p>
+<p>
+    These hints will be given to you by creatures.
+    There are 30 creatures of two different types:
+</p>
+<table class="table_popup" width="60%" style="font-size:22px; text-align: center;">
+        <th width="50%">Truth Tellers</th>
+        <th width="50%">Liars </th>
+    <tr height="10px"></tr>
+    <tr>
+        <td width="50%">
+            {% for i in range(20) %}
+                <img class="monster_img_small" src="{% static "global/creature_true3.png" %}" alt="monster_true">
+            {% endfor %}
+        </td>
+        <td width="50%">
+            {% for i in range(10) %}
+                <img class="monster_img_small" src="{% static "global/creature_false3.png" %}" alt="monster_false">
+            {% endfor %}
+        </td>
+    </tr>
+</table>
+        <br>
+<ul>
+    <li>
+        There are {{C.creatures_true}} <b>Truth Tellers</b> who always tell the truth about which team won the competition.
+    </li>
+    <li>
+        There are {{C.creatures_false}} <b>Liars</b> always lie about which team won the competition, so always tells the opposite of what actually happened.
+    </li>
+</ul>
+<p>
+    For both tasks, one of the creatures will give you a hint about the outcome of the competition.
+    Each creature is equally likely to provide you with the hint.
+    Therefore, you are twice as likely to receive the hint from a Truth Teller as from a Liar, since there are twice as many Truth Tellers as Liars.
+    However, you will not know which creature will give you the hint.
+</p>
+<p style="text-align: center;">
+    <img class="monster_img1" src="{% static "global/creature_unknown3.png" %}" alt="monster_unknown">
+</p>
+<p>
+    In other words, for each task, you will receive information indicating which team won the competition. This
+    information is true in {{C.SIGNAL_ACC_FQ}} out of {{C.SIGNAL_TOT_FQ}} cases (i.e., it comes from one of the {{C.creatures_true}} Truth Tellers) and false in
+    {{C.SIGNAL_WRONG_FQ}} out of {{C.SIGNAL_TOT_FQ}} cases (i.e., it comes from one of the {{C.creatures_false}} Liars).
+</p>
+
+<br>
+</div>
+</div>
+<br>
+
+{{ if participant.belief_ref == "ingroup" }}
+<div class="task-container">
+    <!-- Left column: monsters -->
+    <div class="monster-column">
+        <!-- Monster 1 -->
+        <div class="monster-wrapper">
+            <img class="monster_img" src="{% static 'global/creature_unknown3.png' %}">
+            <img class="speechbubble_img" src="{% static 'global/speechbubble_filled.png' %}">
+        </div>
+
+        <!-- Monster 2 -->
+        <div class="monster-wrapper">
+            <img class="monster_img" src="{% static 'global/creature_unknown3.png' %}">
+            <img class="speechbubble_img" src="{% static 'global/speechbubble_filled.png' %}">
+        </div>
+    </div>
+
+<div class="table-column">
+<!-- Bubble rectangle for Task 1 row -->
+    <!--<img class="bubble-rect" src="{% static 'global/rectangle.png' %}"
+         style="position: absolute; top: 312px; left: 40; width: 44%; height: 86px; z-index: 0;">-->
+
+    <!-- Bubble rectangle for Task 2 row -->
+    <!--<img class="bubble-rect" src="{% static 'global/rectangle.png' %}"
+         style="position: absolute; top: 487px; left: 40; width: 44%; height: 86px; z-index: 0;">-->
+<table width="100%" style="font-size:22px; text-align: center; item-align:center" class ="table2">
+    <thead>
+    <tr>
+        <th width="7%"> </th>
+        <th width="10%"> </th>
+        <th width="9%"> </th>
+        <th width="25%" style="text-align:center" colspan="4">
+        Team {{ participant.group}}
+        </th>
+        <th width="8%"> </th>
+        <th width="25%" style="text-align:center" colspan="4">
+        Team {{ participant.outgroup}}
+        </th>
+    </tr>
+    <tr>
+        <th width="7%"> </th>
+        <th width="10%"> Task </th>
+        <th width="9%"> </th>
+        <th width="12%" colspan="2" style="text-align: right;">
+            {{ if participant.group == "Democrat" }}
+            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+            </th>
+            <th width="13%" colspan="2" style="text-align: left;">
+            {{ if participant.group == "Democrat" }}
+            <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </th>
+        <th width="8%"></th>
+        <th width="12%" colspan="2" style="text-align: right;">
+            {{ if participant.outgroup == "Democrat" }}
+            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </th>
+        <th width="13%" colspan="2" style="text-align: left;">
+            {{ if participant.outgroup == "Democrat" }}
+            <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </th>
+    </tr>
+    </thead>
+
+    <tr height="70px"></tr>
+    {{ if participant.task1 == "logic" }}
+    <tr>
+    <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px">
+                        <img class="task_icon" src="{% static 'global/logic_task_icon.png' %}" alt="icon logic">
+                    </td>
+                    <td width="20%"> Logic Task </td>
+
+                    {% if participant.logic_sign_shown == ">" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.group }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="3" style="text-align:center;">
+                        {{ participant.group }}
+                    </td>
+                    {% endif %}
+
+                    <td width="8%" style="font-size:36px; text-align:center;">
+                        <b>{{ participant.logic_sign_shown }}</b>
+                    </td>
+
+                    {% if participant.logic_sign_shown == "<" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.outgroup }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.outgroup }}
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+    </td>
+</tr>
+    {{ else }}
+    <tr>
+    <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px"> <img class="task_icon" src="{% static "global/dice3.png" %}" alt="icon luck"> </td>
+                    <td width="20%"> Luck Task </td>
+
+                    {% if participant.luck_sign_shown == ">" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.group }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.group }}
+                    </td>
+                    {% endif %}
+
+                    <td width="8%" style="font-size:36px; text-align:center;">
+                        <b>{{ participant.luck_sign_shown }}</b>
+                    </td>
+
+                    {% if participant.luck_sign_shown == "<" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.outgroup }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.outgroup }}
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+    </td>
+</tr>
+    {{ endif }}
+
+    <tr height="60px" style="border-bottom:1px solid black"></tr>
+    <tr height="60px"></tr>
+
+    {{ if participant.task2 == "logic" }}
+    <tr>
+    <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px">
+                        <img class="task_icon" src="{% static 'global/logic_task_icon.png' %}" alt="icon logic">
+                    </td>
+                    <td width="20%"> Logic Task </td>
+
+                    {% if participant.logic_sign_shown == ">" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.group }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.group }}
+                    </td>
+                    {% endif %}
+
+                    <td width="8%" style="font-size:36px; text-align:center;">
+                        <b>{{ participant.logic_sign_shown }}</b>
+                    </td>
+
+                    {% if participant.logic_sign_shown == "<" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.outgroup }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.outgroup }}
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+    </td>
+</tr>
+    {{ else }}
+    <tr>
+    <td colspan="10">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px"> <img class="task_icon" src="{% static "global/dice3.png" %}" alt="icon luck"> </td>
+                    <td width="20%"> Luck Task </td>
+
+                    {% if participant.luck_sign_shown == ">" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.group }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.group }}
+                    </td>
+                    {% endif %}
+
+                    <td width="8%" style="font-size:36px; text-align:center;">
+                        <b>{{ participant.luck_sign_shown }}</b>
+                    </td>
+
+                    {% if participant.luck_sign_shown == "<" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.outgroup }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.outgroup }}
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+    </td>
+</tr>
+    {{ endif }}
+    <tr height="60px" style="border-bottom:1px solid black"></tr>
+    <tr height="60px"></tr>
+</table>
+</div>
+</div>
+
+
+{{ else }}
+<div class="task-container">
+    <!-- Left column: monsters -->
+    <div class="monster-column">
+        <!-- Monster 1 -->
+        <div class="monster-wrapper">
+            <img class="monster_img" src="{% static 'global/creature_unknown3.png' %}">
+            <img class="speechbubble_img" src="{% static 'global/speechbubble_filled.png' %}">
+        </div>
+
+        <!-- Monster 2 -->
+        <div class="monster-wrapper">
+            <img class="monster_img" src="{% static 'global/creature_unknown3.png' %}">
+            <img class="speechbubble_img" src="{% static 'global/speechbubble_filled.png' %}">
+        </div>
+    </div>
+
+<div class="table-column">
+<!-- Bubble rectangle for Task 1 row -->
+    <!--<img class="bubble-rect" src="{% static 'global/rectangle.png' %}"
+         style="position: absolute; top: 312px; left: 30; width: 44%; height: 86px; z-index: 0;">-->
+
+    <!-- Bubble rectangle for Task 2 row -->
+   <!-- <img class="bubble-rect" src="{% static 'global/rectangle.png' %}"
+         style="position: absolute; top: 487px; left: 40; width: 44%; height: 86px; z-index: 0;"> -->
+<table width="100%" style="font-size:22px; text-align: center; item-align:center" class ="table2">
+    <thead>
+    <tr>
+        <th width="7%"> </th>
+        <th width="10%"> </th>
+        <th width="9%"> </th>
+        <th width="25%" style="text-align:center" colspan="4">
+        Team {{ participant.outgroup}}
+        </th>
+        <th width="8%"> </th>
+        <th width="25%" style="text-align:center" colspan="4">
+        Team {{ participant.group}}
+        </th>
+    </tr>
+    <tr>
+        <th width="7%"> </th>
+        <th width="10%"> Task </th>
+        <th width="9%"> </th>
+        <th width="12%" colspan="2" style="text-align: right;">
+            {{ if participant.outgroup == "Democrat" }}
+            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+            </th>
+            <th width="13%" colspan="2" style="text-align: left;">
+            {{ if participant.outgroup == "Democrat" }}
+            <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </th>
+        <th width="8%"></th>
+        <th width="12%" colspan="2" style="text-align: right;">
+            {{ if participant.group == "Democrat" }}
+            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </th>
+        <th width="13%" colspan="2" style="text-align: left;">
+            {{ if participant.group == "Democrat" }}
+            <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </th>
+    </tr>
+    </thead>
+
+    <tr height="70px"></tr>
+    {{ if participant.task1 == "logic" }}
+    <tr>
+    <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px">
+                        <img class="task_icon" src="{% static 'global/logic_task_icon.png' %}" alt="icon logic">
+                    </td>
+                    <td width="20%"> Logic Task </td>
+
+                    {% if participant.logic_sign_shown == ">" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.outgroup }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.outgroup }}
+                    </td>
+                    {% endif %}
+
+                    <td width="8%" style="font-size:36px; text-align:center;">
+                        <b>{{ participant.logic_sign_shown }}</b>
+                    </td>
+
+                    {% if participant.logic_sign_shown == "<" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.group }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.group }}
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+    </td>
+</tr>
+
+    {{ else }}
+<tr>
+    <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px"> <img class="task_icon" src="{% static "global/dice3.png" %}" alt="icon luck"> </td>
+                    <td width="20%"> Luck Task </td>
+
+                    {% if participant.luck_sign_shown == ">" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.outgroup }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.outgroup }}
+                    </td>
+                    {% endif %}
+
+                    <td width="8%" style="font-size:36px; text-align:center;">
+                        <b>{{ participant.luck_sign_shown }}</b>
+                    </td>
+
+                    {% if participant.luck_sign_shown == "<" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.group }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.group }}
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+    </td>
+</tr>
+    {{ endif }}
+
+    <tr height="60px" style="border-bottom:1px solid black"></tr>
+    <tr height="60px"></tr>
+
+    {{ if participant.task2 == "logic" }}
+    <tr>
+    <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px">
+                        <img class="task_icon" src="{% static 'global/logic_task_icon.png' %}" alt="icon logic">
+                    </td>
+                    <td width="20%"> Logic Task </td>
+
+                    {% if participant.logic_sign_shown == ">" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.outgroup }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.outgroup }}
+                    </td>
+                    {% endif %}
+
+                    <td width="8%" style="font-size:36px; text-align:center;border-radius: 15px;">
+                        <b>{{ participant.logic_sign_shown }}</b>
+                    </td>
+
+                    {% if participant.logic_sign_shown == "<" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;">
+                        <b>{{ participant.group }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.group }}
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+    </td>
+</tr>
+    {{ else }}
+    <tr>
+    <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px"> <img class="task_icon" src="{% static "global/dice3.png" %}" alt="icon luck"> </td>
+                    <td width="20%"> Luck Task </td>
+
+                    {% if participant.luck_sign_shown == ">" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.outgroup }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.outgroup }}
+                    </td>
+                    {% endif %}
+
+                    <td width="8%" style="font-size:36px; text-align:center;">
+                        <b>{{ participant.luck_sign_shown }}</b>
+                    </td>
+
+                    {% if participant.luck_sign_shown == "<" %}
+                    <td colspan="4" style="text-align:center; background-color:#81F781;border-radius: 15px;">
+                        <b>{{ participant.group }}</b>
+                    </td>
+                    {% else %}
+                    <td colspan="4" style="text-align:center;">
+                        {{ participant.group }}
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+    </td>
+</tr>
+    {{ endif }}
+    <tr height="60px" style="border-bottom:1px solid black"></tr>
+    <tr height="60px"></tr>
+</table>
+</div>
+</div>
+
+{{ endif }}
+
+
+
+
+
+
+    <p id="container">
+<b class="openbox" id="openbox">
+    <br>
+    <button type="button" class="button_normal"> Next </button>
+</b> </p>
+
+<div class="infobox hidden" id="infobox">
+<div class="explanation_feedback">
+
+<hr> <br>
+<h5> Check Questions: </h5>
+
+Please complete the statements below by selecting the correct option from the drop-down menus: <br>
+
+    {{ if participant.belief_ref == "ingroup" }}
+    <div style="font-size: 16px">
+    <ul class="list2">
+        {{ if participant.task1 == "logic" }}
+        <li>
+        The information on the <b>Logic Task</b> indicates that Team
+            <b>{{ participant.group}} </b>
+            <select name="rep_logic" id="rep_logic" class="input_rep">
+                <option selected value> --------- </option>
+                <option value=">">won</option>
+                <option value="<">lost</option>
+            </select>
+            against Team
+            <b> {{ participant.outgroup}}</b> in this task.
+        </li>
+        {{ else }}
+        <li>
+        The information on the <b>Luck Task</b> indicates that Team
+            <b>{{ participant.group}} </b>
+            <select name="rep_luck" id="rep_luck" class="input_rep">
+                <option selected value> --------- </option>
+                <option value=">">won</option>
+                <option value="<">lost</option>
+            </select>
+            </b>
+            against Team
+            <b> {{ participant.outgroup}}</b> in this task.
+        </li>
+        {{ endif }}
+
+        {{ if participant.task2 == "logic" }}
+        <li>
+        The information on the <b>Logic Task</b> indicates that Team
+            <b>{{ participant.group}} </b>
+            <select name="rep_logic" id="rep_logic" class="input_rep">
+                <option selected value> --------- </option>
+                <option value=">">won</option>
+                <option value="<">lost</option>
+            </select>
+            against Team
+            <b> {{ participant.outgroup}}</b> in this task.
+        </li>
+        {{ else }}
+        <li>
+        The information on the <b>Luck Task</b> indicates that Team
+            <b>{{ participant.group}} </b>
+            <select name="rep_luck" id="rep_luck" class="input_rep">
+                <option selected value> --------- </option>
+                <option value=">">won</option>
+                <option value="<">lost</option>
+            </select>
+            </b>
+            against Team
+            <b> {{ participant.outgroup}}</b> in this task.
+        </li>
+        {{ endif }}
+    </ul>
+    </div>
+
+    {{ else }}
+    <div style="font-size: 16px">
+    <ul class="list2">
+        {{ if participant.task1 == "logic" }}
+        <li>
+        The information on the <b>Logic Task</b> indicates that Team
+            <b>{{ participant.outgroup}} </b>
+            <select name="rep_logic" id="rep_logic" class="input_rep">
+                <option selected value> --------- </option>
+                <option value=">">won</option>
+                <option value="<">lost</option>
+            </select>
+            against Team
+            <b> {{ participant.group}}</b> in this task.
+        </li>
+        {{ else }}
+        <li>
+        The information on the <b>Luck Task</b> indicates that Team
+            <b>{{ participant.outgroup}} </b>
+            <select name="rep_luck" id="rep_luck" class="input_rep">
+                <option selected value> --------- </option>
+                <option value=">">won</option>
+                <option value="<">lost</option>
+            </select>
+            </b>
+            against  Team
+            <b> {{ participant.group}}</b> in this task.
+        </li>
+        {{ endif }}
+
+        {{ if participant.task2 == "logic" }}
+        <li>
+        The information on the <b>Logic Task</b> indicates that Team
+            <b>{{ participant.outgroup}} </b>
+            <select name="rep_logic" id="rep_logic" class="input_rep">
+                <option selected value> --------- </option>
+                <option value=">">won</option>
+                <option value="<">lost</option>
+            </select>
+            against Team
+            <b> {{ participant.group}}</b> in this task.
+        </li>
+        {{ else }}
+        <li>
+        The information on the <b>Luck Task</b> indicates that Team
+            <b>{{ participant.outgroup}} </b>
+            <select name="rep_luck" id="rep_luck" class="input_rep">
+                <option selected value> --------- </option>
+                <option value=">">won</option>
+                <option value="<">lost</option>
+            </select>
+            </b>
+            against Team
+            <b> {{ participant.group}}</b> in this task.
+        </li>
+        {{ endif }}
+    </ul>
+    </div>
+
+    {{ endif }}
+
+
+
+
+
+
+    <p>
+        In <select name="check_probability" id="check_probability" class="input_rep">
+            <option selected value> --------- </option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        of {{C.SIGNAL_TOT_FQ}} cases, the information about the result of the competition for each task comes from one of the "Liars" and is therefore <b>incorrect</b>
+        (i.e., the opposite is true).
+    </p>
+
+
+
+
+    {{ next_button }}
+
+    </div>
+</div>
+
+{{ formfield_errors 'rep_logic' }}
+{{ formfield_errors 'rep_luck' }}
+{{ formfield_errors 'check_probability' }}
+
+
+<input type="hidden" name="pagetime_feedback" id="pagetime_feedback" value="0">
+{{ formfield_errors 'pagetime_feedback' }}
+
+
+{{ endblock }}
+
+{{ block styles}}
+<style>
+.highlight-box {
+    border: 6px solid black;      /* thick border */
+    border-radius: 18px;          /* rounded corners */
+    padding: 10px;                /* space inside the box */
+    background: transparent;      /* optional */
+    display: block;               /* ensure div is block */
+    box-sizing: border-box;       /* include padding in size */
+}
+.monster_img_instr{
+    width: 150px;
+    height: auto;
+    margin: 10px;
+}
+.task-container {
+    display: flex;
+    align-items: flex-start; /* align monsters with top of table */
+    gap: 20px;               /* horizontal space between monsters and table */
+}
+
+.monster-column {
+    display: flex;
+    flex-direction: column;
+    gap: 65px;       /* vertical spacing between monsters */
+    /* optional: push whole column down */
+    margin-top: 200px;
+}
+
+.monster-wrapper {
+    position: relative;
+    width: 115px;   /* adjust width to fit monster+bubble */
+}
+
+.monster_img {
+    width: 125px;
+    display: block;
+}
+
+.speechbubble_img {
+    position: absolute;
+    top: 31%;   /* aligns bubble to monster mouth */
+    left: 74%;  /* make bubble point into table row */
+    width: 45px;
+}
+/*.table-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* vertical gap between bubble bodies */
+}*/
+
+p + ul {
+    margin-top: -15px;
+}
+ul + p {
+    margin-top: -10px;
+}
+.logo {
+    width:65%;
+    height: auto;
+    margin-left: 6px;
+   }
+.group_img {
+    width: 60%;
+    height: auto;
+    /*border-radius: 5px;*/
+    margin-right: 6px;
+    }
+.table_popup{
+    font-size: 20px;
+    width: 60%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+.table{
+    font-size: 24px;
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+.table2{
+    font-size: 23px;
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+table.table2 th {
+        border-bottom: 3px solid black;
+        font-size: 24px;
+    }
+.table2 tbody tr + tr {
+    /* height: 12px;*/ /* gap between rectangles */
+    border-radius: 15px;
+    padding: 10px;
+    }
+.table2 thead tr:first-child th {
+  border-bottom: none;
+}
+.table2 thead tr:nth-child(2) th {
+  height: 20px;
+}
+.table2 th,
+.table2 td {
+  text-align: center;
+  vertical-align: middle;
+}
+.hidden {
+	display:none;
+}
+.list2 li {
+  margin: 10px 0;
+}
+.input_rep{
+    border: 2px solid #007BFF;
+    padding: 3px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.infobox {
+    // background-color:#f0f0f5
+    }
+
+.openbox {
+    cursor: pointer;
+	margin: 15px 0;
+		  }
+
+.button_show{
+    background-color: grey;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.feedback {
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+}
+
+.table{
+    font-size: 20px;
+    width: 80%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+
+.modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+
+    #instructions_trigger:hover{
+        cursor: pointer;
+        }
+
+    #dict_trigger:hover{
+        cursor: pointer;
+        }
+
+    #re_trigger:hover{
+        cursor: pointer;
+        }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 100%; //80%
+        max-width: 700px;
+        }
+
+    #logiccaption {
+        margin: auto;
+        display: block;
+        width: 80%; // 80%
+        max-width: 700px;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+        }
+
+    .modal-content, #caption {
+        animation-name: zoom;
+        animation-duration: 0.6s;
+        }
+
+    @keyframes zoom {
+        from {transform:scale(0)}
+        to {transform:scale(1)}
+        }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+    @media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+        }
+    }
+.task_icon {
+    width:95%;
+    height: auto;
+    align-items: left;
+   }
+.monster_img1{
+    width: 150px;
+    height: auto;
+    margin: 5px;
+}
+.monster_img2{
+    width: 150px;
+    height: auto;
+    margin: 10px;
+}
+.monster_img_small{
+    width: 74px; /* Adjust this value to make them bigger or smaller */
+    height: auto;
+    margin: 1px; /* Small margin to keep them close together */
+    display: inline-block; /* Allows them to sit next to each other */
+}
+
+</style>
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+<script>
+// Get the modal
+var logicmodal = document.getElementById("logicmodal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var instructionstrigger = document.getElementById("instructions_trigger");
+var logicmodalImg = document.getElementById("logicimg");
+var logiccaptionText = document.getElementById("logiccaption");
+instructionstrigger.onclick = function(){
+    logicmodal.style.display = "block";
+    logiccaptionText.innerHTML = logicmodalImg.alt;
+};
+
+// Get the <span> element that closes the modal
+var logicspan = document.getElementById("logicclose");
+
+// When the user clicks on <span> (x), close the modal
+    logicspan.onclick = function() {
+        logicmodal.style.display = "none";
+};
+</script>
+<script>
+    function toggleExample() {
+      var x = document.getElementById("exampleTask");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Use a page-specific key so different pages don't clash
+  const storageKey = "pageEnterTime_" + window.location.pathname;
+
+  // Initialize or reuse the stored timestamp
+  let pageEnterTime = sessionStorage.getItem(storageKey);
+  if (!pageEnterTime) {
+    pageEnterTime = Date.now();
+    sessionStorage.setItem(storageKey, pageEnterTime);
+  } else {
+    pageEnterTime = parseFloat(pageEnterTime);
+  }
+
+  // On submit, write the elapsed time into the hidden input.
+  // IMPORTANT: do NOT remove the stored key here (server might reject and reload page).
+  const form = document.querySelector("form");
+  if (form) {
+    form.addEventListener("submit", function () {
+      const duration = (Date.now() - pageEnterTime) / 1000.0; // seconds
+      const el = document.getElementById("pagetime_feedback");
+      if (el) el.value = duration.toFixed(2);
+      // DO NOT call sessionStorage.removeItem(storageKey) here
+    });
+  }
+});
+</script>
+ {{ endblock }}
+
+

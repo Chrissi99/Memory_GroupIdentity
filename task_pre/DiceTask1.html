@@ -1,0 +1,174 @@
+{{ block title }}
+Dice Game
+{{ endblock }}
+{{ block content }}
+
+<div class="center">
+     Click on the dice to roll it. You have to roll the dice {{C.DICE_ROLLS}} times.
+</div>
+
+<div class="dice-container">
+      <img id="dice" src="{% static 'global/dice1.png' %}" alt="Roll the dice" class="dice-img">
+      <p id="result"></p>
+</div>
+
+
+<div class="center">
+    <ul id="rolls-list" class="rolls_list"></ul>
+</div>
+
+
+<form id="rolls-form" method="post">
+    <input type="hidden" name="rolls" id="rolls-input">
+  </form>
+
+<br>
+
+<div class="center">
+    <button id="next-btn" class="button disabled-button" disabled>Next</button>
+</div>
+
+{{ endblock }}
+
+{{ block styles }}
+
+<style type="text/css">
+.annotatable {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 20px;
+    }
+
+.center {
+        text-align: center;
+    }
+
+.dice-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.dice-img {
+    width: 100px;
+    cursor: pointer;
+}
+
+#result {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#rolls-list {
+    list-style-type: none;
+    padding: 0;
+    font-size: 18px;
+}
+
+#rolls-list li {
+    font-size: 18px;
+}
+
+.enabled-button {
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+.disabled-button {
+    border-radius: 7px;
+    padding: 7px 14px;
+    //background-color: #cccccc;
+    // color: #888888;
+    cursor: not-allowed;
+    background-color: transparent;
+    color: transparent;
+    cursor: not-allowed;
+    border-color: transparent;
+}
+
+</style>
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+    const dice = document.getElementById('dice');
+    const result = document.getElementById('result');
+    const nextBtn = document.getElementById('next-btn');
+    const rollsForm = document.getElementById('rolls-form');
+    const rollsInput = document.getElementById('rolls-input');
+    const rollsList = document.getElementById('rolls-list');
+
+    const diceImages = [
+        "{% static 'global/dice1.png' %}",
+        "{% static 'global/dice2.png' %}",
+        "{% static 'global/dice3.png' %}",
+        "{% static 'global/dice4.png' %}",
+        "{% static 'global/dice5.png' %}",
+        "{% static 'global/dice6.png' %}"
+    ];
+
+    let rolls = [];
+
+    nextBtn.disabled = true;
+
+    dice.addEventListener('click', () => {
+        if (rolls.length < 10) {
+            const roll = Math.floor(Math.random() * 6) + 1;
+            rolls.push(roll);
+            result.textContent = `Your Roll: ${roll}`;
+            dice.src = diceImages[roll - 1];
+
+            rollsList.textContent = `Previous Rolls: ${rolls.join(', ')}`;
+
+            if (rolls.length === 10) {
+                result.textContent += ' - All rolls completed';
+            }
+
+            updateNextButton();
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        rollsInput.value = JSON.stringify(rolls);
+        rollsForm.submit();
+    });
+
+    function updateNextButton() {
+        if (rolls.length === 10) {
+            enableNextButton();
+        } else {
+            disableNextButton();
+        }
+    }
+
+    function enableNextButton() {
+        nextBtn.disabled = false;
+        nextBtn.classList.remove('disabled-button');
+        nextBtn.classList.add('enabled-button');
+    }
+
+    function disableNextButton() {
+        nextBtn.disabled = true;
+        nextBtn.classList.remove('enabled-button');
+        nextBtn.classList.add('disabled-button');
+    }
+});
+
+
+</script>
+{{ endblock }}
+
+

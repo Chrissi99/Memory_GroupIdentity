@@ -1,0 +1,72 @@
+{{ block title }}
+Block 4
+{{ endblock }}
+{{ block content }}
+
+<h4> Check Question </h4>
+
+<p>
+    Suppose someone thinks that the probability that the team of {{C.NUM_MEMBERS_W}} {{ participant.group2 }}s who competed in the
+    {{ if participant.post2_first == "logic" }} Logic Task
+    {{ elif participant.post2_first == "effort" }} Counting Task
+    {{ elif participant.post2_first == "luck" }} Dice Task
+    {{ endif }}
+    won against the team of {{C.NUM_MEMBERS_W}} {{ participant.outgroup2 }}s in that task is
+    {{ if participant.beliefs_example_order == "low_high" }}
+    {{C.EXAMPLE_CHECK_1}}.
+    {{ elif participant.beliefs_example_order == "high_low" }}
+    {{C.EXAMPLE_CHECK_2}}.
+    {{ endif }}
+    Which option in the following example question would then maximize his/her chance of receiving the bonus? <br>
+    <table style="text-align:center; border: 2px solid transparent; item-align:center;" width="90%">
+    <tr>
+        <td style="padding: 5px;">
+            <div class="container" style="border: 2px solid black; border-radius: 7px; padding: 10px; background-color:#f0f0f0">
+            Option A: ${{C.BONUS_REL}} if the {{C.NUM_MEMBERS_W}} {{participant.group2}}s won the
+            {{ if participant.post2_first == "logic" }} Logic Task
+            {{ elif participant.post2_first == "effort" }} Counting Task
+            {{ elif participant.post2_first == "luck" }} Dice Task
+            {{ endif }}
+                </div>
+        </td>
+        <td style="padding: 5px;">
+            <div class="container" style="border: 2px solid black; border-radius: 7px; padding: 10px; background-color:#f0f0f0">
+            Option B: Lottery with 80% probability of winning ${{C.BONUS_REL}}
+                </div>
+        </td>
+    </tr>
+</table>
+    <form>
+    <div class="beliefs_check3">
+        <label>
+            <input type="radio" name="beliefs_check3" value="Option A"> Option A
+        </label>
+        <br>
+        <label>
+            <input type="radio" name="beliefs_check3" value="Option B"> Option B
+        </label>
+        <br>
+        <label>
+            <input type="radio" name="beliefs_check3" value="Same"> Same chances in both options
+        </label>
+        </div>
+</form>
+</p>
+
+{{ formfield_errors 'beliefs_check3' }}
+
+
+{{ next_button }}
+
+{{ endblock }}
+
+
+{{ block styles }}
+<style>
+
+p + table {
+    margin-top: -20px;
+}
+
+</style>
+{{ endblock }}

@@ -1,0 +1,187 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+
+
+<!-- <h2> Task II </h2> -->
+
+<h3> Background I </h3>
+
+<p id="text"> In a previous study, participants who identified themselves as either {{participant.group}} or {{participant.outgroup}}
+    took the same skills test that you have just completed.
+    A total of {{C.POPULATION}} participants took the test, {{C.POPULATION_GROUP}} of whom identified as
+    <b><span class="no-space">{{participant.group}}</span>s</b> and {{C.POPULATION_GROUP}} of whom identified as <b><span class="no-space">{{participant.outgroup}}</span>s</b>.
+    <b>On average, the {{C.POPULATION_GROUP}} participants from both parties scored the same</b>. Thus, there was no difference in the average
+    performance between the Democratic and Republican participants.
+</p>
+
+<p id="container">
+<b class="openbox" id="openbox">
+    <button type="button" class="button_normal"> Next </button>
+</b> </p>
+<div class="infobox hidden" id="infobox">
+<div class="belief_task">
+
+<hr>
+
+<!-- <h5> Ckeck Question: </h5> -->
+<p id="text2">
+    Please indicate below what you think the difference was in the average score between the {{C.POPULATION_GROUP}} {{participant.group}}s and the {{C.POPULATION_GROUP}} {{participant.outgroup}}s.
+    To do this, select from the drop-down menu below how you think the {{participant.group}}s and the {{participant.outgroup}}s scored on average.
+</p>
+<p>
+        {{ formfield 'population_belief' }}
+</p>
+
+    <br>
+
+    {{ next_button }}
+
+</div>
+</div>
+
+{{ endblock }}
+
+
+
+{{ block styles}}
+<style>
+.no-space {
+        letter-spacing: -0.01em; /* Adjust the value as needed */
+    }
+.table{
+    font-size: 20px;
+    width: 80%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+.hidden {
+	display:none;
+}
+
+.infobox {
+    // background-color:#f0f0f5
+    }
+
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+
+
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.belief_task {
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+}
+
+</style>
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text');
+    const wordsToHighlight = ['Green'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_green">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text');
+    const wordsToHighlight = ['Orange'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_orange">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text');
+    const wordsToHighlight = ['Blue'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_blue">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text');
+    const wordsToHighlight = ['Purple'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_purple">${word}</span>`);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text2');
+    const wordsToHighlight = ['Green'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_green">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text2');
+    const wordsToHighlight = ['Orange'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_orange">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text2');
+    const wordsToHighlight = ['Blue'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_blue">${word}</span>`);
+    });
+});
+    document.addEventListener('DOMContentLoaded', function() {
+    const textElement = document.getElementById('text2');
+    const wordsToHighlight = ['Purple'];
+
+    wordsToHighlight.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_purple">${word}</span>`);
+    });
+});
+
+
+</script>
+{{ endblock }}

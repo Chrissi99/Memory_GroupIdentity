@@ -1,0 +1,775 @@
+{{ block title }}
+{{ endblock }}
+{{ block content }}
+
+
+{{ if participant.treat_first == "RECALL" }}
+<h2> Block 4 </h2>
+{{ elif participant.treat_first == "BELIEFS" and participant.treatment == "BeliefsMemory" }}
+<h2> Block 5 </h2>
+{{ elif participant.treat_first == "BELIEFS" and participant.treatment == "BeliefsNoMemory" }}
+<h2> Block 6 </h2>
+{{ endif }}
+<br>
+
+<p style="font-size:22px; font-weight:bold"> Enter the information you received in part I on the {{C.NUM_TASKS_W}} team competitions: </p>
+<p style="font-size:18px;"> Remember that you can receive <b>${{ C.BONUS_RECALL }}</b> for correctly recalling the information. </p>
+
+<p><i>(Click <b id="instructions_trigger" style="color:blue">here </b> if you want to read the instructions again.)</i></p>
+<div id="logicmodal" class="modal">
+    <span id="logicclose" class="close">&times;</span>
+    <div id="logiccaption">
+
+<h4>Your Task</h4>
+<p>
+    Your task is to recall the information you received in Part I of the study regarding the outcomes of the two
+    team competitions in the
+    {{ if participant.post2_first == "logic" }} Logic Task
+    {{ elif participant.post2_first == "luck" }} Luck Task
+    {{ endif }}
+    and
+    {{ if participant.post2_second == "logic" }} Logic Task.
+    {{ elif participant.post2_second == "luck" }} Luck Task.
+    {{ endif }}
+</p>
+
+
+    Remember that you received this information in the following way:
+
+<ul>
+    <li> There were competitions between a team of
+        {{C.NUM_MEMBERS_W}}
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.group2 }}s
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.outgroup2 }}s
+        {{ endif }}
+        and a team of {{C.NUM_MEMBERS_W}}
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.outgroup2 }}s.
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.group2 }}s.
+        {{ endif }}
+    </li>
+    <li>
+        Information about the competition outcomes was communicated using a green background to highlight the winning team,
+        as well as ">" and "<" signs. You are supposed to recall this information.
+    </li>
+    <li>
+        The information was provided either by one of {{C.creatures_true}} "Truth Tellers" (who always provided the correct information)
+        or by one of {{C.creatures_false}} "Liars" (who always provided the incorrect information).
+    </li>
+</ul>
+<p>
+    You will now be asked to <b>recall</b> the information you received in Part I about the outcome of each team competition.
+</p>
+
+
+<h4> Bonus Payment</h4>
+<p>
+    You can earn a <b>${{ C.BONUS_RECALL }}</b> bonus payment if you correctly recall the information about the team competitions in the {{C.NUM_TASKS_W}} tasks. <br>
+    If this block is drawn as the 'block-that-counts', one of your {{C.NUM_TASKS_W}} answers will be randomly selected.
+    If you correctly recall the selected piece of information, you will receive the ${{ C.BONUS_RECALL }} bonus payment.
+</p>
+
+
+
+        <br>
+    </div>
+</div>
+<br>
+
+
+
+
+{{ if participant.belief_ref == "ingroup" }}
+<div class="task-container">
+    <!-- Left column: monsters -->
+    <div class="monster-column">
+        <!-- Monster 1 -->
+        <div class="monster-wrapper">
+            <img class="monster_img" src="{% static 'global/creature_unknown.png' %}">
+            <img class="speechbubble_img" src="{% static 'global/speechbubble_filled.png' %}">
+        </div>
+
+        <!-- Monster 2 -->
+        <div class="monster-wrapper">
+            <img class="monster_img" src="{% static 'global/creature_unknown.png' %}">
+            <img class="speechbubble_img" src="{% static 'global/speechbubble_filled.png' %}">
+        </div>
+    </div>
+
+<div class="table-wrapper" style="position: relative;">
+    <!--<img class="bubble-rect" src="{% static 'global/rectangle.png' %}" style="top: 131px; left: 40px;">
+    <img class="bubble-rect" src="{% static 'global/rectangle.png' %}" style="top: 303px; left: 40px;">-->
+
+<!-- Bubble rectangle for Task 1 row -->
+    <!-- <img class="bubble-rect" src="{% static 'global/rectangle.png' %}"
+         style="position: absolute; top: 412px; left: 40; width: 44%; height: 86px; z-index: 0;"> -->
+
+    <!-- Bubble rectangle for Task 2 row -->
+    <!-- <img class="bubble-rect" src="{% static 'global/rectangle.png' %}"
+         style="position: absolute; top: 550px; left: 40; width: 44%; height: 86px; z-index: 0;"> -->
+<table style="font-size:22px; text-align: center; item-align:center" class ="table2">
+    <thead>
+    <tr>
+        <th width="7%"> </th>
+        <th width="10%"> </th>
+        <th width="9%"> </th>
+        <th width="25%" style="text-align:center" colspan="4">
+        Team {{ participant.group2}}
+        </th>
+        <th width="8%"> </th>
+        <th width="25%" style="text-align:center" colspan="4">
+        Team {{ participant.outgroup2}}
+        </th>
+    </tr>
+    <tr>
+        <th width="7%"> </th>
+        <th width="10%"> Task </th>
+        <th width="9%"> </th>
+        <th width="12%" colspan="2" style="text-align: right;">
+            {{ if participant.group2 == "Democrat" }}
+            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+            </th>
+            <th width="13%" colspan="2" style="text-align: left;">
+            {{ if participant.group2 == "Democrat" }}
+            <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </th>
+        <th width="8%"></th>
+        <th width="12%" colspan="2" style="text-align: right;">
+            {{ if participant.outgroup2 == "Democrat" }}
+            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </th>
+        <th width="13%" colspan="2" style="text-align: left;">
+            {{ if participant.outgroup2 == "Democrat" }}
+            <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </th>
+    </tr>
+    </thead>
+
+
+    <tr height="70px"></tr>
+    {{ if participant.post2_first == "logic"}}
+    <tr>
+        <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px">
+                        <img class="task_icon" src="{% static 'global/logic_task_icon.png' %}" alt="icon logic">
+                    </td>
+                    <td width="20%"> Logic Task </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.group2 }}
+                    </td>
+                    <td>
+                    <select onchange="CheckIndpol(this);" name="recall_logic" id="round1" class="form-control" style="font-size: 18px; text-align:center;">
+                        <option selected value> --------- </option>
+                        <option  value=">"> > </option >
+                        <option  value="<"> < </option >
+                        <!-- <option  value="="> = </option> -->
+                        <option value="?" class="long-option"> I don't recall </option>
+                    </select>
+                    </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.outgroup2 }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </td>
+    </tr>
+    {{ else }}
+    <tr>
+        <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px">
+                        <img class="task_icon" src="{% static "global/dice3.png" %}" alt="icon luck">
+                    </td>
+                    <td width="20%"> Luck Task </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.group2 }}
+                    </td>
+                    <td>
+                    <select onchange="CheckIndpol(this);" name="recall_luck" id="round1" class="form-control" style="font-size: 18px; text-align:center;">
+                        <option selected value> --------- </option>
+                        <option  value=">"> > </option >
+                        <option  value="<"> < </option >
+                        <!-- <option  value="="> = </option> -->
+                        <option value="?" class="long-option"> I don't recall </option>
+                    </select>
+                    </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.outgroup2 }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </td>
+    </tr>
+    {{ endif }}
+    <tr height="60px" style="border-bottom:1px solid black"></tr>
+    <tr height="60px" style=""></tr>
+    {{ if participant.post2_second == "logic" }}
+       <tr>
+        <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px">
+                        <img class="task_icon" src="{% static 'global/logic_task_icon.png' %}" alt="icon logic">
+                    </td>
+                    <td width="20%"> Logic Task </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.group2 }}
+                    </td>
+                    <td>
+                    <select onchange="CheckIndpol(this);" name="recall_logic" id="round1" class="form-control" style="font-size: 18px; text-align:center;">
+                        <option selected value> --------- </option>
+                        <option  value=">"> > </option >
+                        <option  value="<"> < </option >
+                        <!-- <option  value="="> = </option> -->
+                        <option value="?" class="long-option"> I don't recall </option>
+                    </select>
+                    </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.outgroup2 }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </td>
+    </tr>
+    {{ else }}
+    <tr>
+        <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px">
+                        <img class="task_icon" src="{% static "global/dice3.png" %}" alt="icon luck">
+                    </td>
+                    <td width="20%"> Luck Task </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.group2 }}
+                    </td>
+                    <td>
+                    <select onchange="CheckIndpol(this);" name="recall_luck" id="round1" class="form-control" style="font-size: 18px; text-align:center;">
+                        <option selected value> --------- </option>
+                        <option  value=">"> > </option >
+                        <option  value="<"> < </option >
+                        <!-- <option  value="="> = </option> -->
+                        <option value="?" class="long-option"> I don't recall </option>
+                    </select>
+                    </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.outgroup2 }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </td>
+    </tr>
+    {{ endif }}
+    <tr height="60px" style="border-bottom:1px solid black"></tr>
+    <tr height="60px"></tr>
+</table>
+</div>
+</div>
+
+
+
+
+{{ else }}
+<div class="task-container">
+    <!-- Left column: monsters -->
+    <div class="monster-column">
+        <!-- Monster 1 -->
+        <div class="monster-wrapper">
+            <img class="monster_img" src="{% static 'global/creature_unknown.png' %}">
+            <img class="speechbubble_img" src="{% static 'global/speechbubble_filled.png' %}">
+        </div>
+
+        <!-- Monster 2 -->
+        <div class="monster-wrapper">
+            <img class="monster_img" src="{% static 'global/creature_unknown.png' %}">
+            <img class="speechbubble_img" src="{% static 'global/speechbubble_filled.png' %}">
+        </div>
+    </div>
+
+<div class="table-wrapper" style="position: relative;">
+    <!--<img class="bubble-rect" src="{% static 'global/rectangle.png' %}" style="top: 128px; left: 40px;">
+    <img class="bubble-rect" src="{% static 'global/rectangle.png' %}" style="top: 296px; left: 40px;">-->
+<table style="font-size:22px; text-align: center; item-align:center" class ="table2">
+    <thead>
+    <tr>
+        <th width="7%"> </th>
+        <th width="10%"> </th>
+        <th width="9%"> </th>
+        <th width="25%" style="text-align:center" colspan="4">
+        Team {{ participant.outgroup2}}
+        </th>
+        <th width="8%"> </th>
+        <th width="25%" style="text-align:center" colspan="4">
+        Team {{ participant.group2}}
+        </th>
+    </tr>
+    <tr>
+        <th width="7%"> </th>
+        <th width="10%"> Task </th>
+        <th width="9%"> </th>
+        <th width="12%" colspan="2" style="text-align: right;">
+            {{ if participant.outgroup2 == "Democrat" }}
+            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+            </th>
+            <th width="13%" colspan="2" style="text-align: left;">
+            {{ if participant.outgroup2 == "Democrat" }}
+            <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </th>
+        <th width="8%"></th>
+        <th width="12%" colspan="2" style="text-align: right;">
+            {{ if participant.group2 == "Democrat" }}
+            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </th>
+        <th width="13%" colspan="2" style="text-align: left;">
+            {{ if participant.group2 == "Democrat" }}
+            <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        </th>
+    </tr>
+    </thead>
+
+    <tr height="70px"></tr>
+    {{ if participant.post2_first == "logic"}}
+    <tr>
+        <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px">
+                        <img class="task_icon" src="{% static 'global/logic_task_icon.png' %}" alt="icon logic">
+                    </td>
+                    <td width="20%"> Logic Task </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.outgroup2 }}
+                    </td>
+                    <td>
+                    <select onchange="CheckIndpol(this);" name="recall_logic" id="round1" class="form-control" style="font-size: 18px; text-align:center;">
+                        <option selected value> --------- </option>
+                        <option  value=">"> > </option >
+                        <option  value="<"> < </option >
+                        <!-- <option  value="="> = </option> -->
+                        <option value="?" class="long-option"> I don't recall </option>
+                    </select>
+                    </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.group2 }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </td>
+    </tr>
+    {{ else }}
+    <tr>
+        <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px">
+                        <img class="task_icon" src="{% static "global/dice3.png" %}" alt="icon luck">
+                    </td>
+                    <td width="20%"> Luck Task </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.outgroup2 }}
+                    </td>
+                    <td>
+                    <select onchange="CheckIndpol(this);" name="recall_luck" id="round1" class="form-control" style="font-size: 18px; text-align:center;">
+                        <option selected value> --------- </option>
+                        <option  value=">"> > </option >
+                        <option  value="<"> < </option >
+                        <!-- <option  value="="> = </option> -->
+                        <option value="?" class="long-option"> I don't recall </option>
+                    </select>
+                    </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.group2 }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </td>
+    </tr>
+    {{ endif }}
+    <tr height="60px" style="border-bottom:1px solid black"></tr>
+    <tr height="60px" style=""></tr>
+    {{ if participant.post2_second == "logic" }}
+    <tr>
+        <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px">
+                        <img class="task_icon" src="{% static 'global/logic_task_icon.png' %}" alt="icon logic">
+                    </td>
+                    <td width="20%"> Logic Task </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.outgroup2 }}
+                    </td>
+                    <td>
+                    <select onchange="CheckIndpol(this);" name="recall_logic" id="round1" class="form-control" style="font-size: 18px; text-align:center;">
+                        <option selected value> --------- </option>
+                        <option  value=">"> > </option >
+                        <option  value="<"> < </option >
+                        <!-- <option  value="="> = </option> -->
+                        <option value="?" class="long-option"> I don't recall </option>
+                    </select>
+                    </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.group2 }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </td>
+    </tr>
+    {{ else }}
+    <tr>
+        <td colspan="11">
+        <div class="highlight-box">
+            <table width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td width="2%"></td>
+                    <td width="7%" style="margin:1px">
+                        <img class="task_icon" src="{% static "global/dice3.png" %}" alt="icon luck">
+                    </td>
+                    <td width="20%"> Luck Task </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.outgroup2 }}
+                    </td>
+                    <td>
+                    <select onchange="CheckIndpol(this);" name="recall_luck" id="round1" class="form-control" style="font-size: 18px; text-align:center;">
+                        <option selected value> --------- </option>
+                        <option  value=">"> > </option >
+                        <option  value="<"> < </option >
+                        <!-- <option  value="="> = </option> -->
+                        <option value="?" class="long-option"> I don't recall </option>
+                    </select>
+                    </td>
+                    <td colspan="4" style="text-align:center; border-radius: 15px">
+                        {{ participant.group2 }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </td>
+    </tr>
+    {{ endif }}
+    <tr height="60px" style="border-bottom:1px solid black"></tr>
+    <tr height="60px"></tr>
+</table>
+</div>
+</div>
+
+
+{{ endif }}
+
+<br>
+
+    {{ next_button }}
+
+{{formfield_errors 'recall_logic' }}
+{{formfield_errors 'recall_luck' }}
+
+<input type="hidden" name="pagetime_recall" id="pagetime_recall" value="0">
+{{ formfield_errors 'pagetime_recall' }}
+
+{{ endblock }}
+
+
+{{ block styles}}
+<style>
+.highlight-box {
+    border: 6px solid black;      /* thick border */
+    border-radius: 18px;          /* rounded corners */
+    padding: 10px;                /* space inside the box */
+    background: transparent;      /* optional */
+    display: block;               /* ensure div is block */
+    box-sizing: border-box;       /* include padding in size */
+}
+.monster_img_instr{
+    width: 150px;
+    height: auto;
+    margin: 10px;
+}
+.task-container {
+    display: flex;
+    align-items: flex-start; /* align monsters with top of table */
+    gap: 20px;               /* horizontal space between monsters and table */
+}
+
+.monster-column {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;       /* vertical spacing between monsters */
+    /* optional: push whole column down */
+    margin-top: 195px;
+}
+
+.monster-wrapper {
+    position: relative;
+    width: 115px;   /* adjust width to fit monster+bubble */
+}
+
+.monster_img {
+    width: 125px;
+    display: block;
+}
+
+.speechbubble_img {
+    position: absolute;
+    top: 28%;   /* aligns bubble to monster mouth */
+    left: 74%;  /* make bubble point into table row */
+    width: 45px;
+}
+.bubble-rect {
+    position: absolute;   /* stay relative to the wrapper */
+    width: 99%;
+    height: 86px;
+    pointer-events: none; /* allow clicks through */
+    z-index: 0;           /* behind table elements */
+    margin-left: -20px;
+}
+.logo {
+    width:65%;
+    height: auto;
+    margin-left: 6px;
+   }
+.group_img {
+    width: 60%;
+    height: auto;
+    border-radius: 5px;
+    margin-right: 6px;
+    }
+.table{
+    font-size: 24px;
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+.table2{
+    font-size: 23px;
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+    text-align: center;
+    item-align:center;
+}
+table.table2 th {
+        border-bottom: 3px solid black;
+        font-size: 24px;
+    }
+.table2 thead tr:first-child th {
+  border-bottom: none;
+}
+.table2 thead tr:nth-child(2) th {
+  height: 20px;
+}
+.table2 th,
+.table2 td {
+  text-align: center;
+  vertical-align: middle;
+}
+.form-control{
+        font-size: 18px;
+        text-align: center;
+        item-align:center;
+        vertical-align: middle;
+        width: 120px;
+        border: 2px solid #007BFF;
+        padding: 5px;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        font-weight: bold;
+        color: #000;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+    }
+.long-option {
+        white-space: nowrap; /* Prevent line break */
+        font-size: 16px;
+    }
+.modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+
+    #instructions_trigger:hover{
+        cursor: pointer;
+        }
+
+    #dict_trigger:hover{
+        cursor: pointer;
+        }
+
+    #re_trigger:hover{
+        cursor: pointer;
+        }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        }
+
+    #logiccaption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+        }
+
+    .modal-content, #caption {
+        animation-name: zoom;
+        animation-duration: 0.6s;
+        }
+
+    @keyframes zoom {
+        from {transform:scale(0)}
+        to {transform:scale(1)}
+        }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+    @media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+        }
+    }
+.task_icon {
+    width:95%;
+    height: auto;
+    align-items: left;
+   }
+</style>
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+// Get the modal
+var logicmodal = document.getElementById("logicmodal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var logictrigger = document.getElementById("instructions_trigger");
+var logicmodalImg = document.getElementById("logicimg");
+var logiccaptionText = document.getElementById("logiccaption");
+logictrigger.onclick = function(){
+    logicmodal.style.display = "block";
+    logiccaptionText.innerHTML = logicmodalImg.alt;
+};
+
+// Get the <span> element that closes the modal
+var logicspan = document.getElementById("logicclose");
+
+// When the user clicks on <span> (x), close the modal
+    logicspan.onclick = function() {
+        logicmodal.style.display = "none";
+};
+</script>
+
+<script>
+    function CheckIndpol(selectElement) {
+        const selectedValue = selectElement.value;
+        const cellGroup = selectElement.parentNode.previousElementSibling;
+        const cellOutgroup = selectElement.parentNode.nextElementSibling;
+
+        if (selectedValue === '>') {
+            cellGroup.style.backgroundColor = '#81F781'; // Highlight participant.group in green
+            cellOutgroup.style.backgroundColor = ''; // Reset participant.outgroup background color
+            cellGroup.style.fontWeight = 'bold';
+            cellOutgroup.style.fontWeight = '';
+        } else if (selectedValue === '<') {
+            cellGroup.style.backgroundColor = ''; // Reset participant.group background color
+            cellOutgroup.style.backgroundColor = '#81F781'; // Highlight participant.outgroup in green
+            cellOutgroup.style.fontWeight = 'bold';
+            cellGroup.style.fontWeight = '';
+        } else {
+            cellGroup.style.backgroundColor = ''; // Reset participant.group background color
+            cellOutgroup.style.backgroundColor = ''; // Reset participant.outgroup background color
+            cellGroup.style.fontWeight = '';
+            cellOutgroup.style.fontWeight = '';
+        }
+    }
+</script>
+<script>
+let pageEnterTime = Date.now();
+
+document.querySelector("form").addEventListener("submit", function() {
+    let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
+    document.getElementById("pagetime_recall").value = duration.toFixed(2);
+});
+</script>
+{{ endblock }}

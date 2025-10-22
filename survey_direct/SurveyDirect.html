@@ -1,0 +1,93 @@
+{{ block title }}
+    Some last questions
+{{ endblock }}
+{{ block content }}
+<p>
+    {{ formfield 'age' }}
+    {{ formfield 'gender' }}
+    {{ formfield 'race' }}
+</p>
+<p>
+    {{ formfield 'education' }}
+</p>
+
+
+<hr>
+<p> Are you a person that likes or rather tries to avoid risks? I ... </p>
+<div style="display: flex">
+        {{ for choice in form.risk_aversion }}
+        <div style="flex: 1; text-align: center">
+            {{ choice }}
+            <br>
+            <span style="text-align: center">{{ choice.label }}</span>
+        </div>
+        {{ endfor }}
+</div>
+{{ formfield_errors 'risk_aversion' }}
+
+<br>
+<p> </p>
+<p> Are you a person that likes or rather tries to avoid competitive situations? I ... </p>
+<div style="display: flex">
+        {{ for choice in form.competitiveness }}
+        <div style="flex: 1; text-align: center">
+            {{ choice }}
+            <br>
+            <span style="text-align: center">{{ choice.label }}</span>
+        </div>
+        {{ endfor }}
+</div>
+{{ formfield_errors 'competitiveness' }}
+
+<hr>
+
+{{ if participant.group_state == 'strong' }}
+<p> How much do you agree with the following statement? "Being a {{participant.group}} is an important part of my identity." </p>
+<div style="display: flex">
+        {{ for choice in form.SOI }}
+        <div style="flex: 1; text-align: center">
+            {{ choice }}
+            <br>
+            <span style="text-align: center">{{ choice.label }}</span>
+        </div>
+        {{ endfor }}
+</div>
+{{ formfield_errors 'SOI' }}
+<hr>
+{{ endif }}
+
+
+<p>
+    {{ formfield 'purpose' }}
+    {{ formfield 'comment' }}
+    </p>
+<br>
+
+{{ next_button }}
+
+{{ formfield_errors 'age' }}
+{{ formfield_errors 'gender' }}
+{{ formfield_errors 'race' }}
+{{ formfield_errors 'education' }}
+{{ formfield_errors 'purpose' }}
+{{ formfield_errors 'comment' }}
+
+{{ endblock }}
+{{ block scripts }}
+<script>
+function CheckIndpol(that) {
+    if (that.value == "2") {
+        document.getElementById("pol_orientation").style.display = "block"; setRequired(true);
+        document.getElementById("pol_orientation").required = true;
+    } else {
+        document.getElementById("pol_orientation").style.display = "none"; setRequired(false);
+    }
+};
+function setRequired(val){
+    input = document.getElementById("show").getElementsByTagName('input');
+    for(i = 0; i < input.length; i++){
+        input[i].required = val;
+    }
+}
+</script>
+{{ endblock }}

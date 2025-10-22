@@ -1,0 +1,41 @@
+{{ block title }}
+    Task II
+{{ endblock }}
+
+{{ block content }}
+
+<h3> Your Task </h3>
+<p>
+    In this task, we would now like to know what you now think which of the two competing teams,
+     <b>{{ participant.group}}s</b> and <b>{{ participant.outgroup }}s</b>,
+    won the competition and therefore performed better in the
+    <b>
+    {{ if participant.post1_first == 'logic'}}
+    Logical Reasoning Test.
+    {{ elif participant.post1_first == 'effort'}}
+    Counting Exercise.
+    {{ else }}
+    Dice Game.
+    {{ endif }}
+        </b>
+    </p>
+<p>
+    For that, on the next page, you will be asked to estimate the outcome of the competition between the
+    team {{ participant.group}} and the team {{ participant.outgroup }} in the
+    {{ if participant.post1_first == 'logic'}}
+    Logical Reasoning Test
+    {{ elif participant.post1_first == 'effort'}}
+    Counting Exercise
+    {{ else }}
+    Dice Game
+    {{ endif }}
+    - similar to the estimate in part I.
+</p>
+<p> As in task I, you can earn a bonus for this part. You will be informed of the bonus payment and details of the task
+    on the next page.
+</p>
+
+    {{ next_button }}
+{{ endblock }}
+
+

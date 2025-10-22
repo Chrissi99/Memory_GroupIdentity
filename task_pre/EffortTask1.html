@@ -1,0 +1,92 @@
+{{ block title }}
+Counting Task
+{{ endblock }}
+{{ block content }}
+
+<div class="center" style="color:red">
+    todo: <br>
+    include real effort game
+</div>
+<br>
+
+<p class="center" style="font-size:18px"><b>Count the number of "0"s in the matrix:</b>
+</p>
+
+<div>
+    <table class="matrix">
+        {% for row in matrix %}
+            <tr>
+                {% for item in row %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="input_effort">
+    <p> Your Answer: </p>
+    <form class="input_effort">
+    <input type="text" name="answers_effort" class="input_effort">
+    </form>
+</div>
+
+<br> <br>
+
+<div class="center">
+{{ next_button }}
+</div>
+
+{{ formfield_errors "answers_effort" }}
+{{ formfield_errors "score_effort" }}
+
+{{ endblock }}
+
+{{ block scripts }}
+{{ endblock }}
+
+{{ block styles }}
+
+<style type="text/css">
+    .annotatable {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 20px;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .matrix {
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+        item-align: center;
+        text-align: center;
+        border: 2px solid black;
+        padding: 10px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        font-size: 18px;
+    }
+    .matrix td {
+        padding: 5px;
+    }
+    .input_effort {
+        text-align: center;
+        item-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 20px;
+    }
+    .input_effort input {
+        width: 15%;
+        border: 2px solid black;
+        padding: 3px;
+        border-radius: 5px;
+    }
+</style>
+
+{{ endblock }}

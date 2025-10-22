@@ -1,0 +1,401 @@
+{{ block title }}
+    <!-- Final Task -->
+{{ endblock }}
+{{ block content }}
+
+<h4> Instructions </h4>
+<p>
+    In this task, you are asked to decide how to split {{C.BUDGET}} points between two people,
+    one of whom identifies as a {{participant.group2}} and the other as a {{participant.outgroup2}}.
+    Each point has a monetary value of ${{C.POINTS_TO_DOLLAR}}.
+    These people are two randomly selected Prolific users with the corresponding political affiliation. They did not participate in the current experiment.
+    All participants in the current experiment make this allocation decision. One of these decisions will be randomly selected
+    and implemented and the money will be transferred to the participants accordingly.
+</p>
+
+
+    <p id="container">
+<b class="openbox" id="openbox">
+    <button type="button" class="button_normal"> Next </button>
+</b> </p>
+<div class="infobox hidden" id="infobox">
+
+
+<table>
+    <tr>
+        <td colspan="5" style="text-align:center; font-size: 20px;">
+            <hr>
+            <u>Your Decision:</u> <br>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5" style="text-align:center;">
+        <div class="center-content"><i> Click on the slider bar to activate it and move the slider <br> to indicate how you would like
+            to allocate the {{C.BUDGET}} points between the two people. <br> <br> <br> </i></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5" style="text-align:center;">
+        <div class="slider-container" style="vertical-align: bottom">
+        <div class="slider-wrapper">
+        <input id="bonus-split" type="range" step="1" min="0" max="10" oninput="updateWages()" name="give_outgroup" class="give_outgroup notclicked" onclick="activateSlider('bonus-split')">
+            </div>
+        </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5" style="text-align:center;">
+    </tr>
+    <tr>
+        <td>
+            {{ if participant.group2 == "Republican" }}
+            <img class="group_img_left" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ else }}
+            <img class="group_img_left" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ endif }}
+        </td>
+        <td class="w_field">
+            <div class="name_worker" style="font-size:18px">Allocation to<br> <u><b> {{participant.group2}}:</b></u></div> <br>
+            <div class="bonus_field">
+                <div class="highlight_block"> <span id="wage1_slider_value" style="font-weight:bold; font-size:22px">0</span></div>
+            </div>
+        </td>
+        <td width="50%">
+        <div class="scale"></div>
+         </td>
+        <td class="w_field">
+            <div class="name_worker" style="font-size:18px">Allocation to <br><u><b> {{participant.outgroup2}}:</b></u></div> <br>
+            <div class="bonus_field">
+        <div class="highlight_block"> <span id="current-slider-value" style="font-weight:bold; font-size:22px">0</span>
+        </div> </div>
+        </td>
+        <td>
+            {{ if participant.outgroup2 == "Republican" }}
+            <img class="group_img_right" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ else }}
+            <img class="group_img_right" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ endif }}
+        </td>
+    </tr>
+</table>
+
+
+<div class="center">
+    <button id="next-button" class="button-normal" disabled>Next</button>
+</div>
+
+</div>
+
+
+{{ formfield_errors "give_outgroup" }}
+
+{{ endblock }}
+
+{{ block styles}}
+<style type="text/css">
+.group_img_left {
+    width: 60px;
+    height: auto;
+    margin-top: -180px;
+    align-items: right;
+    margin-right: -25px;
+    item-align: right;
+}
+
+.group_img_right {
+    width: 60px;
+    height: auto;
+    margin-top: -180px;
+    align-items: left;
+    margin-left: -10px;
+    item-align: left;
+}
+
+
+.center {
+    text-align: center;
+    item-align: center;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+input.notclicked[type=range]::-webkit-slider-thumb {
+  visibility: hidden;
+}
+
+input.notclicked[type=range]::-moz-range-thumb {
+  visibility: hidden;
+}
+
+input.notclicked[type=range]::-ms-thumb {
+  visibility: hidden;
+}
+
+#bonus-split {
+    width: 50%;
+    height: 20px;
+}
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    align-items: center;
+}
+
+.slider-wrapper {
+        flex: 5;
+        position: relative;
+        vertical-align:bottom;
+        /* height: 40px; */
+    }
+
+.scale {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    /* bottom: -25px;  */
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    /* left: 20%; */
+    // margin-left: -40px;
+    // margin-top: -15px;
+}
+
+.scale-label {
+    position: relative;
+    transform: translateX(-50%);
+}
+
+.give_outgroup {
+        -webkit-appearance: none;
+        width: 100%; /* Set the full width of the screen */
+        margin: 0 auto;
+        height: 12px;
+       border-radius: 4px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+}
+
+.give_outgroup::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2E2E2E;
+  cursor: pointer;
+  /* opacity: 0; */
+}
+
+.give_outgroup::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2E2E2E;
+  cursor: pointer;
+  /* opacity: 0; */
+}
+
+.w_field{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0px;
+        height: 100px;
+        vertical-align: middle;
+    }
+
+
+.name_worker{
+          /* display: flex; */
+          justify-content: center;
+          // margin-left: -10px;
+          // margin-right: -10px;
+          align-items: center;
+          margin-top: -110px;
+          }
+
+
+.visible-thumb {
+    opacity: 1 !important;
+}
+
+.hidden-input {
+    color: white;
+    background-color: white;
+}
+
+.highlight_block {
+        /* display: inline-block; */
+        padding: 5px;
+        background-color: #D8D8D8;
+        border-radius: 5px;
+        width: 40px;
+        text-align: center;
+    }
+
+.enabled-button{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+#next-button:disabled {
+        background-color: #ECEDEF;
+        color: white;
+        cursor: not-allowed;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        padding: 7px 14px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+    /* background-color: #81DAF5; */
+}
+
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.hidden {
+	display:none;
+}
+</style>
+{{ endblock }}
+
+{{ block scripts }}
+
+<script>
+let nextButton = document.getElementById('next-button');
+
+// Function to enable the next button
+function enableNextButton() {
+    nextButton.disabled = false;
+    nextButton.classList.remove('disabled-button');
+    nextButton.classList.add('enabled-button');
+}
+
+// Function to disable the Next button
+function disableNextButton() {
+    nextButton.disabled = true;
+    nextButton.classList.remove('enabled-button');
+    nextButton.classList.add('disabled-button');
+}
+
+</script>
+
+
+<script>
+    // Initialize a flag to check if the slider has been interacted with
+   let sliderInteracted = false;
+
+//Function to update the current slider position display and wage1
+    function updateSliderAndWageDisplay() {
+        // Check if the slider has been interacted with
+        if (!sliderInteracted) {
+        // If not, simply return without updating the fields
+            return;
+        }
+        const bonusSplit = parseFloat(document.getElementById('bonus-split').value);
+        const give_outgroup = bonusSplit;
+        const give_ingroup = 10 - bonusSplit;
+
+        // Update the slider value display for wage2
+        document.getElementById('current-slider-value').textContent = give_outgroup.toFixed(0);
+
+        // Update the field to display wage1 based on the current slider position
+        document.getElementById('wage1_slider_value').textContent = give_ingroup.toFixed(0);
+    }
+
+    // This function sets the slider as interacted and updates the display
+    function activateSlider() {
+        sliderInteracted = true;
+        updateSliderAndWageDisplay();
+        enableNextButton();
+        document.getElementById("bonus-split").classList.remove('notclicked');
+    }
+
+// Add an event listener to the slider to update the display in real-time
+    // document.getElementById('bonus-split').addEventListener('input', updateSliderAndWageDisplay);
+
+    // Add event listeners to the slider to update the display in real-time
+    const slider = document.getElementById('bonus-split');
+    slider.addEventListener('input', updateSliderAndWageDisplay);
+    slider.addEventListener('mousedown', activateSlider);
+    slider.addEventListener('mouseup', activateSlider);
+    slider.addEventListener('touchstart', activateSlider);
+    slider.addEventListener('click', activateSlider);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('current-slider-value').textContent = '\u00A0\u00A0';
+        document.getElementById('wage1_slider_value').textContent = '\u00A0\u00A0';
+    })
+
+    document.addEventListener('input', function (event) {
+        if (event.target.classList.contains('wage')) {
+            const wage1 = parseFloat(document.getElementById('wage1').value || 0);
+            const wage2 = parseFloat(document.getElementById('wage2').value || 0);
+
+            const totalAllocatedBudget = wage1 + wage2;
+            const remainingBudget = 10 - totalAllocatedBudget;
+
+            // Update the progress bar
+            document.getElementById('budget-progress').value = totalAllocatedBudget;
+
+            // Update the numerical values
+            document.getElementById('remaining-budget').innerHTML = `<b>Remaining Budget: ${remainingBudget.toFixed(0)}</b>`;
+            document.getElementById('distributed-amount').innerHTML = `Distributed Amount: ${totalAllocatedBudget.toFixed(0)}`;
+
+        }
+    });
+
+</script>
+
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+{{ endblock }}

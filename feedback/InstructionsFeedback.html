@@ -1,0 +1,243 @@
+{{ block title }}
+    Information on the Team Competition Outcomes
+{{ endblock }}
+{{ block content }}
+
+<p id ="text"> You will now receive information about the outcomes of the competitions between the
+    {{ if participant.belief_ref == "ingroup" }}
+    <b>teams of {{C.NUM_MEMBERS_W}} {{ participant.group }}s and {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}s</b>.
+    {{ else }}
+    <b>teams of {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}s and {{C.NUM_MEMBERS_W}} {{ participant.group }}s</b>.
+    {{ endif }}
+    For each task, you will receive one piece of information indicating which team won the competition, i.e.,
+    performed better on that task (or won the coin flip in case of a tie).
+    This information will be indicated by a ">" or "<" sign:
+    ">" means that the team on the left won against the team on the right
+    in the corresponding task,
+   while "<" means the opposite. In addition, winning team's background color will be highlighted in green.
+</p>
+
+<p id="container">
+<b class="openbox" id="openbox">
+    <button type="button" class="button_normal"> Next Information </button>
+</b> </p>
+<div class="infobox hidden" id="infobox">
+
+<p>
+    These hints will be given to you by creatures.
+    There are 30 creatures of two different types:
+</p>
+<table width="100%" style="font-size:22px; text-align: center; item-align:center">
+        <th width="50%">Truth Tellers</th>
+        <th width="50%">Liars </th>
+    <tr height="10px"></tr>
+    <tr>
+        <td width="50%">
+            {% for i in range(20) %}
+                <img class="monster_img_small" src="{% static "global/creature_true3.png" %}" alt="monster_true">
+            {% endfor %}
+        </td>
+        <td width="50%">
+            {% for i in range(10) %}
+                <img class="monster_img_small" src="{% static "global/creature_false3.png" %}" alt="monster_false">
+            {% endfor %}
+        </td>
+    </tr>
+</table>
+    <br>
+<ul>
+    <li>
+        There are {{C.creatures_true}} <b>Truth Tellers</b> who always tell the truth about which team won the competition.
+    </li>
+    <li>
+        There are {{C.creatures_false}} <b>Liars</b> always lie about which team won the competition, so always tells the opposite of what actually happened.
+    </li>
+</ul>
+
+
+
+<p id="container2">
+<b class="openbox2" id="openbox2">
+    <br>
+    <button type="button" class="button_normal"> Next Information </button>
+</b> </p>
+    </div>
+<div class="infobox2 hidden" id="infobox2">
+
+
+<p>
+    For both tasks, one of the creatures will give you a hint about the outcome of the competition.
+    Each creature is equally likely to provide you with the hint.
+    Therefore, you are twice as likely to receive the hint from a Truth Teller as from a Liar, since there are twice as many Truth Tellers as Liars.
+    However, you will not know which creature will give you the hint.
+</p>
+<p style="text-align: center;">
+    <img class="monster_img1" src="{% static "global/creature_unknown3.png" %}" alt="monster_unknown">
+</p>
+<p>
+    In other words, for each task, you will receive information indicating which team won the competition. This
+    information is true in {{C.SIGNAL_ACC_FQ}} out of {{C.SIGNAL_TOT_FQ}} cases (i.e., it comes from one of the {{C.creatures_true}} Truth Tellers) and false in
+    {{C.SIGNAL_WRONG_FQ}} out of {{C.SIGNAL_TOT_FQ}} cases (i.e., it comes from one of the {{C.creatures_false}} Liars).
+</p>
+
+
+
+    {{ next_button }}
+</div>
+
+
+
+{{ endblock }}
+
+{{ block styles}}
+<style>
+.monster_img1{
+    width: 150px;
+    height: auto;
+    margin: 5px;
+}
+.monster_img2{
+    width: 150px;
+    height: auto;
+    margin: 10px;
+}
+.monster_img_small{
+    width: 74px; /* Adjust this value to make them bigger or smaller */
+    height: auto;
+    margin: 1px; /* Small margin to keep them close together */
+    display: inline-block; /* Allows them to sit next to each other */
+}
+
+p + ul {
+    margin-top: -15px;
+}
+ul + p {
+    margin-top: -10px;
+}
+.logo {
+    width:100%;
+    height: auto;
+   }
+.group_img {
+    width: 90%;
+    height: auto;
+    border-radius: 5px;
+    }
+.table{
+    font-size: 24px;
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+.table2{
+    font-size: 23px;
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+table.table2 th {
+        border-bottom: 3px solid black;
+        font-size: 24px;
+    }
+.hidden {
+	display:none;
+}
+.list2 li {
+  margin: 10px 0;
+}
+.input_rep{
+    border: 2px solid #007BFF;
+    padding: 3px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.infobox {
+    // background-color:#f0f0f5
+    }
+.infobox2 {
+    // background-color:#f0f0f5
+    }
+.openbox {
+    cursor: pointer;
+	margin: 15px 0;
+		  }
+.openbox2 {
+    cursor: pointer;
+	margin: 15px 0;
+		  }
+.button_show{
+    background-color: grey;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.feedback {
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+}
+
+.table{
+    font-size: 20px;
+    width: 80%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+</style>
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+<script>
+    document.getElementById("openbox2").addEventListener("click", function(){
+    document.getElementById("infobox2").classList.remove("hidden");
+    document.getElementById("container2").classList.add("hidden");
+    });
+</script>
+ {{ endblock }}
+
+

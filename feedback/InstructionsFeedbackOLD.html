@@ -1,0 +1,198 @@
+{{ block title }}
+    Information on the Team Competition Outcomes
+{{ endblock }}
+{{ block content }}
+
+<p id ="text"> Now, we will provide you with information about the outcomes of the three competitions between the
+    <b>teams of {{C.NUM_MEMBERS_W}} {{ participant.group }}s and {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}s</b>.
+    For all {{C.NUM_TASKS_W}} tasks, you will receive information indicating which team won the competition, i.e.,
+    performed better on that task (or, in case of a tie, won the coin flip).
+</p>
+<p>
+    The comparison will be shown using a ">" or "<" sign:
+</p>
+<ul>
+    <li>
+        ">" indicates that the team on the left won the competition.
+    </li>
+    <li>
+        "<" indicates that the team on the right won the competition.
+    </li>
+</ul>
+<p>
+    Additionally, the team that won the competition will be highlighted in green.
+</p>
+
+<p id="container">
+<b class="openbox" id="openbox">
+    <button type="button" class="button_normal"> Next Information </button>
+</b> </p>
+<div class="infobox hidden" id="infobox">
+
+<!-- <h5>Signal Accuracy</h5> -->
+    <hr>
+<p>
+    Each of the three pieces of information you receive can be either true or false.
+    This depends on the source of the information:
+</p>
+    <ul>
+        <li> <b>In {{C.SIGNAL_ACC_FQ}} of {{C.SIGNAL_TOT_FQ}} cases, a piece of information comes from the "True News Source" and is correct.</b> </li>
+        <li> <b>In {{C.SIGNAL_WRONG_FQ}} of {{C.SIGNAL_TOT_FQ}} cases, a pice of information comes from the "False News Source" and is incorrect,
+        meaning it shows the opposite of what actually happened in the competition. </b>
+        </li>
+    </ul>
+<p style="color:red"> CHANGE TO MOMSTERS</p>
+<p>
+    However, you do not know from which sources the information come.
+</p>
+<p>
+    <u>Example:</u>
+    When the information indicates that Team {{ participant.group }} won against Team {{ participant.outgroup }} in a task,
+    in {{C.SIGNAL_ACC_FQ}} of {{C.SIGNAL_TOT_FQ}} cases, Team {{ participant.group }} indeed won (True News Source) and
+    in {{C.SIGNAL_WRONG_FQ}} of {{C.SIGNAL_TOT_FQ}} cases, Team {{ participant.outgroup }} actually won (False News Source).
+</p>
+
+
+    {{ next_button }}
+</div>
+
+
+{{ endblock }}
+
+{{ block styles}}
+<style>
+p + ul {
+    margin-top: -15px;
+}
+ul + p {
+    margin-top: -10px;
+}
+.logo {
+    width:100%;
+    height: auto;
+   }
+.group_img {
+    width: 90%;
+    height: auto;
+    border-radius: 5px;
+    }
+.table{
+    font-size: 24px;
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+.table2{
+    font-size: 23px;
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+table.table2 th {
+        border-bottom: 3px solid black;
+        font-size: 24px;
+    }
+.hidden {
+	display:none;
+}
+.list2 li {
+  margin: 10px 0;
+}
+.input_rep{
+    border: 2px solid #007BFF;
+    padding: 3px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.infobox {
+    // background-color:#f0f0f5
+    }
+
+.openbox {
+    cursor: pointer;
+	margin: 15px 0;
+		  }
+
+
+.button_show{
+    background-color: grey;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.feedback {
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+}
+
+.table{
+    font-size: 20px;
+    width: 80%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+</style>
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+<script>
+    document.getElementById("openbox2").addEventListener("click", function(){
+    document.getElementById("infobox2").classList.remove("hidden");
+    document.getElementById("container2").classList.add("hidden");
+    });
+</script>
+<script>
+    document.getElementById("openbox3").addEventListener("click", function(){
+    document.getElementById("infobox3").classList.remove("hidden");
+    document.getElementById("container3").classList.add("hidden");
+    });
+</script>
+ {{ endblock }}
+
+

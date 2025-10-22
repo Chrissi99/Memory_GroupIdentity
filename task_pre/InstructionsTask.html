@@ -1,0 +1,125 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+<h3> Instructions </h3>
+ You will be asked to complete the following {{C.NUM_TASKS_W}} tasks:
+{{ if participant.task1 == "logic" }}
+    <ul>
+    <li> 1) Logic Task </li>
+        {{ if participant.task2 == "effort" }}
+    <li> 2) Counting Task </li>
+    <li> 3) Dice Task </li>
+        {{ elif participant.task2 == "luck" }}
+    <li> 2) Dice Task </li>
+    <li> 3) Counting Task </li>
+        {{ endif }}
+    </ul>
+{{ elif participant.task1 == "effort" }}
+    <ul>
+    <li> 1) Counting Task </li>
+        {{ if participant.task2 == "logic" }}
+    <li> 2) Logic Task </li>
+    <li> 3) Dice Game </li>
+        {{ elif participant.task2 == "luck" }}
+    <li> 2) Dice Task </li>
+    <li> 3) Logic Task </li>
+        {{ endif }}
+    </ul>
+{{ elif participant.task1 == "luck" }}
+    <ul>
+    <li> 1) Dice Task </li>
+        {{ if participant.task2 == "logic" }}
+    <li> 2) Logic Task </li>
+    <li> 3) Counting Task </li>
+        {{ elif participant.task2 == "effort" }}
+    <li> 2) Counting Task </li>
+    <li> 3) Logic Task </li>
+        {{ endif }}
+    </ul>
+{{ endif }}
+<p>
+    You will receive detailed instructions for each task before you start it.
+</p>
+
+<h3> Team Competitions and Bonus</h3>
+<p>
+    You complete each task individually and receive a score.
+    In each task, team competitions will be held between {{participant.group}}s and {{participant.outgroup}}s.
+    Teams of {{C.TEAM_MEMBERS}} participants who identify as {{participant.group}}s and {{C.TEAM_MEMBERS}} participants
+    who identify as {{participant.outgroup}}s will each compete against each other.
+    The team with the higher score in the task, which is the sum of the individual points, wins.
+    In case of a tie, the winner is determined by a coin flip.
+    Team assignments are made at the end of the study.
+</p>
+
+<p>
+    Your own performance will also be relevant for the team competitions, as you may be a member of one or more teams.
+</p>
+<p>
+    You can earn a bonus payment.
+    At the end of the study, one of the teams you were a member of will be randomly selected.
+    You will receive a <b>bonus of ${{C.BONUS_WIN}} </b> if this team wins its task competition.
+</p>
+
+
+<!--
+<h3> Bonus Payment </h3>
+ <p>
+    You complete each task individually and receive a score.
+    Your bonus payment will be based on the performance of "your team".
+    Namely, in each of the tasks, a team of {{C.TEAM_MEMBERS}} {{participant.group}}s will be competing against a team of {{C.TEAM_MEMBERS}} {{participant.outgroup}}s.
+    For the teams, {{C.TEAM_MEMBERS}} participants who identify as {{participant.group}}s and {{C.TEAM_MEMBERS}} participants who identify as {{participant.outgroup}}s
+    will be randomly selected at the end of the study to compete for their group.
+    Teams are formed individually for each task so that the team members may vary from task to task.
+    You yourself could be on none, one, or more teams.
+    The winner of each task is determined by the team score, i.e. the sum of the team members' individual scores.
+    The team with the higher team score wins. In case of a tie, the winner is determined by a coin flip.
+    At the end, one task will be randomly selected to determine your bonus payment.
+    If your team won this task, you will receive a <b>bonus payment of ${{C.BONUS_WIN}}</b>.
+</p>
+
+<p>
+    You complete each task individually and receive a score.
+    Your bonus payment will be based on the performance of "your team":
+</p>
+<ul>
+    <li>
+        Each task will involve competitions between teams of {{participant.group}}s and {{participant.outgroup}}s.
+    </li>
+    <li>
+        For each competition, {{C.TEAM_MEMBERS}} participants who identify as {{participant.group}}s and {{C.TEAM_MEMBERS}} participants who identify as {{participant.outgroup}}s will be randomly selected to compete for their group.
+    </li>
+    <li>
+        The {{C.TEAM_MEMBERS}} team members may vary from task to task and will be determined at the end of the study.
+        {{ if participant.group_state != "none" }}
+        This means, you might be part of the {{ participant.group}} team for none, one, or more tasks.
+        {{ endif }}
+    </li>
+</ul>
+<p>
+    The winner of each task is determined by the team score, i.e. the sum of the individual scores of the team members.
+    The team with the higher team score wins. In case of a tie, the winner is determined by a coin flip.
+</p>
+<p>
+    At the end, one task will be randomly selected to determine your bonus payment.
+    If your team, i.e., the {{participant.group}}s, wins this task, you will receive a <b>bonus payment of ${{C.BONUS_WIN}}</b>.
+</p>
+-->
+
+    {{ next_button }}
+{{ endblock }}
+
+
+{{ block styles }}
+<style>
+p + ul {
+    margin-top: -10px;
+}
+
+ul + p {
+    margin-top: -10px;
+}
+
+    </style>
+{{ endblock }}

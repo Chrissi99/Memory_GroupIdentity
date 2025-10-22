@@ -1,0 +1,144 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+{{ if participant.treat_first == "RECALL" }}
+<h2> Block 4 </h2>
+{{ elif participant.treat_first == "BELIEFS" and participant.treatment == "BeliefsMemory" }}
+<h2> Block 5 </h2>
+{{ elif participant.treat_first == "BELIEFS" and participant.treatment == "BeliefsNoMemory" }}
+<h2> Block 6 </h2>
+{{ endif }}
+
+
+<h4>Your Task</h4>
+<p>
+    Your task is to recall the information you received in Part I of the study regarding the outcomes of the two
+    team competitions in the
+    {{ if participant.post2_first == "logic" }} Logic Task
+    {{ elif participant.post2_first == "luck" }} Luck Task
+    {{ endif }}
+    and
+    {{ if participant.post2_second == "logic" }} Logic Task.
+    {{ elif participant.post2_second == "luck" }} Luck Task.
+    {{ endif }}
+</p>
+
+
+    Remember that you received this information in the following way:
+
+<ul>
+    <li> There were competitions between a team of
+        {{C.NUM_MEMBERS_W}}
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.group2 }}s
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.outgroup2 }}s
+        {{ endif }}
+        and a team of {{C.NUM_MEMBERS_W}}
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.outgroup2 }}s.
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.group2 }}s.
+        {{ endif }}
+    </li>
+    <li>
+        Information about the competition outcomes was communicated using a green background to highlight the winning team,
+        as well as ">" and "<" signs. You are supposed to recall this information.
+    </li>
+    <li>
+        The information was provided either by one of {{C.creatures_true}} "Truth Tellers" (who always provided the correct information)
+        or by one of {{C.creatures_false}} "Liars" (who always provided the incorrect information).
+    </li>
+</ul>
+<p>
+    You will now be asked to <b>recall</b> the information you received in Part I about the outcome of each team competition.
+</p>
+
+
+   <p id="container">
+<b class="openbox" id="openbox">
+    <button type="button" class="button_normal"> Next Information </button>
+</b> </p>
+
+<div class="infobox hidden" id="infobox">
+<div class="explanation_feedback">
+
+
+<hr>
+
+<h4> Bonus Payment</h4>
+<p>
+    You can earn a <b>${{ C.BONUS_RECALL }}</b> bonus payment if you correctly recall the information about the team competitions in the {{C.NUM_TASKS_W}} tasks. <br>
+    If this block is drawn as the 'block-that-counts', one of your {{C.NUM_TASKS_W}} answers will be randomly selected.
+    If you correctly recall the selected piece of information, you will receive the ${{ C.BONUS_RECALL }} bonus payment.
+</p>
+
+    {{ next_button }}
+</div>
+</div>
+
+<input type="hidden" name="pagetime_instr_recall" id="pagetime_instr_recall" value="0">
+{{ formfield_errors 'pagetime_instr_recall' }}
+
+
+{{ endblock }}
+
+
+
+{{ block styles }}
+<style>
+.hidden {
+	display:none;
+}
+.infobox {
+    // background-color:#f0f0f5
+    }
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.instructions_recall {
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+}
+</style>
+    {{ endblock }}
+
+{{ block scripts }}
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+<script>
+let pageEnterTime = Date.now();
+
+document.querySelector("form").addEventListener("submit", function() {
+    let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
+    document.getElementById("pagetime_instr_recall").value = duration.toFixed(2);
+});
+</script>
+{{ endblock }}

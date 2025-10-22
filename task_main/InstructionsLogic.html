@@ -1,0 +1,58 @@
+{{ block title }}
+{{ if participant.task1 == "logic" }}
+    Block 1 - Logic Task
+{{ elif participant.task2 == "logic" }}
+    Block 2 - Logic Task
+{{ elif participant.task3 == "logic" }}
+    Block 3 - Logic Task
+{{ endif }}
+
+{{ endblock }}
+{{ block content }}
+
+<h4>Instructions</h4>
+<p>
+    On each of the following pages, you will see a multiple-choice question.
+    You will see a pattern of 5 pictures.
+    Your task is to complete this sequence. To do this, you must choose which of the 5 options given
+    below the sequence completes the pattern. <br>
+</p>
+<h4> Score and Payment: </h4>
+<p>
+    The test consists of {{C.Q_NUM_LOGIC}} questions.
+    You have {{ C.TIME_PER_QUESTION }} seconds to answer each question.
+    You receive one point for each correct answer. There is no penalty for incorrect answers.
+
+    The bonus payment is based on your score,
+    i.e. the number of questions you answer correctly.
+    You receive <b>${{C.BONUS_LOGIC}} for each correct answer</b> - if this block is drawn as the block-that-counts.
+    So you can receive up to ${{C.MAX_BONUS_LOGIC}},
+    based on the number of questions and therefore a maximum score of {{C.Q_NUM_LOGIC}} points.
+</p>
+
+
+<h4>Example:</h4>
+<div>
+    <img src="{{ static 'global/inductive_13.jpg' }}"
+         width="500px"
+         class="annotatable"/>
+</div> <br>
+<p>
+    Here, the correct answer is {{C.EXAMPLE_SOLUTION}}.
+    </p>
+<p>
+    <b> Explanation: </b>
+    From one picture to the next, the black square moves one step down and jumps to the top of the next column if
+    it reaches the bottom of the current column. The black dot moves one step to the right and jumps to the left side
+    of the next row if it reaches the right side of the current row.
+</p>
+
+<p>
+    Please click on "Next" when you have understood the instructions and are ready to start the task.
+    You will then see the first question and the {{ C.TIME_PER_QUESTION }} seconds timer for the first question will start.
+</p>
+
+    {{ formfields }}
+    {{ next_button }}
+
+{{ endblock }}

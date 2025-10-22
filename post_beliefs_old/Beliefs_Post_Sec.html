@@ -1,0 +1,464 @@
+{{ block title }}
+Part III - Additional Questions
+{{ endblock }}
+{{ block content }}
+
+<!-- <h4> Your Task: </h4> -->
+<p>
+    Now we also want to know how you estimate the probability that the team of {{C.NUM_MEMBERS_W}} {{ participant.group }}s won
+    the competition against the team of {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}
+    in the other {{C.TASKS_SEC}} competitions, thus in the
+    {{ if participant.post1_second == "effort" }} Counting Task
+    {{ elif participant.post1_second == "luck" }} Dice Game
+    {{ elif participant.post1_second == "logic" }} Logical Reasoning Test
+    {{ endif }} and the
+    {{ if participant.post1_third == "effort" }} Counting Task.
+    {{ elif participant.post1_third == "luck" }} Dice Game.
+    {{ elif participant.post1_third == "logic" }} Logical Reasoning Test.
+    {{ endif }} <br>
+
+    <!--
+     We ask you to rate how likely you think it is that the {{C.NUM_MEMBERS_W}} members of Team {{ participant.group }} had a higher
+    team score than the {{C.NUM_MEMBERS_W}} members of Team {{ participant.outgroup }} in each task
+    (or had the same score and won due to the tie-breaking rule). <br>-->
+
+    To do this, the method of stating your switching points and the method of paying the bonus are the same as on the previous page.
+    If this part is drawn as the "part-that-counts", we will randomly select one of your {{C.NUM_TASKS_W}} answers
+    (from this and the previous page) and
+    implement your choice for this task according to the method explained on the previous page.
+    </p>
+
+<p><i>(Click <b id="logic_trigger" style="color:blue">here </b> if you want to read the instructions again.)</i></p>
+<div id="logicmodal" class="modal">
+    <span id="logicclose" class="close">&times;</span>
+    <div id="logiccaption">
+        <h4> Instructions </h4>
+<!-- <p>
+    We want to know how you estimate the performance of the {{ participant.group }} team in the
+    <b>
+    {{ if participant.post1_first == 'logic'}}
+    Logical Reasoning Test.
+    {{ elif participant.post1_first == 'effort'}}
+    Counting Exercise.
+    {{ else }}
+    Dice Game.
+    {{ endif }}</b>
+    Specifically, we want you to estimate the
+    <b>probability that Team {{ participant.group }} won the competition against
+    Team {{participant.outgroup}}</b>, thus had a higher team score than Team {{ participant.outgroup }}
+    (or had the same score and won due to the tie-breaking rule).
+    </p> -->
+
+    <p> You will be asked the following questions: </p>
+
+<table style="text-align: center">
+    <th width="6%">
+        Question
+    </th>
+    <th width="20%"> </th>
+    <th width="37%">
+        Option A
+    </th>
+    <th> </th>
+    <th width="32%">
+        Option B
+    </th>
+    <tr style="border-bottom:1px solid black">
+    <td> 1) </td>
+    <td> What do you prefer: </td>
+    <td> ${{C.BONUS_REL}} if Team <b>{{ participant.group }}</b> has won </td>
+    <td> or </td>
+    <td> 1% chance of winning ${{C.BONUS_REL}} </td>
+    </tr>
+    <tr style="border-bottom:1px solid black">
+    <td> 2) </td>
+        <td> What do you prefer: </td>
+    <td> ${{C.BONUS_REL}} if Team <b>{{ participant.group }}</b> has won </td>
+    <td> or </td>
+    <td> 2% chance of winning ${{C.BONUS_REL}} </td>
+    </tr>
+    <tr style="border-bottom:1px solid black">
+    <td> 3) </td>
+    <td> What do you prefer: </td>
+    <td> ${{C.BONUS_REL}} if Team <b>{{ participant.group }}</b> has won </td>
+    <td> or </td>
+    <td> 3% chance of winning ${{C.BONUS_REL}} </td>
+    </tr>
+    <tr style="border-bottom:1px solid black">
+        <td> &#8285; </td>
+        <td> &#8285; </td>
+        <td> &#8285; </td>
+        <td> &#8285; </td>
+        <td> &#8285; </td>
+    </tr>
+    <tr style="border-bottom:1px solid black">
+    <td> 99) </td>
+    <td> What do you prefer: </td>
+    <td> ${{C.BONUS_REL}} if Team <b>{{ participant.group }}</b> has won </td>
+    <td> or </td>
+    <td> 99% chance of winning ${{C.BONUS_REL}} </td>
+    </tr>
+    <tr style="border-bottom:1px solid black">
+    <td> 100) </td>
+    <td> What do you prefer: </td>
+    <td> ${{C.BONUS_REL}} if Team <b>{{ participant.group }}</b> has won </td>
+    <td> or </td>
+    <td> 100% chance of winning ${{C.BONUS_REL}} </td>
+    </tr>
+</table>
+
+<hr>
+
+<p>
+    In each question, you pick either Option A or Option B.
+    At the end, one of the 100 questions will be randomly selected
+    and your choice for that question will be implemented - if this part is drawn to be the "part-that-counts".
+</p>
+<p>
+    It is therefore optimal to always choose the option in which you think you have a higher chance of winning the fixed price
+    because otherwise, you end up with the option you like less if this question is drawn.
+</p>
+
+<hr>
+
+<p>
+    Probably, you prefer Option A for at least the first few questions, and switch to Option B
+    for at least the last few questions.
+    </p>
+
+<p>
+    To save time, instead of answering all 100 questions, <b>you will be asked to directly state this switching point</b>. <br>
+    Based on your answer, we will fill out the remaining questions for you, and one will be randomly selected for payment.
+</p>
+        <br>
+
+    </div>
+</div>
+
+
+<p id="container">
+<b class="openbox" id="openbox">
+    <button type="button" class="button_normal"> Next </button>
+</b>
+    <p id="error-message" style="color:red;"></p>
+</p>
+<div class="infobox hidden" id="infobox">
+<hr>
+<h4> Your Decisions: </h4>
+<table>
+    <tr>
+        <td colspan="6" style="text-align:center"> At which probability of winning the lottery would you switch from receiving the ${{C.BONUS_REL}} if Team {{participant.group}} won (Option A)
+            to receiving the ${{C.BONUS_REL}} based on the lottery (Option B) in the... </td>
+    </tr>
+    <tr height="4px"> </tr>
+    <tr>
+        <td widht="20%"></td>
+        <td width="35%" style="font-size:22px"> {{ if participant.post1_second == "logic" }}
+            <b>Logical Reasoning Test:</b>
+            {{ elif participant.post1_second == "effort" }}
+            <b>Counting Task:</b>
+            {{ else }}
+            <b>Dice Game:</b>
+            {{ endif }}
+        </td>
+        {{ if participant.post1_second == "logic" }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="post_logic" id="post_logic" class="input_belief"/> </td>
+        {{ elif participant.post1_second == "effort" }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="post_effort" id="post_effort" class="input_belief"/> </td>
+        {{ else }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="post_luck" id="post_luck" class="input_belief"/> </td>
+        {{ endif }}
+        <td width="1%"> </td>
+      <td width="1%" style="font-size:20px; vertical-align: middle;"> <span style="font-size: 20px;"> % </span> </td>
+        <td width="30%"> </td>
+    </tr>
+    <tr>
+        <td widht="20%"></td>
+        <td width="35%" style="font-size:22px"> {{ if participant.post1_third == "logic" }}
+            <b>Logical Reasoning Test:</b>
+            {{ elif participant.post1_third == "effort" }}
+            <b>Counting Task:</b>
+            {{ else }}
+            <b>Dice Game:</b>
+            {{ endif }}
+        </td>
+        {{ if participant.post1_third == "logic" }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="post_logic" id="post_logic" class="input_belief"/> </td>
+        {{ elif participant.post1_third == "effort" }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="post_effort" id="post_effort" class="input_belief"/> </td>
+        {{ else }}
+        <td width="13%" style="text-align: right; font-size:18px; vertical-align: middle;"><input name="post_luck" id="post_luck" class="input_belief"/> </td>
+        {{ endif }}
+        <td width="1%"> </td>
+        <td width="1%" style="font-size:20px; vertical-align: middle;"> <span style="font-size: 20px;"> % </span> </td>
+        <td width="30%"> </td>
+    </tr>
+</table>
+    <br>
+
+    {{ next_button }}
+
+
+</div>
+</div>
+</div>
+
+
+{{ if participant.post1_first == "logic" }}
+    {{formfield_errors "post_effort"}}
+    {{formfield_errors "post_luck"}}
+{{ elif participant.post1_first == "effort" }}
+    {{formfield_errors "post_logic"}}
+    {{formfield_errors "post_luck"}}
+{{ else }}
+    {{formfield_errors "post_logic"}}
+    {{formfield_errors "post_effort"}}
+{{ endif }}
+
+
+{{ endblock }}
+
+
+
+{{ block styles}}
+<style>
+table{
+    font-size: 18px;
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+    border: none;
+}
+table th {
+        border-bottom: 1px solid black;
+        font-size: 16px;
+    }
+
+.input_belief{
+    font-size: 20px;
+    text-align: center;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin: auto;
+    vertical-align: middle;
+    item-align:center;
+}
+
+.hidden {
+	display:none;
+}
+
+    .infobox {
+    // background-color:#f0f0f5
+    }
+
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+
+
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.belief_task {
+    }
+
+.button {
+    border-radius: 7px;
+    padding: 7px 14px;
+}
+
+.example_img {
+    width: 150px;
+    height: auto;
+}
+
+.modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+
+    #logic_trigger:hover{
+        cursor: pointer;
+        }
+
+    #dict_trigger:hover{
+        cursor: pointer;
+        }
+
+    #re_trigger:hover{
+        cursor: pointer;
+        }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 100%; //80%
+        max-width: 700px;
+        }
+
+    #logiccaption {
+        margin: auto;
+        display: block;
+        width: 80%; // 80%
+        max-width: 700px;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+        }
+
+    .modal-content, #caption {
+        animation-name: zoom;
+        animation-duration: 0.6s;
+        }
+
+    @keyframes zoom {
+        from {transform:scale(0)}
+        to {transform:scale(1)}
+        }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+    @media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+        }
+    }
+</style>
+
+{{ endblock}}
+
+
+{{ block scripts }}
+
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+<script>
+    document.getElementById("openbox2").addEventListener("click", function(){
+    document.getElementById("infobox2").classList.remove("hidden");
+    document.getElementById("container2").classList.add("hidden");
+    });
+</script>
+<script>
+    document.getElementById("openbox3").addEventListener("click", function(){
+    document.getElementById("infobox3").classList.remove("hidden");
+    document.getElementById("container3").classList.add("hidden");
+    });
+</script>
+
+<script>
+// Get the modal
+var logicmodal = document.getElementById("logicmodal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var logictrigger = document.getElementById("logic_trigger");
+var logicmodalImg = document.getElementById("logicimg");
+var logiccaptionText = document.getElementById("logiccaption");
+logictrigger.onclick = function(){
+    logicmodal.style.display = "block";
+    logiccaptionText.innerHTML = logicmodalImg.alt;
+};
+
+// Get the <span> element that closes the modal
+var logicspan = document.getElementById("logicclose");
+
+// When the user clicks on <span> (x), close the modal
+    logicspan.onclick = function() {
+        logicmodal.style.display = "none";
+};
+</script>
+<script>
+    function toggleExample() {
+      var x = document.getElementById("exampleTask");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    </script>
+
+<script>
+    // Function to check if required fields are filled
+    function checkRequiredFields() {
+        var participantFirstTask = "{{ participant.post1_first }}";
+        var logicInput = document.getElementById("post_logic");
+        var effortInput = document.getElementById("post_effort");
+        var luckInput = document.getElementById("post_luck");
+        var errorMessage = '';
+
+        if (participantFirstTask === 'logic') {
+            if (!effortInput.value || !luckInput.value) {
+                errorMessage = 'Please answer all questions';
+            }
+        } else if (participantFirstTask === 'effort') {
+            if (!logicInput.value || !luckInput.value) {
+                errorMessage = 'Please answer all questions';
+            }
+        } else if (participantFirstTask === 'luck') {
+            if (!logicInput.value || !effortInput.value) {
+                errorMessage = 'Please answer all questions';
+            }
+        }
+
+        if (errorMessage) {
+            document.getElementById("error-message").innerText = errorMessage;
+            return false;
+        }
+        return true;
+    }
+
+    // Event listener for the form submission
+    document.getElementById("next-button").addEventListener("click", function(event){
+        if (!checkRequiredFields()) {
+            event.preventDefault();
+        }
+    });
+</script>
+{{ endblock }}

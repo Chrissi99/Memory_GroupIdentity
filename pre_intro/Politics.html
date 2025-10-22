@@ -1,0 +1,136 @@
+{{ block title }}
+    First Question
+{{ endblock }}
+{{ block content }}
+<p>
+   <!--  Before we start, we would like to know your political orientation. -->
+    Before we start, we would like to know your political preferences.
+</p>
+
+<p>
+    <label for='pol' style=""> In politics today, do you consider yourself a Republican, a Democrat,
+        or an Independent?</label>
+    <select onchange="CheckIndpol(this);" name="political_affiliation" id="pol" class="form-control">
+        <option selected value> --------- </option>
+        <option  value="Democrat">Democrat</option >
+        <option  value="Republican">Republican</option >
+        <option  value="Independent">Independent</option>
+        <option value="Other">Other</option>
+    </select>
+    <div style="display: none;" id="pol_orientation">
+       {{  formfield 'political_orientation' }}
+    </div>
+</p>
+
+    {{ next_button }}
+
+
+{{ formfield_errors 'political_orientation' }}
+{{ formfield_errors 'political_affiliation' }}
+
+
+{{ endblock }}
+
+{{ block styles }}
+<style>
+    table {
+    margin: auto;
+}
+
+td, th {
+        text-align: center;
+    }
+
+
+.hidden {
+	display:none;
+}
+
+    .infobox {
+    // background-color:#f0f0f5
+    }
+
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+
+
+.button_normal{
+    background-color: grey;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+.groupO-info-box {
+        border: 2px solid orange;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+
+    .groupG-info-box {
+        border: 2px solid green;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+
+    .groupB-info-box {
+        border: 2px solid blue;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+
+    .groupP-info-box {
+        border: 2px solid purple;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+
+.group-info-box {
+        border: 2px solid orange;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+</style>
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
+</script>
+
+<script>
+function CheckIndpol(that) {
+    if (that.value == "Independent" || that.value == "Other") {
+        document.getElementById("pol_orientation").style.display = "block"; setRequired(true);
+        document.getElementById("pol_orientation").required = true;
+    } else {
+        document.getElementById("pol_orientation").style.display = "none"; setRequired(false);
+    }
+};
+function setRequired(val){
+    input = document.getElementById("show").getElementsByTagName('input');
+    for(i = 0; i < input.length; i++){
+        input[i].required = val;
+    }
+}
+</script>
+{{ endblock }}
+
