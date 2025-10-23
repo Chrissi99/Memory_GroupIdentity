@@ -129,6 +129,10 @@ class Player(BasePlayer):
     #focus_data = models.LongStringField(blank=True)
     #total_unfocused_ms = models.FloatField(initial=0)
     pagetime_background = models.FloatField(initial=0.0)
+    attention1 = models.StringField(label="It is important for us that you pay attention. To show this please select 'strongly disagree' in this question.",
+                                    choices=["strongly agree", "agree", "disagree", "strongly disagree"],
+                                    widget=widgets.RadioSelectHorizontal)
+    attention1_passed = models.BooleanField(initial=True)
 
 
 
@@ -521,7 +525,7 @@ class InstructionsDice(Page):
 
 class DiceTask1(Page):
     form_model = 'player'
-    form_fields = ['rolls']
+    form_fields = ['rolls', 'attention1']
     @staticmethod
     def vars_for_template(player: Player):
         if not player.field_maybe_none('rolls'):
@@ -548,6 +552,8 @@ class DiceTask1(Page):
         if player.round_number == participant.task_order['luck']:
             participant.score_luck = player.score_luck
             print('score luck:', participant.score_luck)
+        if player.attention1 != "strongly disagree":
+            player.attention1_passed = False
 
 
     @staticmethod

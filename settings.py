@@ -16,7 +16,7 @@ SESSION_CONFIGS = [
     ),
     dict(
         name='main_part1',
-         app_sequence=['welcome', 'instructions', 'groupassignment', 'groupidentification', 'task_main', #'task_logic','task_knowledge', 'task_verbal',
+         app_sequence=['welcome', 'instructions', 'groupassignment', 'groupidentification', 'task_main',
                        'prior_beliefs', 'feedback', 'post_beliefs', 'part1_end'],
          num_demo_participants=20,
      ),
@@ -34,7 +34,7 @@ SESSION_CONFIGS = [
   #  ),
     dict(
         name='main_part2',
-        app_sequence=['recall_beliefs','groupiness_part2', 'self_confidence_post', 'survey_main'], #self_confidence?
+        app_sequence=['recall_beliefs','groupiness_part2', 'self_confidence_post', 'survey_main'],
         num_demo_participants=20,
     ),
 ]

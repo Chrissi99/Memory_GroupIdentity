@@ -30,9 +30,25 @@
 
 <br>
 
-<div class="center">
+
+    <p id="container">
+<b class="openbox" id="openbox">
     <button id="next-btn" class="button disabled-button" disabled>Next</button>
+</b> </p>
+
+<div class="infobox hidden" id="infobox">
+<div class="attention_check">
+
+    {{ formfield 'attention1' }}
+
+
+        {{ next_button }}
+
+    </div>
 </div>
+
+
+{{ formfield_errors 'attention1' }}
 
 {{ endblock }}
 
@@ -102,6 +118,16 @@
     cursor: not-allowed;
     border-color: transparent;
 }
+.openbox {
+    cursor: pointer;
+	margin: 15px 0;
+		  }
+.hidden {
+	display:none;
+}
+.infobox {
+    // background-color:#f0f0f5
+    }
 </style>
 
 {{ endblock }}
@@ -196,6 +222,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
         result.textContent = `Your Roll: ${rolls[rolls.length - 1]}`;
     }
 });
+</script>
+<script>
+    document.getElementById("openbox").addEventListener("click", function(){
+    document.getElementById("infobox").classList.remove("hidden");
+    document.getElementById("container").classList.add("hidden");
+    });
 </script>
 {{ endblock }}
 

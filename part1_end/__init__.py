@@ -22,12 +22,26 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    pass
+    attention2 = models.StringField(label="How much do you agree to the following statement? <br> 'I can accurately predict the exact winning lottery numbers for the next 50 years.'",
+                                    choices=["strongly agree", "agree", "disagree", "strongly disagree"],
+                                    widget=widgets.RadioSelectHorizontal)
+    attention2_passed = models.BooleanField(initial=True)
 
 
 # PAGES
+class Attention(Page):
+    form_model = 'player'
+    form_fields = ['attention2']
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        correct_answers = ["strongly disagree", "disagree"]
+        if player.attention2 not in correct_answers:
+            player.attention2_passed = False
+
+
 class End_Part1(Page):
     pass
 
 
-page_sequence = [End_Part1]
+page_sequence = [Attention, End_Part1]
