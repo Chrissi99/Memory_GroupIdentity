@@ -89,6 +89,18 @@ class Player(BasePlayer):
     pagetime_instr_recall = models.FloatField(initial=0.0)
     pagetime_recall = models.FloatField(initial=0.0)
     pagetime_recall_conf = models.FloatField(initial=0.0)
+    unfocused_recall_instr = models.FloatField(initial=0.0)
+    unfocused_recall = models.FloatField(initial=0.0)
+    unfocused_recall_conf = models.FloatField(initial=0.0)
+    focus_data_recall_instr = models.LongStringField(blank=True)
+    focus_data_recall = models.LongStringField(blank=True)
+    focus_data_recall_conf = models.LongStringField(blank=True)
+    unfocused_post2_instr = models.FloatField(initial=0.0)
+    unfocused_post2_logic = models.FloatField(initial=0.0)
+    unfocused_post2_luck = models.FloatField(initial=0.0)
+    focus_data_post2_instr = models.LongStringField(blank=True)
+    focus_data_post2_logic = models.LongStringField(blank=True)
+    focus_data_post2_luck = models.LongStringField(blank=True)
 
 
 
@@ -186,7 +198,7 @@ class WelcomeBack(Page):
 
 class InstructionsRecall(Page):
     form_model = 'player'
-    form_fields = ['pagetime_instr_recall']
+    form_fields = ['pagetime_instr_recall', 'focus_data_recall_instr']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -199,10 +211,24 @@ class InstructionsRecall(Page):
             print('Error!')
         # return player.round_number == participant.task_rounds['RECALL']
 
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        import json
+        raw = player.focus_data_recall_instr or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_recall_instr = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
+
 
 class Recall(Page):
     form_model = 'player'
-    form_fields = ['recall_logic', 'recall_luck', 'pagetime_recall']
+    form_fields = ['recall_logic', 'recall_luck', 'pagetime_recall', 'focus_data_recall']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -241,6 +267,17 @@ class Recall(Page):
         print('recall_logic_correct is', participant.recall_logic_correct)
         print('recall_luck_correct is', participant.recall_luck_correct)
         print('recall_bonus is', participant.recall_bonus)
+        import json
+        raw = player.focus_data_recall or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_recall = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
 
     @staticmethod
@@ -254,7 +291,7 @@ class Recall(Page):
 
 class RecallCon(Page):
     form_model = 'player'
-    form_fields = ['recall_confidence_logic', 'recall_confidence_luck', 'pagetime_recall_conf']
+    form_fields = ['recall_confidence_logic', 'recall_confidence_luck', 'pagetime_recall_conf', 'focus_data_recall_conf']
 
     @staticmethod
     def vars_for_template(player):
@@ -292,9 +329,24 @@ class RecallCon(Page):
             print('Error!')
 
 
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        import json
+        raw = player.focus_data_recall_conf or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_recall_conf = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
+
+
 class Beliefs_InstructionsPost2(Page):
     form_model = 'player'
-    form_fields = ['procedure_click_post2', 'procedure_time_post2', 'pagetime_instr_post2']
+    form_fields = ['procedure_click_post2', 'procedure_time_post2', 'pagetime_instr_post2', 'focus_data_post2_instr']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -307,9 +359,24 @@ class Beliefs_InstructionsPost2(Page):
             print('Error!')
 
 
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        import json
+        raw = player.focus_data_post2_instr or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_post2_instr = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
+
+
 class Post2Logic(Page):
     form_model = 'player'
-    form_fields = ['post_memory_logic', 'pagetime_post2_logic']
+    form_fields = ['post_memory_logic', 'pagetime_post2_logic', 'focus_data_post2_logic']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -332,13 +399,23 @@ class Post2Logic(Page):
         participant = player.participant
         if participant.belief_ref == "outgroup":
             player.post_memory_logic = 100 - player.post_memory_logic
-
+        import json
+        raw = player.focus_data_post2_logic or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_post2_logic = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
 
 
 class Post2Luck(Page):
     form_model = 'player'
-    form_fields = ['post_memory_luck', 'pagetime_post2_luck']
+    form_fields = ['post_memory_luck', 'pagetime_post2_luck', 'focus_data_post2_luck']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -361,7 +438,17 @@ class Post2Luck(Page):
         participant = player.participant
         if participant.belief_ref == "outgroup":
             player.post_memory_luck = 100 - player.post_memory_luck
-
+        import json
+        raw = player.focus_data_post2_luck or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_post2_luck = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
 
 

@@ -735,6 +735,7 @@ Please complete the statements below by selecting the correct option from the dr
 
 <input type="hidden" name="pagetime_feedback" id="pagetime_feedback" value="0">
 {{ formfield_errors 'pagetime_feedback' }}
+<input type="hidden" name="focus_data_feedback" id="id_focus_data" />
 
 
 {{ endblock }}
@@ -1090,6 +1091,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+</script>
+<script>
+let events = [];
+let blurStart = null;
+window.addEventListener('blur', () => { blurStart = Date.now(); });
+window.addEventListener('focus', () => {
+    if (blurStart) {
+        events.push({ unfocused_duration_ms: Date.now() - blurStart, ts: blurStart });
+        blurStart = null;
+    }
+});
+function updateHidden() {
+    document.getElementById('id_focus_data').value = JSON.stringify(events);
+}
+setInterval(updateHidden, 1000);
+window.addEventListener('beforeunload', updateHidden);
+document.addEventListener('visibilitychange', updateHidden);
 </script>
  {{ endblock }}
 

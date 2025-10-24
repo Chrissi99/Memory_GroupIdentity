@@ -36,11 +36,27 @@ class Player(BasePlayer):
         max=10,
     )
     pagetime_selfconf = models.FloatField(initial=0.0)
+    unfocused_selfconf = models.FloatField(initial=0.0)
+    focus_data_selfconf = models.LongStringField(blank=True)
 
 
 # PAGES
 class SelfEstimationPost(Page):
     form_model = 'player'
-    form_fields = ['ranking_post', 'own_score_post', 'pagetime_selfconf']
+    form_fields = ['ranking_post', 'own_score_post', 'pagetime_selfconf', 'focus_data_selfconf']
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        import json
+        raw = player.focus_data_selfconf or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_selfconf = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
 page_sequence = [SelfEstimationPost]

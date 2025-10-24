@@ -51,7 +51,7 @@
         <option value="9"> Rank 9 </option >
         <option value="10"> Rank 10 </option >
         </select>
-</select>
+</div>
     </div>
 
 
@@ -99,6 +99,7 @@
 
 <input type="hidden" name="pagetime_selfconf" id="pagetime_selfconf" value="0">
 {{ formfield_errors 'pagetime_selfconf' }}
+    <input type="hidden" name="focus_data_selfconf" id="id_focus_data" />
 
 </div>
 </div>
@@ -224,6 +225,23 @@ document.querySelector("form").addEventListener("submit", function() {
     let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
     document.getElementById("pagetime_selfconf").value = duration.toFixed(2);
 });
+</script>
+<script>
+let events = [];
+let blurStart = null;
+window.addEventListener('blur', () => { blurStart = Date.now(); });
+window.addEventListener('focus', () => {
+    if (blurStart) {
+        events.push({ unfocused_duration_ms: Date.now() - blurStart, ts: blurStart });
+        blurStart = null;
+    }
+});
+function updateHidden() {
+    document.getElementById('id_focus_data').value = JSON.stringify(events);
+}
+setInterval(updateHidden, 1000);
+window.addEventListener('beforeunload', updateHidden);
+document.addEventListener('visibilitychange', updateHidden);
 </script>
 {{ endblock }}
 

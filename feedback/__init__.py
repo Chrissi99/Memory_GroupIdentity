@@ -64,17 +64,35 @@ class Player(BasePlayer):
     )
     pagetime_feedback = models.FloatField(initial=0.0)
     pagetime_instr_feedback = models.FloatField(initial=0.0)
+    unfocused_feedback_instr = models.FloatField(initial=0.0)
+    focus_data_feedback_instr = models.LongStringField(blank=True)
+    unfocused_feedback = models.FloatField(initial=0.0)
+    focus_data_feedback = models.LongStringField(blank=True)
 
 
 # PAGES
 class InstructionsFeedback(Page):
     form_model = 'player'
-    form_fields = ['pagetime_instr_feedback']
+    form_fields = ['pagetime_instr_feedback', 'focus_data_feedback_instr']
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        import json
+        raw = player.focus_data_feedback_instr or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_feedback_instr = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
 
 class Feedback(Page):
     form_model = 'player'
-    form_fields = ['rep_logic', 'rep_luck', 'check_probability', 'pagetime_feedback']
+    form_fields = ['rep_logic', 'rep_luck', 'check_probability', 'pagetime_feedback', 'focus_data_feedback']
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -88,6 +106,17 @@ class Feedback(Page):
         print('rep_correct:', player.rep_correct, 'logic:', player.rep_logic, 'luck:',
               player.rep_luck, 'check_probability:', player.check_probability)
         print('belief_ref is', participant.belief_ref)
+        import json
+        raw = player.focus_data_feedback or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_feedback = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
     @staticmethod
     def error_message(player: Player, values):

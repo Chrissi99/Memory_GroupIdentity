@@ -150,6 +150,8 @@ class Player(BasePlayer):
             [4, 'I was fully focused, no distractions at all.']
         ])
     pagetime_survey = models.FloatField(initial=0.0)
+    unfocused_survey = models.FloatField(initial=0.0)
+    focus_data_survey = models.LongStringField(blank=True)
 
 
 # PAGES
@@ -184,7 +186,21 @@ class Survey(Page):
                    #'political_affiliation', 'political_orientation','feedback_trust',
                    'information_search', 'information_source',
                     'memory', #'understand', 'recall_memory'
-                    'purpose', 'comment', 'attention_check', 'effort_report', 'pasteAttempts', 'pagetime_survey']
+                    'purpose', 'comment', 'attention_check', 'effort_report', 'pasteAttempts', 'pagetime_survey', 'focus_data_survey']
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        import json
+        raw = player.focus_data_survey or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_survey = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
 
     #@staticmethod

@@ -133,6 +133,8 @@ class Player(BasePlayer):
                                     choices=["strongly agree", "agree", "disagree", "strongly disagree"],
                                     widget=widgets.RadioSelectHorizontal)
     attention1_passed = models.BooleanField(initial=True)
+    unfocused_background = models.FloatField(initial=0.0)
+    focus_data_background = models.LongStringField(blank=True)
 
 
 
@@ -467,55 +469,6 @@ class LogicTask6(Page):
         return player.round_number == participant.task_order['logic'] # and get_timeout_seconds(player) > 0
 
 
-class LogicTask7(Page):
-    form_model = 'player'
-    form_fields = ['logic_q7']
-    timer_text = C.TIMER_TEXT
-    timeout_seconds = C.TIME_PER_QUESTION
-    # get_timeout_seconds = get_timeout_seconds
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        return {'image_path': C.QUESTIONS_LOGIC[6]}
-
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        participant = player.participant
-        if player.logic_q7 == C.SOLUTIONS_LOGIC[6]:
-            participant.score_logic += 1
-        player.score_logic = participant.score_logic
-
-    @staticmethod
-    def is_displayed(player: Player):
-        participant = player.participant
-        return player.round_number == participant.task_order['logic'] # and get_timeout_seconds(player) > 0
-
-
-class LogicTask8(Page):
-    form_model = 'player'
-    form_fields = ['logic_q8']
-    timer_text = C.TIMER_TEXT
-    timeout_seconds = C.TIME_PER_QUESTION
-    # get_timeout_seconds = get_timeout_seconds
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        return {'image_path': C.QUESTIONS_LOGIC[7]}
-
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        participant = player.participant
-        if player.logic_q8 == C.SOLUTIONS_LOGIC[7]:
-            participant.score_logic += 1
-        player.score_logic = participant.score_logic
-        print('score logic:', player.score_logic)
-
-    @staticmethod
-    def is_displayed(player: Player):
-        participant = player.participant
-        return player.round_number == participant.task_order['logic'] # and get_timeout_seconds(player) > 0
-
-
 class InstructionsDice(Page):
     @staticmethod
     def is_displayed(player: Player):
@@ -565,7 +518,7 @@ class DiceTask1(Page):
 
 class Background(Page):
     form_model = 'player'
-    form_fields = ['pagetime_background']
+    form_fields = ['pagetime_background', 'focus_data_background']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -581,30 +534,24 @@ class Background(Page):
             'outgroup_ref': outgroup_ref,
         }
 
-    """
+
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        raw = player.focus_data
-
-        # Defensive: treat None or empty string as empty list
-        if not raw:
-            events = []
-        else:
-            try:
-                events = json.loads(raw)
-                if not isinstance(events, list):
-                    # if someone tampered or an unexpected payload arrived
-                    events = []
-            except (ValueError, TypeError):
+        import json
+        raw = player.focus_data_background or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
                 events = []
+        except (ValueError, TypeError):
+            events = []
 
         total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
-        player.total_unfocused_ms = total_unfocused
+        player.unfocused_background = total_unfocused / 1000
 
-        # Optional debug
-        print(f"Participant {player.participant.code} unfocused for {total_unfocused / 1000:.1f} s")
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
         print(events)
-        """
+
 
 
 

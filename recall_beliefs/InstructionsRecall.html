@@ -80,7 +80,7 @@
 
 <input type="hidden" name="pagetime_instr_recall" id="pagetime_instr_recall" value="0">
 {{ formfield_errors 'pagetime_instr_recall' }}
-
+<input type="hidden" name="focus_data_recall_instr" id="id_focus_data" />
 
 {{ endblock }}
 
@@ -140,5 +140,22 @@ document.querySelector("form").addEventListener("submit", function() {
     let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
     document.getElementById("pagetime_instr_recall").value = duration.toFixed(2);
 });
+</script>
+<script>
+let events = [];
+let blurStart = null;
+window.addEventListener('blur', () => { blurStart = Date.now(); });
+window.addEventListener('focus', () => {
+    if (blurStart) {
+        events.push({ unfocused_duration_ms: Date.now() - blurStart, ts: blurStart });
+        blurStart = null;
+    }
+});
+function updateHidden() {
+    document.getElementById('id_focus_data').value = JSON.stringify(events);
+}
+setInterval(updateHidden, 1000);
+window.addEventListener('beforeunload', updateHidden);
+document.addEventListener('visibilitychange', updateHidden);
 </script>
 {{ endblock }}

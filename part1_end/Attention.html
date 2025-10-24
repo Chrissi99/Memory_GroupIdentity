@@ -10,4 +10,27 @@ Please answer the following question:
 
 {{ next_button }}
 
+<input type="hidden" name="focus_data_attention2" id="id_focus_data" />
+
+{{ endblock }}
+
+
+{{ block scripts }}
+<script>
+let events = [];
+let blurStart = null;
+window.addEventListener('blur', () => { blurStart = Date.now(); });
+window.addEventListener('focus', () => {
+    if (blurStart) {
+        events.push({ unfocused_duration_ms: Date.now() - blurStart, ts: blurStart });
+        blurStart = null;
+    }
+});
+function updateHidden() {
+    document.getElementById('id_focus_data').value = JSON.stringify(events);
+}
+setInterval(updateHidden, 1000);
+window.addEventListener('beforeunload', updateHidden);
+document.addEventListener('visibilitychange', updateHidden);
+</script>
 {{ endblock }}

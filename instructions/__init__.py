@@ -55,12 +55,33 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    pass
+    focus_data = models.LongStringField(blank=True)
+    total_unfocused_ms = models.FloatField(initial=0)
+    total_unfocused_sec = models.FloatField(initial=0)
 
 
 # PAGES
 class Instructions(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['focus_data']
+
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        import json
+        raw = player.focus_data or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.total_unfocused_ms = total_unfocused
+        player.total_unfocused_sec = total_unfocused / 1000
+
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
+        print(events)
 
 
 page_sequence = [Instructions]

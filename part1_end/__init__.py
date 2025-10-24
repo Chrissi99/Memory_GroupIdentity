@@ -26,18 +26,31 @@ class Player(BasePlayer):
                                     choices=["strongly agree", "agree", "disagree", "strongly disagree"],
                                     widget=widgets.RadioSelectHorizontal)
     attention2_passed = models.BooleanField(initial=True)
+    unfocused_attention2 = models.FloatField(initial=0.0)
+    focus_data_attention2  = models.LongStringField(blank=True)
 
 
 # PAGES
 class Attention(Page):
     form_model = 'player'
-    form_fields = ['attention2']
+    form_fields = ['attention2', 'focus_data_attention2']
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         correct_answers = ["strongly disagree", "disagree"]
         if player.attention2 not in correct_answers:
             player.attention2_passed = False
+        import json
+        raw = player.focus_data_attention2 or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_attention2 = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
 
 class End_Part1(Page):

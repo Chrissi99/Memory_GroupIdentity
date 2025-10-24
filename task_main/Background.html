@@ -137,6 +137,7 @@ The Competition:
 
 <input type="hidden" name="pagetime_background" id="pagetime_background" value="0">
 {{ formfield_errors 'pagetime_background' }}
+<input type="hidden" name="focus_data_background" id="id_focus_data" />
 
 {{ endblock }}
 
@@ -300,50 +301,27 @@ document.addEventListener('DOMContentLoaded', function() {
         textElement.innerHTML = textElement.innerHTML.replace(regex, `<span class="highlight_purple">${word}</span>`);
     });
 });
-
-
 </script>
-
 <script>
-    let focusEvents = [];
-    let blurStartTime = null;
+let events = [];
 
-    document.addEventListener('visibilitychange', function () {
-        const now = Date.now();
-        if (document.hidden) {
-            blurStartTime = now;
-            focusEvents.push({ event: 'blur', timestamp: now });
-        } else {
-            const unfocusedDuration = blurStartTime ? now - blurStartTime : 0;
-            focusEvents.push({
-                event: 'focus',
-                timestamp: now,
-                unfocused_duration_ms: unfocusedDuration
-            });
-            blurStartTime = null;
-        }
-    });
+// Beispiel-Logik: push/close Events; ersetze durch deine bestehende Logik
+let blurStart = null;
+window.addEventListener('blur', () => { blurStart = Date.now(); });
+window.addEventListener('focus', () => {
+    if (blurStart) {
+        events.push({ unfocused_duration_ms: Date.now() - blurStart, ts: blurStart });
+        blurStart = null;
+    }
+});
 
-    // Ensure we always add a hidden input named focus_data on submit (default '[]')
-    document.querySelector('form').addEventListener('submit', function (e) {
-        // Remove any previous input to avoid duplicates
-        const old = this.querySelector('input[name="focus_data"]');
-        if (old) old.remove();
-
-        const hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.name = 'focus_data';
-        // If no events, send an empty array string
-        hiddenInput.value = JSON.stringify(focusEvents.length ? focusEvents : []);
-        this.appendChild(hiddenInput);
-    });
-
-    // Also save on page unload (optional, helps with some browsers)
-    window.addEventListener('beforeunload', function () {
-        // If form not submitted, this won't reach server — but still safe to set
-        // (no DOM submission here; this is just a precaution)
-        // — nothing to do, main guarantee is on submit above.
-    });
+// Schreib das JSON regelmäßig ins hidden field und beim Verlassen
+function updateHidden() {
+    document.getElementById('id_focus_data').value = JSON.stringify(events);
+}
+setInterval(updateHidden, 1000);
+window.addEventListener('beforeunload', updateHidden);
+document.addEventListener('visibilitychange', updateHidden);
 </script>
 <script>
 let pageEnterTime = Date.now();

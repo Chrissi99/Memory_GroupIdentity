@@ -38,25 +38,43 @@ class Player(BasePlayer):
     pagetime_instr_prior = models.FloatField(initial=0.0)
     pagetime_prior_logic = models.FloatField(initial=0.0)
     pagetime_prior_luck = models.FloatField(initial=0.0)
+    unfocused_prior_instr = models.FloatField(initial=0.0)
+    unfocused_prior_logic = models.FloatField(initial=0.0)
+    unfocused_prior_luck = models.FloatField(initial=0.0)
+    focus_data_prior_instr = models.LongStringField(blank=True)
+    focus_data_prior_logic = models.LongStringField(blank=True)
+    focus_data_prior_luck = models.LongStringField(blank=True)
 
 
 # PAGES
 class Instructions(Page):
     form_model = 'player'
-    form_fields = ['procedure_click_prior', 'procedure_time_prior', 'pagetime_instr_prior']
+    form_fields = ['procedure_click_prior', 'procedure_time_prior', 'pagetime_instr_prior', 'focus_data_prior_instr']
 
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == 1
 
+    @staticmethod
     def before_next_page(player: Player, timeout_happened):
         print("Clicks:", player.procedure_click_prior)
         print("Time spent:", player.procedure_time_prior)
+        import json
+        raw = player.focus_data_prior_instr or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_prior_instr = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
 
 class Prior_Logic(Page):
     form_model = 'player'
-    form_fields = ['prior_logic', 'pagetime_prior_logic']
+    form_fields = ['prior_logic', 'pagetime_prior_logic', 'focus_data_prior_logic']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -72,11 +90,22 @@ class Prior_Logic(Page):
         if participant.belief_ref == "outgroup":
             player.prior_logic = 100 - player.prior_logic
         print("prior logic:", player.prior_logic)
+        import json
+        raw = player.focus_data_prior_logic or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_prior_logic = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
 
 class Prior_Luck(Page):
     form_model = 'player'
-    form_fields = ['prior_luck', 'pagetime_prior_luck']
+    form_fields = ['prior_luck', 'pagetime_prior_luck', 'focus_data_prior_luck']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -134,6 +163,18 @@ class Prior_Luck(Page):
         print("luck:", participant.luck_result, participant.r2_sign, participant.luck_sign_shown)
         participant.beliefs_example_order = random.choice(['low_high', 'high_low'])
         print(participant.beliefs_example_order)
+        import json
+        raw = player.focus_data_prior_luck or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_prior_luck = total_unfocused / 1000
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
+
 
 
 page_sequence = [Instructions, Prior_Logic, Prior_Luck]

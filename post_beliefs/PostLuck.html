@@ -255,6 +255,7 @@
 
 <input type="hidden" name="pagetime_post1_luck" id="pagetime_post1_luck" value="0">
 {{ formfield_errors 'pagetime_post1_luck' }}
+<input type="hidden" name="focus_data_post_luck" id="id_focus_data" />
 
 {{ endblock }}
 
@@ -688,5 +689,22 @@ document.querySelector("form").addEventListener("submit", function() {
     let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
     document.getElementById("pagetime_post1_luck").value = duration.toFixed(2);
 });
+</script>
+<script>
+let events = [];
+let blurStart = null;
+window.addEventListener('blur', () => { blurStart = Date.now(); });
+window.addEventListener('focus', () => {
+    if (blurStart) {
+        events.push({ unfocused_duration_ms: Date.now() - blurStart, ts: blurStart });
+        blurStart = null;
+    }
+});
+function updateHidden() {
+    document.getElementById('id_focus_data').value = JSON.stringify(events);
+}
+setInterval(updateHidden, 1000);
+window.addEventListener('beforeunload', updateHidden);
+document.addEventListener('visibilitychange', updateHidden);
 </script>
 {{ endblock }}

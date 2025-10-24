@@ -33,6 +33,8 @@
 
     {{ next_button }}
 
+<input type="hidden" name="focus_data" id="id_focus_data" />
+
 {{ endblock }}
 
 {{ block styles}}
@@ -64,5 +66,25 @@
     document.getElementById("container").classList.add("hidden");
     });
 </script>
+<script>
+let events = [];
 
+// Beispiel-Logik: push/close Events; ersetze durch deine bestehende Logik
+let blurStart = null;
+window.addEventListener('blur', () => { blurStart = Date.now(); });
+window.addEventListener('focus', () => {
+    if (blurStart) {
+        events.push({ unfocused_duration_ms: Date.now() - blurStart, ts: blurStart });
+        blurStart = null;
+    }
+});
+
+// Schreib das JSON regelmäßig ins hidden field und beim Verlassen
+function updateHidden() {
+    document.getElementById('id_focus_data').value = JSON.stringify(events);
+}
+setInterval(updateHidden, 1000);
+window.addEventListener('beforeunload', updateHidden);
+document.addEventListener('visibilitychange', updateHidden);
+</script>
  {{ endblock }}
