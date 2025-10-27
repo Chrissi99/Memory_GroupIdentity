@@ -44,12 +44,18 @@ class Player(BasePlayer):
     focus_data_prior_instr = models.LongStringField(blank=True)
     focus_data_prior_logic = models.LongStringField(blank=True)
     focus_data_prior_luck = models.LongStringField(blank=True)
+    click_count_prior_instr = models.IntegerField(initial=0)
+    avg_click_interval_prior_instr = models.FloatField(initial=0.0)
+    click_count_prior_logic = models.IntegerField(initial=0)
+    avg_click_interval_prior_logic = models.FloatField(initial=0.0)
+    click_count_prior_luck = models.IntegerField(initial=0)
+    avg_click_interval_prior_luck = models.FloatField(initial=0.0)
 
 
 # PAGES
 class Instructions(Page):
     form_model = 'player'
-    form_fields = ['procedure_click_prior', 'procedure_time_prior', 'pagetime_instr_prior', 'focus_data_prior_instr']
+    form_fields = ['procedure_click_prior', 'procedure_time_prior', 'pagetime_instr_prior', 'focus_data_prior_instr', 'click_count_prior_instr', 'avg_click_interval_prior_instr']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -71,10 +77,73 @@ class Instructions(Page):
         player.unfocused_prior_instr = total_unfocused / 1000
         print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
+        belief_example_value = participant.belief_example_value
+        if belief_example_value == 'low':
+            belief_example = 34
+            belief_example_compl = 66
+            prob_r1 = 56.44
+            prob_r0 = 88.44
+            prob_avg = 77.56
+            more_likely = 'losing (R=0)'
+        else:
+            belief_example = 68
+            belief_example_compl = 32
+            prob_r1 = 89.76
+            prob_r0 = 53.76
+            prob_avg = 78.24
+            more_likely = 'winning (R=1)'
+        belief_example_direction = participant.belief_example_direction
+        if belief_example_direction == 'over':
+            deviation = "overreport"
+            r1_direction = 'higher'
+            r0_direction = 'lower'
+            if belief_example_value == 'low':
+                deviation_example = 60
+                dev_r1 = 84
+                dev_r0 = 64
+                dev_avg = 70.8
+            else:
+                deviation_example = 90
+                dev_r1 = 99
+                dev_r0 = 19
+                dev_avg = 73.4
+        else:
+            deviation = "underreport"
+            r1_direction = 'lower'
+            r0_direction = 'higher'
+            if belief_example_value == 'low':
+                deviation_example = 10
+                dev_r1 = 19
+                dev_r0 = 99
+                dev_avg = 71.8
+            else:
+                deviation_example = 40
+                dev_r1 = 64
+                dev_r0 = 84
+                dev_avg = 70.4
+        return {
+            'belief_example': belief_example,
+            'belief_example_compl': belief_example_compl,
+            'deviation': deviation,
+            'deviation_example': deviation_example,
+            'prob_r1': prob_r1,
+            'prob_r0': prob_r0,
+            'prob_avg': prob_avg,
+            'dev_r1': dev_r1,
+            'dev_r0': dev_r0,
+            'dev_avg': dev_avg,
+            'r1_direction': r1_direction,
+            'r0_direction': r0_direction,
+            'more_likely': more_likely,
+        }
+
 
 class Prior_Logic(Page):
     form_model = 'player'
-    form_fields = ['prior_logic', 'pagetime_prior_logic', 'focus_data_prior_logic']
+    form_fields = ['prior_logic', 'pagetime_prior_logic', 'focus_data_prior_logic', 'click_count_prior_logic', 'avg_click_interval_prior_logic']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -105,7 +174,7 @@ class Prior_Logic(Page):
 
 class Prior_Luck(Page):
     form_model = 'player'
-    form_fields = ['prior_luck', 'pagetime_prior_luck', 'focus_data_prior_luck']
+    form_fields = ['prior_luck', 'pagetime_prior_luck', 'focus_data_prior_luck', 'click_count_prior_luck', 'avg_click_interval_prior_luck']
 
     @staticmethod
     def is_displayed(player: Player):

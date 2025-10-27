@@ -41,6 +41,10 @@ def creating_session(subsession: Subsession):
             p.participant.belief_ref = random.choice(C.BELIEF_REF)
             print('belief_ref is', p.participant.belief_ref)
             p.participant.group_ref_background = random.choice(['Democrat', 'Republican'])
+            p.participant.belief_example_value = random.choice(['low', 'high'])
+            print('belief_example_value is', p.participant.belief_example_value)
+            p.participant.belief_example_direction = random.choice(['over', 'under'])
+            print('belief_example_direction is', p.participant.belief_example_direction)
 
 
 class Group(BaseGroup):
@@ -55,13 +59,15 @@ class Player(BasePlayer):
         widget=widgets.RadioSelectHorizontal(),
         blank=True,
     )
+    click_count_ga = models.IntegerField(initial=0)
+    avg_click_interval_ga = models.FloatField(initial=0.0)
 
 
 
 # PAGES
 class Politics(Page):
     form_model = 'player'
-    form_fields = ['political_affiliation', 'political_orientation']
+    form_fields = ['political_affiliation', 'political_orientation', 'click_count_ga', 'avg_click_interval_ga']
 
     @staticmethod
     def before_next_page(player, timeout_happened):

@@ -27,6 +27,10 @@
 
 {{ formfield_errors 'political_orientation' }}
 {{ formfield_errors 'political_affiliation' }}
+<input type="hidden" name="click_count_ga" id="click_count_ga" value="0">
+<input type="hidden" name="avg_click_interval_ga" id="avg_click_interval_ga" value="0">
+{{ formfield_errors 'click_count_ga' }}
+{{ formfield_errors 'avg_click_interval_ga' }}
 
 
 {{ endblock }}
@@ -132,5 +136,61 @@ function setRequired(val){
     }
 }
 </script>
+<script>
+var clickTimes = [];
+
+// Sammle Klick-Zeitstempel, ignoriere Submit-Buttons (korrekte closest-Nutzung)
+document.addEventListener('click', function (e) {
+    var target = e.target;
+    if (!target) return;
+    // Wenn Klick auf ein Submit-Element innerhalb eines Formulars -> ignorieren
+    if (target.closest && target.closest('form') && (target.type === 'submit' || target.getAttribute('type') === 'submit')) {
+        return;
+    }
+    clickTimes.push(Date.now());
+});
+
+var form = document.querySelector('form');
+var countInput = document.getElementById('click_count_ga');
+var avgInput = document.getElementById('avg_click_interval_ga');
+
+function setClickHiddenFields() {
+    var count = clickTimes.length;
+    if (countInput) countInput.value = count;
+
+    if (avgInput) {
+        if (count < 2) {
+            avgInput.value = 0;
+        } else {
+            var intervals = [];
+            for (var i = 1; i < clickTimes.length; i++) intervals.push(clickTimes[i] - clickTimes[i - 1]);
+            var avgMs = intervals.reduce(function (a, b) { return a + b; }, 0) / intervals.length;
+            avgInput.value = avgMs.toFixed(2); // Millisekunden; /1000 für Sekunden
+        }
+    }
+
+    // Falls Inputs außerhalb des Formulars sind: sicherstellen, dass sie vor dem Absenden im Form sind
+    if (form) {
+        if (countInput && !form.contains(countInput)) form.appendChild(countInput);
+        if (avgInput && !form.contains(avgInput)) form.appendChild(avgInput);
+    }
+}
+
+if (form) {
+    form.addEventListener('submit', function () {
+        setClickHiddenFields();
+    });
+} else {
+    // Falls kein <form> vorhanden: Next-Button vorher Werte setzen (besser: Formular einfügen)
+    var nextBtn = document.getElementById('next-button');
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function () {
+            setClickHiddenFields();
+            // Wenn du ein Formular programmatisch abschicken willst, rufe form.submit() auf, sobald ein Form existiert.
+        });
+    }
+}
+</script>
+
 {{ endblock }}
 

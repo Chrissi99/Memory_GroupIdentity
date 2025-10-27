@@ -122,10 +122,9 @@ Block 3
     <span id="logicclose" class="close">&times;</span>
     <div id="logiccaption">
 
-<p> How a given answer maps into your chance of winning ${{C.PRIZE}} is based on a formula.
-    This formula is designed to make sure that you have the best chance of winning the prize when you state your true belief that
-    <!--you maximize your chance of winning if you report your true belief that a-->
-    Team
+<p>
+    How a given answer maps into your chance of winning ${{C.PRIZE}} is based on a formula that is designed to ensure
+    that you have the best chance of winning when you state your true belief that Team
     {{ if participant.belief_ref == "ingroup" }}
     {{ participant.group }}
     {{ elif participant.belief_ref == "outgroup" }}
@@ -137,32 +136,11 @@ Block 3
     {{ elif participant.belief_ref == "outgroup" }}
     {{ participant.group }}.
     {{ endif }}
-    Suppose that the correct answer is represented by "R", which is equal to 1 if the
-    {{ if participant.belief_ref == "ingroup" }}
-    {{ participant.group }}s
-    {{ elif participant.belief_ref == "outgroup" }}
-    {{ participant.outgroup }}s
-    {{ endif }}
-    won and equal to 0 if they lost.
-    The variable "r" represents your reported answer, i.e. the probability of the
-    {{ if participant.belief_ref == "ingroup" }}
-    {{ participant.group }}s
-    {{ elif participant.belief_ref == "outgroup" }}
-    {{ participant.outgroup }}s
-    {{ endif }}
-    winning against the
-    {{ if participant.belief_ref == "ingroup" }}
-    {{ participant.outgroup }}s
-    {{ elif participant.belief_ref == "outgroup" }}
-    {{ participant.group }}s
-    {{ endif }}
-    (ranging from 0% to 100%).
-    The probability of winning the ${{C.PRIZE}} is then given by:
+    The probability of winning the ${{C.PRIZE}} is given by:
 </p>
-
 <p style="text-align: center;">
   <math xmlns="http://www.w3.org/1998/Math/MathML">
-    <mtext>winning probability</mtext>
+    <mtext>Winning probability</mtext>
     <mo>=</mo>
     <mn>100</mn>
     <mo>−</mo>
@@ -183,11 +161,58 @@ Block 3
     </msup>
   </math>
 </p>
+    <p>
+    where:
+    </p>
+<ul>
+    <li>
+        R = 1 if the
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.group }}
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.outgroup }}
+        {{ endif }}
+        team won, and R = 0 if they lost
+    </li>
+    <li>
+        r = your reported probability (from 0% to 100%) that the
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.group }}s
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.outgroup }}s
+        {{ endif }}
+        won
+    </li>
+</ul>
 
+<h4>How the formula works:</h4>
+The formula gives you a higher chance of winning the closer your reported belief (r) is to what actually happened (R):
+<ul>
+    <li>If Team Republican won (R=1), your winning chance is higher the larger your reported probability.</li>
+    <li>If Team Republican lost (R=0), your winning chance is higher the smaller your reported probability.</li>
+</ul>
+<p>
+    Since you don’t know the true result in advance, your report should reflect how likely you think each outcome is — that is,
+    how probable you believe it is that R = 1
+    (the
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}s
+    {{ endif }}
+    won) or R = 0 (they lost).
+    <!--If you think a win of Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup }}
+    {{ endif }}
+    is very likely, you should report a high number; if you think it’s unlikely, report a low number; and if you are unsure, report something in between.-->
+</p>
 
 <h4> Example: </h4>
 <p>
-    Suppose that you believe that Team
+    Suppose you believe that Team
     {{ if participant.belief_ref == "ingroup" }}
     {{ participant.group }}
     {{ elif participant.belief_ref == "outgroup" }}
@@ -199,68 +224,70 @@ Block 3
     {{ elif participant.belief_ref == "outgroup" }}
     {{ participant.group }}
     {{ endif }}
-    with a probability of 68%.
+    with a {{ belief_example }}% probability.
+    A truthful report therefore means reporting r={{ belief_example }}%.
 </p>
-<p>
-There are two options:
-        <ul>
+<p style="margin-top: -10px;">
+There are two possibilities:
+    <ul>
             <li> If Team
-    {{ if participant.belief_ref == "ingroup" }}
-    {{ participant.group }}
-    {{ elif participant.belief_ref == "outgroup" }}
-    {{ participant.outgroup }}
-    {{ endif }} won (R=1), your winning probability based on the formula is: 89.76%.
+            {{ if participant.belief_ref == "ingroup" }}
+            {{ participant.group }}
+            {{ elif participant.belief_ref == "outgroup" }}
+            {{ participant.outgroup }}
+            {{ endif }} won (R=1), your winning probability based on the formula is: {{ prob_r1 }}%.
             </li>
             <li> If Team
-    {{ if participant.belief_ref == "ingroup" }}
-    {{ participant.outgroup }}
-    {{ elif participant.belief_ref == "outgroup" }}
-    {{ participant.group }}
-    {{ endif }} won (R=0), your winning probability based on the formula is: 53.76%.
-    </li>
-        </ul>
-Since you would think that
-{{ if participant.belief_ref == "ingroup" }}
-    {{ participant.group }}s
-    {{ elif participant.belief_ref == "outgroup" }}
-    {{ participant.outgroup }}s
-    {{ endif }}
-are better in 68% of cases,
-68% of the time you expect the first case to happen, and 32% of the time the second case to happen.
-This results in an average ("expected") probability of winning of 78.24%.
+            {{ if participant.belief_ref == "ingroup" }}
+            {{ participant.outgroup }}
+            {{ elif participant.belief_ref == "outgroup" }}
+            {{ participant.group }}
+            {{ endif }} won (R=0), your winning probability based on the formula is: {{ prob_r0 }}%.
+            </li>
+    </ul>
+
+Because, in this example, you think they win 68% of the time, your expected winning probability is:
+</p>
+<p style="text-align:center;">
+    {{ belief_example }}%×{{ prob_r1 }}% + {{ belief_example_compl }}%×{{ prob_r0 }}% = {{ prob_avg }}%
+</p>
+<p>
+    Any other report than your true belief reduces your chance to win the ${{ C.PRIZE }}. As an example, assume you
+    {{ deviation }} and report {{ deviation_example }}% instead:
 </p>
 
+<ul>
+    <li>
+        If Team
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.group }}
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.outgroup }}
+        {{ endif }} won (R=1)
+        your winning probability is: {{ dev_r1 }}%.
+    </li>
+    <li>
+        If Team
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.outgroup }}
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.group }}
+        {{ endif }} won (R=0)
+        your winning probability is: {{ dev_r0 }}%.
+    </li>
+    <li>
+        Since, in this example, Team
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.outgroup }}
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.group }}
+        {{ endif }}
+        wins (R=1) with a probability of {{ belief_example }}%,
+        this reduces your expected winning probability to: {{ belief_example }}%×{{ dev_r1 }}% + {{ belief_example_compl }}%×{{ dev_r0 }}% = {{ dev_avg }}%
+    </li>
+</ul>
 <p>
-    Any other possible report would lead to a lower expected winning probability:
-    <ul>
-        <li>
-    For example, you may consider <b>reporting 100%</b> (i.e., being completely certain that Team
-    {{ if participant.belief_ref == "ingroup" }}
-    {{ participant.group }}
-    {{ elif participant.belief_ref == "outgroup" }}
-    {{ participant.outgroup }}
-    {{ endif }} won).
-    In this case, you would get the prize with a probability of 100% if Team
-    {{ if participant.belief_ref == "ingroup" }}
-    {{ participant.group }}
-    {{ elif participant.belief_ref == "outgroup" }}
-    {{ participant.outgroup }}
-    {{ endif }} actually won, but with a probability of 0% if they lost.
-    If they actually won in 68% of the cases (as your belief would indicate in this example),
-    your expected winning probability would be only 68%, which is lower than
-    the 78.24% you would get by reporting your true belief of 68%.
-            </li>
-        <li>
-    As another example, consider <b>reporting a lower belief of 40%</b>.
-    In this case, you would get the prize with a probability of 64% if Team
-    {{ if participant.belief_ref == "ingroup" }}
-    {{ participant.group }}
-    {{ elif participant.belief_ref == "outgroup" }}
-    {{ participant.outgroup }}
-    {{ endif }} actually won, and with a probability of 84% if they lost.
-    This would lead to an expected winning probability of only 70.4%, which is again lower than the 78.24% you would get by reporting your true belief of 68%.
-        </li>
-    </ul>
+Similarly, all other deviations (over- or underreporting) from your true belief lead to a lower chance of winning the ${{C.PRIZE}}.
 </p>
 
 
@@ -288,7 +315,10 @@ This results in an average ("expected") probability of winning of 78.24%.
 {{ formfield_errors 'procedure_time_prior' }}
 {{ formfield_errors 'pagetime_instr_prior' }}
 <input type="hidden" name="focus_data_prior_instr" id="id_focus_data" />
-
+<input type="hidden" name="click_count_prior_instr" id="click_count_prior_instr" value="0">
+<input type="hidden" name="avg_click_interval_prior_instr" id="avg_click_interval_prior_instr" value="0">
+{{ formfield_errors 'click_count_prior_instr' }}
+{{ formfield_errors 'avg_click_interval_prior_instr' }}
 
 {{ endblock }}
 
@@ -323,6 +353,9 @@ td b {
 p + ul{
     margin-top: -14px;
 }
+ul + p{
+    margin-top: -8px;
+}
 .procedure {
     text-align: center;
     margin-top: -25px;
@@ -340,7 +373,7 @@ p + ul{
         display: none; /* Hidden by default */
         position: fixed; /* Stay in place */
         z-index: 1; /* Sit on top */
-        padding-top: 100px; /* Location of the box */
+        padding-top: 70px; /* Location of the box */
         left: 0;
         top: 0;
         width: 100%; /* Full width */
@@ -375,8 +408,8 @@ p + ul{
 .modal-content {
     margin: auto;
     display: block;
-    width: 80%;
-    max-width: 700px;
+    width: 85%;
+    max-width: 750px;
     }
 
 #logiccaption {
@@ -563,5 +596,60 @@ function updateHidden() {
 setInterval(updateHidden, 1000);
 window.addEventListener('beforeunload', updateHidden);
 document.addEventListener('visibilitychange', updateHidden);
+</script>
+<script>
+var clickTimes = [];
+
+// Sammle Klick-Zeitstempel, ignoriere Submit-Buttons (korrekte closest-Nutzung)
+document.addEventListener('click', function (e) {
+    var target = e.target;
+    if (!target) return;
+    // Wenn Klick auf ein Submit-Element innerhalb eines Formulars -> ignorieren
+    if (target.closest && target.closest('form') && (target.type === 'submit' || target.getAttribute('type') === 'submit')) {
+        return;
+    }
+    clickTimes.push(Date.now());
+});
+
+var form = document.querySelector('form');
+var countInput = document.getElementById('click_count_prior_instr');
+var avgInput = document.getElementById('avg_click_interval_prior_instr');
+
+function setClickHiddenFields() {
+    var count = clickTimes.length;
+    if (countInput) countInput.value = count;
+
+    if (avgInput) {
+        if (count < 2) {
+            avgInput.value = 0;
+        } else {
+            var intervals = [];
+            for (var i = 1; i < clickTimes.length; i++) intervals.push(clickTimes[i] - clickTimes[i - 1]);
+            var avgMs = intervals.reduce(function (a, b) { return a + b; }, 0) / intervals.length;
+            avgInput.value = avgMs.toFixed(2); // Millisekunden; /1000 für Sekunden
+        }
+    }
+
+    // Falls Inputs außerhalb des Formulars sind: sicherstellen, dass sie vor dem Absenden im Form sind
+    if (form) {
+        if (countInput && !form.contains(countInput)) form.appendChild(countInput);
+        if (avgInput && !form.contains(avgInput)) form.appendChild(avgInput);
+    }
+}
+
+if (form) {
+    form.addEventListener('submit', function () {
+        setClickHiddenFields();
+    });
+} else {
+    // Falls kein <form> vorhanden: Next-Button vorher Werte setzen (besser: Formular einfügen)
+    var nextBtn = document.getElementById('next-button');
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function () {
+            setClickHiddenFields();
+            // Wenn du ein Formular programmatisch abschicken willst, rufe form.submit() auf, sobald ein Form existiert.
+        });
+    }
+}
 </script>
 {{ endblock }}

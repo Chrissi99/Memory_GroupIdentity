@@ -31,6 +31,8 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     venn_identity = models.IntegerField()
+    click_count_gi = models.IntegerField(initial=0)
+    avg_click_interval_gi = models.FloatField(initial=0.0)
 
 
 # PAGES
@@ -42,7 +44,7 @@ class InstructionsGI(Page):
 
 class VennGI(Page):
     form_model = 'player'
-    form_fields = ['venn_identity']
+    form_fields = ['venn_identity', 'click_count_gi', 'avg_click_interval_gi']
 
     @staticmethod
     def error_message(player, values):

@@ -30,6 +30,14 @@ How Much Do You Feel Connected to {{ group_label }}?
     <button id="next-button" class="button-normal" disabled>Next</button>
 </div>
 
+<input type="hidden" name="click_count_gi" id="click_count_gi" value="0">
+<input type="hidden" name="avg_click_interval_gi" id="avg_click_interval_gi" value="0">
+{{ formfield_errors 'click_count_gi' }}
+{{ formfield_errors 'avg_click_interval_gi' }}
+
+{% endblock %}
+
+{% block styles %}
 <style>
 .bubble {
     position: absolute;
@@ -300,8 +308,77 @@ How Much Do You Feel Connected to {{ group_label }}?
     //bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.2}px))`;
     bubble.style.left = `${pos}px`;
     }
-
-
 </script>
-{{ form.errors }}
+<script>
+let events = [];
+let blurStart = null;
+window.addEventListener('blur', () => { blurStart = Date.now(); });
+window.addEventListener('focus', () => {
+    if (blurStart) {
+        events.push({ unfocused_duration_ms: Date.now() - blurStart, ts: blurStart });
+        blurStart = null;
+    }
+});
+function updateHidden() {
+    document.getElementById('id_focus_data').value = JSON.stringify(events);
+}
+setInterval(updateHidden, 1000);
+window.addEventListener('beforeunload', updateHidden);
+document.addEventListener('visibilitychange', updateHidden);
+</script>
+<script>
+var clickTimes = [];
+
+// Sammle Klick-Zeitstempel, ignoriere Submit-Buttons (korrekte closest-Nutzung)
+document.addEventListener('click', function (e) {
+    var target = e.target;
+    if (!target) return;
+    // Wenn Klick auf ein Submit-Element innerhalb eines Formulars -> ignorieren
+    if (target.closest && target.closest('form') && (target.type === 'submit' || target.getAttribute('type') === 'submit')) {
+        return;
+    }
+    clickTimes.push(Date.now());
+});
+
+var form = document.querySelector('form');
+var countInput = document.getElementById('click_count_gi');
+var avgInput = document.getElementById('avg_click_interval_gi');
+
+function setClickHiddenFields() {
+    var count = clickTimes.length;
+    if (countInput) countInput.value = count;
+
+    if (avgInput) {
+        if (count < 2) {
+            avgInput.value = 0;
+        } else {
+            var intervals = [];
+            for (var i = 1; i < clickTimes.length; i++) intervals.push(clickTimes[i] - clickTimes[i - 1]);
+            var avgMs = intervals.reduce(function (a, b) { return a + b; }, 0) / intervals.length;
+            avgInput.value = avgMs.toFixed(2); // Millisekunden; /1000 für Sekunden
+        }
+    }
+
+    // Falls Inputs außerhalb des Formulars sind: sicherstellen, dass sie vor dem Absenden im Form sind
+    if (form) {
+        if (countInput && !form.contains(countInput)) form.appendChild(countInput);
+        if (avgInput && !form.contains(avgInput)) form.appendChild(avgInput);
+    }
+}
+
+if (form) {
+    form.addEventListener('submit', function () {
+        setClickHiddenFields();
+    });
+} else {
+    // Falls kein <form> vorhanden: Next-Button vorher Werte setzen (besser: Formular einfügen)
+    var nextBtn = document.getElementById('next-button');
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function () {
+            setClickHiddenFields();
+            // Wenn du ein Formular programmatisch abschicken willst, rufe form.submit() auf, sobald ein Form existiert.
+        });
+    }
+}
+</script>
 {% endblock %}
