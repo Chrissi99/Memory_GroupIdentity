@@ -1,0 +1,263 @@
+{{ load otree }}
+
+
+<p>
+    How a given answer maps into your chance of winning ${{C.PRIZE}} is based on a formula that is designed to ensure
+    that you have the best chance of winning when you state your true belief that Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group2 }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup2 }}
+    {{ endif }}
+    won against Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.outgroup2 }}.
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.group2 }}.
+    {{ endif }}
+    The probability of winning the ${{C.PRIZE}} is given by:
+</p>
+<p style="text-align: center;">
+  <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mtext>Winning probability</mtext>
+    <mo>=</mo>
+    <mn>100</mn>
+    <mo>−</mo>
+    <mn>100</mn>
+    <mo>×</mo>
+    <msup>
+      <mrow>
+        <mo stretchy="true">(</mo>
+        <mi>R</mi>
+        <mo>−</mo>
+        <mfrac>
+          <mi>r</mi>
+          <mn>100</mn>
+        </mfrac>
+        <mo stretchy="true">)</mo>
+      </mrow>
+      <mn>2</mn>
+    </msup>
+  </math>
+</p>
+    <p>
+    where:
+    </p>
+<ul>
+    <li>
+        R = 1 if the
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.group2 }}
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.outgroup2 }}
+        {{ endif }}
+        team won, and R = 0 if they lost
+    </li>
+    <li>
+        r = your reported probability (from 0% to 100%) that the
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.group2 }}s
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.outgroup2 }}s
+        {{ endif }}
+        won
+    </li>
+</ul>
+
+<h4>How the formula works:</h4>
+The formula gives you a higher chance of winning the closer your reported belief (r) is to what actually happened (R):
+<ul>
+    <li>If Team Republican won (R=1), your winning chance is higher the larger your reported probability.</li>
+    <li>If Team Republican lost (R=0), your winning chance is higher the smaller your reported probability.</li>
+</ul>
+<p>
+    Since you don’t know the true result in advance, your report should reflect how likely you think each outcome is — that is,
+    how probable you believe it is that R = 1
+    (the
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group2 }}s
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup2 }}s
+    {{ endif }}
+    won) or R = 0 (they lost).
+</p>
+
+<h4> Example: </h4>
+<p>
+    Suppose you believe that Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.group2 }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.outgroup2 }}
+    {{ endif }}
+    won against Team
+    {{ if participant.belief_ref == "ingroup" }}
+    {{ participant.outgroup2 }}
+    {{ elif participant.belief_ref == "outgroup" }}
+    {{ participant.group2 }}
+    {{ endif }}
+    with a {{ belief_example }}% probability.
+    A truthful report therefore means reporting r={{ belief_example }}%.
+</p>
+<p style="margin-top: -10px;">
+There are two possibilities:
+    <ul>
+            <li> If Team
+            {{ if participant.belief_ref == "ingroup" }}
+            {{ participant.group2 }}
+            {{ elif participant.belief_ref == "outgroup" }}
+            {{ participant.outgroup2 }}
+            {{ endif }} won (R=1), your winning probability based on the formula is: {{ prob_r1 }}%.
+            </li>
+            <li> If Team
+            {{ if participant.belief_ref == "ingroup" }}
+            {{ participant.outgroup2 }}
+            {{ elif participant.belief_ref == "outgroup" }}
+            {{ participant.group2 }}
+            {{ endif }} won (R=0), your winning probability based on the formula is: {{ prob_r0 }}%.
+            </li>
+    </ul>
+
+Because, in this example, you think they win 68% of the time, your expected winning probability is:
+</p>
+<p style="text-align:center;">
+    {{ belief_example }}%×{{ prob_r1 }}% + {{ belief_example_compl }}%×{{ prob_r0 }}% = {{ prob_avg }}%
+</p>
+<p>
+    Any other report than your true belief reduces your chance to win the ${{ C.PRIZE }}. As an example, assume you
+    {{ deviation }} and report {{ deviation_example }}% instead:
+</p>
+
+<ul>
+    <li>
+        If Team
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.group2 }}
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.outgroup2 }}
+        {{ endif }} won (R=1)
+        your winning probability is: {{ dev_r1 }}%.
+    </li>
+    <li>
+        If Team
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.outgroup2 }}
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.group2 }}
+        {{ endif }} won (R=0)
+        your winning probability is: {{ dev_r0 }}%.
+    </li>
+    <li>
+        Since, in this example, Team
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.outgroup2 }}
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.group2 }}
+        {{ endif }}
+        wins (R=1) with a probability of {{ belief_example }}%,
+        this reduces your expected winning probability to: {{ belief_example }}%×{{ dev_r1 }}% + {{ belief_example_compl }}%×{{ dev_r0 }}% = {{ dev_avg }}%
+    </li>
+</ul>
+<p>
+Similarly, all other deviations (over- or underreporting) from your true belief lead to a lower chance of winning the ${{C.PRIZE}}.
+</p>
+
+
+
+<style>
+table {
+  border-collapse: collapse;   /* neat borders */
+  width: 70%;                 /* adjust width */
+  margin: 40px auto;           /* center on page */
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* soft shadow */
+}
+
+td {
+  border: 1px solid #ddd;
+  padding: 12px 18px;          /* spacing inside cells */
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;   /* zebra stripe rows */
+}
+
+tr:hover {
+  background-color: #f1f7ff;   /* highlight on hover */
+}
+
+td b {
+  color: #007BFF;              /* highlight bold values */
+}
+p + ul{
+    margin-top: -14px;
+}
+ul + p{
+    margin-top: -8px;
+}
+.procedure {
+    text-align: center;
+    margin-top: -25px;
+    margin-bottom: 30px;
+    }
+
+#instructions_trigger:hover{
+    cursor: pointer;
+    }
+
+#dict_trigger:hover{
+    cursor: pointer;
+    }
+
+#re_trigger:hover{
+    cursor: pointer;
+    }
+
+.hidden {
+	display:none;
+}
+.button_show{
+    background-color: grey;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button_normal{
+    background-color: #0B60DB;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container_procedure {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 6vh;
+      margin-top: 30px;
+    }
+</style>
+

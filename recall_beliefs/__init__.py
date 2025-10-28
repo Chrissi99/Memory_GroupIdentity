@@ -47,6 +47,7 @@ class C(BaseConstants):
     PRIZE = 2
     creatures_true = 20
     creatures_false = 10
+    INSTRUCTIONS_PROCEDURE = "recall_beliefs/SnippetProcedure.html"
 
 
 class Subsession(BaseSubsession):
@@ -157,8 +158,9 @@ class WelcomeBack(Page):
             participant.luck_result = df_id[df_id['prolificid'] == participant.label]['luck_result'].values[0]
             participant.logic_sign_shown = df_id[df_id['prolificid'] == participant.label]['logic_sign_shown'].values[0]
             participant.luck_sign_shown = df_id[df_id['prolificid'] == participant.label]['luck_sign_shown'].values[0]
-            participant.beliefs_example_order = df_id[df_id['prolificid'] == participant.label]['beliefs_example_order'].values[0]
             participant.belief_ref = df_id[df_id['prolificid'] == participant.label]['belief_ref'].values[0]
+            participant.belief_example_value = df_id[df_id['prolificid'] == participant.label]['belief_example_value'].values[0]
+            participant.belief_example_direction = df_id[df_id['prolificid'] == participant.label]['belief_example_direction'].values[0]
         else:
             participant.id_worked = False
             participant.group2 = random.choice(['Democrat', 'Republican'])
@@ -172,8 +174,9 @@ class WelcomeBack(Page):
             participant.luck_result = random.choice([">", "<"])
             participant.logic_sign_shown = random.choice([">", "<"])
             participant.luck_sign_shown = random.choice([">", "<"])
-            participant.beliefs_example_order = random.choice(["high_low", "low_high"])
             participant.belief_ref = random.choice(["ingroup", "outgroup"])
+            participant.belief_example_value = random.choice(['low', 'high'])
+            participant.belief_example_direction = random.choice(['over', 'under'])
         participant.treat_first = 'RECALL' if participant.treatment == 'Recall' else 'BELIEFS'
         print('treat_first is', participant.treat_first)
         participant.outgroup2 = 'Democrat' if participant.group2 == 'Republican' else 'Republican'
@@ -373,6 +376,69 @@ class Beliefs_InstructionsPost2(Page):
         player.unfocused_post2_instr = total_unfocused / 1000
         print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
+        belief_example_value = participant.belief_example_value
+        if belief_example_value == 'low':
+            belief_example = 34
+            belief_example_compl = 66
+            prob_r1 = 56.44
+            prob_r0 = 88.44
+            prob_avg = 77.56
+            more_likely = 'losing (R=0)'
+        else:
+            belief_example = 68
+            belief_example_compl = 32
+            prob_r1 = 89.76
+            prob_r0 = 53.76
+            prob_avg = 78.24
+            more_likely = 'winning (R=1)'
+        belief_example_direction = participant.belief_example_direction
+        if belief_example_direction == 'over':
+            deviation = "overreport"
+            r1_direction = 'higher'
+            r0_direction = 'lower'
+            if belief_example_value == 'low':
+                deviation_example = 60
+                dev_r1 = 84
+                dev_r0 = 64
+                dev_avg = 70.8
+            else:
+                deviation_example = 90
+                dev_r1 = 99
+                dev_r0 = 19
+                dev_avg = 73.4
+        else:
+            deviation = "underreport"
+            r1_direction = 'lower'
+            r0_direction = 'higher'
+            if belief_example_value == 'low':
+                deviation_example = 10
+                dev_r1 = 19
+                dev_r0 = 99
+                dev_avg = 71.8
+            else:
+                deviation_example = 40
+                dev_r1 = 64
+                dev_r0 = 84
+                dev_avg = 70.4
+        return {
+            'belief_example': belief_example,
+            'belief_example_compl': belief_example_compl,
+            'deviation': deviation,
+            'deviation_example': deviation_example,
+            'prob_r1': prob_r1,
+            'prob_r0': prob_r0,
+            'prob_avg': prob_avg,
+            'dev_r1': dev_r1,
+            'dev_r0': dev_r0,
+            'dev_avg': dev_avg,
+            'r1_direction': r1_direction,
+            'r0_direction': r0_direction,
+            'more_likely': more_likely,
+        }
+
 
 class Post2Logic(Page):
     form_model = 'player'
@@ -411,6 +477,68 @@ class Post2Logic(Page):
         player.unfocused_post2_logic = total_unfocused / 1000
         print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
+        belief_example_value = participant.belief_example_value
+        if belief_example_value == 'low':
+            belief_example = 34
+            belief_example_compl = 66
+            prob_r1 = 56.44
+            prob_r0 = 88.44
+            prob_avg = 77.56
+            more_likely = 'losing (R=0)'
+        else:
+            belief_example = 68
+            belief_example_compl = 32
+            prob_r1 = 89.76
+            prob_r0 = 53.76
+            prob_avg = 78.24
+            more_likely = 'winning (R=1)'
+        belief_example_direction = participant.belief_example_direction
+        if belief_example_direction == 'over':
+            deviation = "overreport"
+            r1_direction = 'higher'
+            r0_direction = 'lower'
+            if belief_example_value == 'low':
+                deviation_example = 60
+                dev_r1 = 84
+                dev_r0 = 64
+                dev_avg = 70.8
+            else:
+                deviation_example = 90
+                dev_r1 = 99
+                dev_r0 = 19
+                dev_avg = 73.4
+        else:
+            deviation = "underreport"
+            r1_direction = 'lower'
+            r0_direction = 'higher'
+            if belief_example_value == 'low':
+                deviation_example = 10
+                dev_r1 = 19
+                dev_r0 = 99
+                dev_avg = 71.8
+            else:
+                deviation_example = 40
+                dev_r1 = 64
+                dev_r0 = 84
+                dev_avg = 70.4
+        return {
+            'belief_example': belief_example,
+            'belief_example_compl': belief_example_compl,
+            'deviation': deviation,
+            'deviation_example': deviation_example,
+            'prob_r1': prob_r1,
+            'prob_r0': prob_r0,
+            'prob_avg': prob_avg,
+            'dev_r1': dev_r1,
+            'dev_r0': dev_r0,
+            'dev_avg': dev_avg,
+            'r1_direction': r1_direction,
+            'r0_direction': r0_direction,
+            'more_likely': more_likely,
+        }
 
 
 class Post2Luck(Page):
@@ -450,6 +578,68 @@ class Post2Luck(Page):
         player.unfocused_post2_luck = total_unfocused / 1000
         print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
 
+    @staticmethod
+    def vars_for_template(player: Player):
+        participant = player.participant
+        belief_example_value = participant.belief_example_value
+        if belief_example_value == 'low':
+            belief_example = 34
+            belief_example_compl = 66
+            prob_r1 = 56.44
+            prob_r0 = 88.44
+            prob_avg = 77.56
+            more_likely = 'losing (R=0)'
+        else:
+            belief_example = 68
+            belief_example_compl = 32
+            prob_r1 = 89.76
+            prob_r0 = 53.76
+            prob_avg = 78.24
+            more_likely = 'winning (R=1)'
+        belief_example_direction = participant.belief_example_direction
+        if belief_example_direction == 'over':
+            deviation = "overreport"
+            r1_direction = 'higher'
+            r0_direction = 'lower'
+            if belief_example_value == 'low':
+                deviation_example = 60
+                dev_r1 = 84
+                dev_r0 = 64
+                dev_avg = 70.8
+            else:
+                deviation_example = 90
+                dev_r1 = 99
+                dev_r0 = 19
+                dev_avg = 73.4
+        else:
+            deviation = "underreport"
+            r1_direction = 'lower'
+            r0_direction = 'higher'
+            if belief_example_value == 'low':
+                deviation_example = 10
+                dev_r1 = 19
+                dev_r0 = 99
+                dev_avg = 71.8
+            else:
+                deviation_example = 40
+                dev_r1 = 64
+                dev_r0 = 84
+                dev_avg = 70.4
+        return {
+            'belief_example': belief_example,
+            'belief_example_compl': belief_example_compl,
+            'deviation': deviation,
+            'deviation_example': deviation_example,
+            'prob_r1': prob_r1,
+            'prob_r0': prob_r0,
+            'prob_avg': prob_avg,
+            'dev_r1': dev_r1,
+            'dev_r0': dev_r0,
+            'dev_avg': dev_avg,
+            'r1_direction': r1_direction,
+            'r0_direction': r0_direction,
+            'more_likely': more_likely,
+        }
 
 
 page_sequence = [WelcomeBack, InstructionsRecall, Recall, RecallCon, Beliefs_InstructionsPost2, Post2Logic, Post2Luck]
