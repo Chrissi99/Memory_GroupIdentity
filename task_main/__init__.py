@@ -135,6 +135,8 @@ class Player(BasePlayer):
     attention1_passed = models.BooleanField(initial=True)
     unfocused_background = models.FloatField(initial=0.0)
     focus_data_background = models.LongStringField(blank=True)
+    background_click_example = models.IntegerField(initial=0)
+    background_time_example = models.FloatField(initial=0.0)
 
 
 
@@ -517,7 +519,7 @@ class DiceTask1(Page):
 
 class Background(Page):
     form_model = 'player'
-    form_fields = ['pagetime_background', 'focus_data_background']
+    form_fields = ['pagetime_background', 'focus_data_background', 'background_click_example', 'background_time_example']
 
     @staticmethod
     def is_displayed(player: Player):

@@ -127,10 +127,33 @@ The Competition:
 </ul>
 
 <p>
-    <u>Example</u>: In the Logic Task, the sum of solved questions from all {{ C.NUM_MEMBERS_W}} {{ingroup_ref}}s was compared to the sum of
-    solved questions from all {{ C.NUM_MEMBERS_W}} {{outgroup_ref}}s.
-    If the {{ingroup_ref}}s solved, for example, a total of 25 questions and the {{outgroup_ref}}s solved 23, team {{participant.group}} won.
+    Click <span id="instructions_trigger" style="color:blue"><u>here</u></span> if you want an example.
 </p>
+</div>
+<div id="logicmodal" class="modal">
+    <span id="logicclose" class="close">&times;</span>
+    <div id="logiccaption">
+<h4> Examples: </h4>
+<p>
+    In the Logic Task, the sum of solved questions from all {{ C.NUM_MEMBERS_W}} {{ingroup_ref}}s was compared to the sum of
+    solved questions from all {{ C.NUM_MEMBERS_W}} {{outgroup_ref}}s.
+</p>
+<ul>
+    <li>
+        Example 1: The {{ingroup_ref}}s solved a total of 25 questions and the {{outgroup_ref}}s solved 23 questions: Team {{ingroup_ref}} won.
+    </li>
+    <li>
+        Example 2: The {{ingroup_ref}}s solved a total of 18 questions and the {{outgroup_ref}}s solved 18 questions: A coin flip determined the winner.
+    </li>
+    <li>
+        Example 3: The {{ingroup_ref}}s solved a total of 18 questions and the {{outgroup_ref}}s solved 22 questions: Team {{outgroup_ref}} won.
+    </li>
+</ul>
+
+
+        <br>
+</div>
+</div>
 
 {{ next_button }}
 
@@ -138,6 +161,10 @@ The Competition:
 <input type="hidden" name="pagetime_background" id="pagetime_background" value="0">
 {{ formfield_errors 'pagetime_background' }}
 <input type="hidden" name="focus_data_background" id="id_focus_data" />
+<input type="hidden" name="background_click_example" id="background_click_example" value="0">
+<input type="hidden" name="background_time_example" id="background_time_example" value="0">
+{{ formfield_errors 'background_click_example' }}
+{{ formfield_errors 'background_time_example' }}
 
 {{ endblock }}
 
@@ -216,11 +243,109 @@ table td{
     height: auto;
     align-items: left;
    }
+.openbox {
+        cursor: pointer;
+		margin: 15px 0;
+		  }
+.modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+#instructions_trigger:hover{
+    cursor: pointer;
+    }
 
+#dict_trigger:hover{
+    cursor: pointer;
+    }
+
+#re_trigger:hover{
+    cursor: pointer;
+    }
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    }
+
+#logiccaption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+    }
+
+.modal-content, #caption {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+    }
+
+@keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+    }
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    }
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+    }
+
+@media only screen and (max-width: 700px){
+.modal-content {
+    width: 100%;
+    }
+}
 </style>
 {{ endblock }}
 
 {{ block scripts }}
+<script>
+// Get the modal
+var logicmodal = document.getElementById("logicmodal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var logictrigger = document.getElementById("instructions_trigger");
+var logicmodalImg = document.getElementById("logicimg");
+var logiccaptionText = document.getElementById("logiccaption");
+logictrigger.onclick = function(){
+    logicmodal.style.display = "block";
+    logiccaptionText.innerHTML = logicmodalImg.alt;
+};
+
+// Get the <span> element that closes the modal
+var logicspan = document.getElementById("logicclose");
+
+// When the user clicks on <span> (x), close the modal
+    logicspan.onclick = function() {
+        logicmodal.style.display = "none";
+};
+</script>
 <script>
     document.getElementById("openbox").addEventListener("click", function(){
     document.getElementById("infobox").classList.remove("hidden");
@@ -330,5 +455,33 @@ document.querySelector("form").addEventListener("submit", function() {
     let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
     document.getElementById("pagetime_background").value = duration.toFixed(2);
 });
+</script>
+<script>
+let modalOpenTime = null;
+let totalTime = 0;
+let clickCount = 0;
+
+var logicmodal = document.getElementById("logicmodal");
+var logictrigger = document.getElementById("instructions_trigger");
+var logicspan = document.getElementById("logicclose");
+
+// Open modal
+logictrigger.onclick = function(){
+    logicmodal.style.display = "block";
+    modalOpenTime = Date.now();
+    clickCount += 1;
+    document.getElementById("background_click_example").value = clickCount;
+};
+
+// Close modal
+logicspan.onclick = function() {
+    logicmodal.style.display = "none";
+    if (modalOpenTime !== null) {
+        let duration = (Date.now() - modalOpenTime) / 1000.0;  // seconds
+        totalTime += duration;
+        document.getElementById("background_time_example").value = totalTime.toFixed(2);
+        modalOpenTime = null;
+    }
+};
 </script>
 {{ endblock }}
