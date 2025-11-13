@@ -137,6 +137,10 @@ class Player(BasePlayer):
     focus_data_background = models.LongStringField(blank=True)
     background_click_example = models.IntegerField(initial=0)
     background_time_example = models.FloatField(initial=0.0)
+    pagetime_die_instr = models.FloatField(initial=0.0)
+    pagetime_die = models.FloatField(initial=0.0)
+    unfocused_die = models.FloatField(initial=0.0)
+    focus_data_die = models.LongStringField(blank=True)
 
 
 
@@ -472,6 +476,9 @@ class LogicTask6(Page):
 
 
 class InstructionsDice(Page):
+    form_model = 'player'
+    form_fields = ['pagetime_die_instr']
+
     @staticmethod
     def is_displayed(player: Player):
         participant = player.participant
@@ -480,7 +487,7 @@ class InstructionsDice(Page):
 
 class DiceTask1(Page):
     form_model = 'player'
-    form_fields = ['rolls', 'attention1']
+    form_fields = ['rolls', 'attention1', 'pagetime_die', 'focus_data_die']
     @staticmethod
     def vars_for_template(player: Player):
         if not player.field_maybe_none('rolls'):
@@ -508,6 +515,21 @@ class DiceTask1(Page):
             print('score luck:', participant.score_luck)
         if player.attention1 != "strongly disagree":
             player.attention1_passed = False
+            participant.attention1_passed = False
+
+        raw = player.focus_data_die or ""
+        try:
+            events = json.loads(raw) if raw else []
+            if not isinstance(events, list):
+                events = []
+        except (ValueError, TypeError):
+            events = []
+
+        total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
+        player.unfocused_background = total_unfocused / 1000
+
+        print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
+        print(events)
 
 
     @staticmethod
@@ -530,9 +552,11 @@ class Background(Page):
         participant = player.participant
         ingroup_ref = participant.group_ref_background
         outgroup_ref = "Democrat" if ingroup_ref == "Republican" else "Republican"
+        belief_ref = participant.belief_ref
         return {
             'ingroup_ref': ingroup_ref,
             'outgroup_ref': outgroup_ref,
+            'belief_ref': belief_ref,
         }
 
 

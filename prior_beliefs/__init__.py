@@ -34,6 +34,8 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     prior_logic = models.IntegerField()
     prior_luck = models.IntegerField()
+    prior_logic_transformed = models.IntegerField(initial=0)
+    prior_luck_transformed = models.IntegerField(initial=0)
     procedure_click_prior = models.IntegerField(initial=0)
     procedure_time_prior = models.FloatField(initial=0.0)
     pagetime_instr_prior = models.FloatField(initial=0.0)
@@ -158,8 +160,12 @@ class Prior_Logic(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         if participant.belief_ref == "outgroup":
-            player.prior_logic = 100 - player.prior_logic
+            player.prior_logic_transformed = 100 - player.prior_logic
+        else:
+            player.prior_logic_transformed = player.prior_logic
+        participant.prior_logic = player.prior_logic
         print("prior logic:", player.prior_logic)
+        print("transformed prior logic:", player.prior_logic_transformed)
         import json
         raw = player.focus_data_prior_logic or ""
         try:
@@ -253,11 +259,17 @@ class Prior_Luck(Page):
     def before_next_page(player: Player, timeout_happened):
         participant = player.participant
         if participant.belief_ref == "outgroup":
-            player.prior_luck = 100 - player.prior_luck
+            player.prior_luck_transformed = 100 - player.prior_luck
+        else:
+            player.prior_luck_transformed = player.prior_luck
+        participant.prior_luck = player.prior_luck
         print("prior luck:", player.prior_luck)
+        print("transformed prior luck:", player.prior_luck_transformed)
         participant = player.participant
-        ingroup = df[df['group'] == participant.group]
-        outgroup = df[df['group'] == participant.outgroup]
+        #ingroup = df[df['group'] == participant.group]
+        #outgroup = df[df['group'] == participant.outgroup]
+        ingroup = df[df['group'] == participant.group] if participant.belief_ref == "ingroup" else df[df['group'] == participant.outgroup]
+        outgroup = df[df['group'] == participant.outgroup] if participant.belief_ref == "ingroup" else df[df['group'] == participant.group]
         sample_ing1 = ingroup.sample(n=6, replace=False)
         sample_outg1 = outgroup.sample(n=6, replace=False)
         print(sample_ing1)
@@ -271,7 +283,7 @@ class Prior_Luck(Page):
         if participant.sample1_r1 > participant.sample2_r1:
             participant.logic_result = '>'
             participant.r1_sign = random.choices(['>', '<'], weights=[2, 1], k=1)[
-                0]  # random draw between > and <, but with 70% probability for >
+                0]  # random draw between > and <, but with 66.66% probability for >
         elif participant.sample1_r1 < participant.sample2_r1:
             participant.logic_result = '<'
             participant.r1_sign = random.choices(['>', '<'], weights=[1, 2], k=1)[0]
@@ -288,13 +300,21 @@ class Prior_Luck(Page):
             participant.luck_result = random.choice(['>', '<'])
             participant.r2_sign = participant.luck_result
         if participant.belief_ref == "outgroup":
-            participant.logic_sign_shown = '<' if participant.r1_sign == '>' else '>'
-            participant.luck_sign_shown = '<' if participant.r2_sign == '>' else '>'
+            participant.logic_sig_good_transf = 1 if participant.r1_sign == '<' else 0
+            participant.luck_sig_good_transf = 1 if participant.r2_sign == '<' else 0
         else:
-            participant.logic_sign_shown = participant.r1_sign
-            participant.luck_sign_shown = participant.r2_sign
-        print("logic:", participant.logic_result, participant.r1_sign, participant.logic_sign_shown)
-        print("luck:", participant.luck_result, participant.r2_sign, participant.luck_sign_shown)
+            participant.logic_sig_good_transf = 1 if participant.r1_sign == '>' else 0
+            participant.luck_sig_good_transf = 1 if participant.r2_sign == '>' else 0
+        #if participant.belief_ref == "outgroup":
+        #    participant.logic_sign_shown = '<' if participant.r1_sign == '>' else '>'
+        #    participant.luck_sign_shown = '<' if participant.r2_sign == '>' else '>'
+        #else:
+        #    participant.logic_sign_shown = participant.r1_sign
+        #    participant.luck_sign_shown = participant.r2_sign
+        participant.logic_sign_shown = participant.r1_sign
+        participant.luck_sign_shown = participant.r2_sign
+        print("logic:", participant.logic_result, participant.r1_sign, participant.logic_sign_shown, participant.logic_sig_good_transf)
+        print("luck:", participant.luck_result, participant.r2_sign, participant.luck_sign_shown, participant.luck_sig_good_transf)
         import json
         raw = player.focus_data_prior_luck or ""
         try:

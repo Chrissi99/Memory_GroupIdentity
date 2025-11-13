@@ -165,7 +165,7 @@ class WelcomeBack(Page):
             participant.id_worked = False
             participant.group2 = random.choice(['Democrat', 'Republican'])
             participant.group_state2 = random.choice(['strong', 'weak'])
-            participant.treatment = random.choice(['BeliefsMemory', 'Recall'])
+            participant.treatment = random.choice(['BeliefsNoMemory', 'BeliefsMemory', 'Recall'])
             post2 = ["logic", "luck"]
             random.shuffle(post2)
             participant.post2_first = post2[0]
@@ -177,7 +177,12 @@ class WelcomeBack(Page):
             participant.belief_ref = random.choice(["ingroup", "outgroup"])
             participant.belief_example_value = random.choice(['low', 'high'])
             participant.belief_example_direction = random.choice(['over', 'under'])
-        participant.treat_first = 'RECALL' if participant.treatment == 'Recall' else 'BELIEFS'
+        if participant.treatment == 'BeliefsMemory':
+            participant.treat_first = 'BELIEFS'
+        elif participant.treatment == 'BeliefsNoMemory':
+            participant.treat_first = random.choice(['RECALL', 'BELIEFS'])
+        else:
+            participant.treat_first = 'RECALL'
         print('treat_first is', participant.treat_first)
         participant.outgroup2 = 'Democrat' if participant.group2 == 'Republican' else 'Republican'
         print(participant.group2, participant.outgroup2)
@@ -465,6 +470,7 @@ class Post2Logic(Page):
         participant = player.participant
         if participant.belief_ref == "outgroup":
             player.post_memory_logic = 100 - player.post_memory_logic
+        participant.post2_logic = player.post_memory_logic
         import json
         raw = player.focus_data_post2_logic or ""
         try:
@@ -566,6 +572,7 @@ class Post2Luck(Page):
         participant = player.participant
         if participant.belief_ref == "outgroup":
             player.post_memory_luck = 100 - player.post_memory_luck
+        participant.post2_luck = player.post_memory_luck
         import json
         raw = player.focus_data_post2_luck or ""
         try:

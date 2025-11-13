@@ -8,7 +8,7 @@ Block 4
 <h4> Your Task </h4>
 <p>
     Based on the information you have received about the team competition outcomes, please estimate
-    the probability that the team of {{C.NUM_MEMBERS_W}}
+    the <b>probability that the team of {{C.NUM_MEMBERS_W}}
     {{ if participant.belief_ref == "ingroup" }}
     {{ participant.group }}s
     {{ elif participant.belief_ref == "outgroup" }}
@@ -20,6 +20,7 @@ Block 4
     {{ elif participant.belief_ref == "outgroup" }}
     {{ participant.group }}s
     {{ endif }}
+    </b>
     in each of the {{C.NUM_TASKS}} tasks:
     {{ if participant.task1 == "logic" }} Logic Task
     {{ elif participant.task1 == "luck" }} Luck Task
@@ -62,7 +63,7 @@ Block 4
 <br>
     Crucially, your <b>chance of winning the ${{C.PRIZE}} is highest when you report your true, honest belief</b>:
 </p>
-    <ul>
+    <ul style="margin-bottom: 20px;">
         <li>
             High Probability (near 100%): If you are almost certain the
             {{ if participant.belief_ref == "ingroup" }}

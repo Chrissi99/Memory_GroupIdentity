@@ -147,6 +147,7 @@ class PostLogic(Page):
         participant = player.participant
         if participant.belief_ref == "outgroup":
             player.post_direct_logic = 100 - player.post_direct_logic
+        participant.post_logic = player.post_direct_logic
         print("post logic:", player.post_direct_logic)
         import json
         raw = player.focus_data_post_logic or ""
@@ -241,6 +242,7 @@ class PostLuck(Page):
         participant = player.participant
         if participant.belief_ref == "outgroup":
             player.post_direct_luck = 100 - player.post_direct_luck
+        participant.post_luck = player.post_direct_luck
         print("post luck:", player.post_direct_luck)
         import json
         raw = player.focus_data_post_luck or ""

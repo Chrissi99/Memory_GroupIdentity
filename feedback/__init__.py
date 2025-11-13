@@ -1,3 +1,5 @@
+import random
+
 from otree.api import *
 
 
@@ -52,16 +54,16 @@ class Player(BasePlayer):
         label="",
         blank=True,
     )
-    mistake_rep = models.IntegerField(
-        initial=0,
-    )
+    #mistake_rep = models.IntegerField(
+    #    initial=0,
+    #)
     check_probability = models.IntegerField(
         label="",
         blank=True,
     )
-    mistake_prob = models.IntegerField(
-        initial=0,
-    )
+    #mistake_prob = models.IntegerField(
+    #    initial=0,
+    #)
     pagetime_feedback = models.FloatField(initial=0.0)
     pagetime_instr_feedback = models.FloatField(initial=0.0)
     unfocused_feedback_instr = models.FloatField(initial=0.0)
@@ -77,6 +79,9 @@ class InstructionsFeedback(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
+        participant = player.participant
+        participant.mistake_prob = 0
+        participant.mistake_rep = 0
         import json
         raw = player.focus_data_feedback_instr or ""
         try:
@@ -101,8 +106,8 @@ class Feedback(Page):
             player.rep_correct = True
         else:
             player.rep_correct = False
-        print('mistakes:', player.field_maybe_none('mistake_rep'))
-        print('mistakes:', player.field_maybe_none('mistake_prob'))
+        print('mistakes Sign:', participant.mistake_rep)
+        print('mistakes Prob:', participant.mistake_prob)
         print('rep_correct:', player.rep_correct, 'logic:', player.rep_logic, 'luck:',
               player.rep_luck, 'check_probability:', player.check_probability)
         print('belief_ref is', participant.belief_ref)
@@ -117,20 +122,65 @@ class Feedback(Page):
         total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
         player.unfocused_feedback = total_unfocused / 1000
         print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
+        # calculate belief bonus
+        logic_refgroup_win = 1 if participant.logic_result == '>' else 0
+        luck_refgroup_win = 1 if participant.luck_result == '>' else 0
+        logic_winning_prob = 100 - 100 * (logic_refgroup_win - participant.prior_logic / 100) ** 2
+        luck_winning_prob = 100 - 100 * (luck_refgroup_win - participant.prior_luck / 100) ** 2
+        participant.prior_bonus_task = random.choice(['logic', 'luck'])
+        if participant.prior_bonus_task == 'logic':
+            participant.prior_bonus = 2 if random.random() < logic_winning_prob else 0
+        else:
+            participant.prior_bonus = 2 if random.random() < luck_winning_prob else 0
+        print(f"Prior belief bonus task: {participant.prior_bonus_task}, bonus: {participant.prior_bonus}")
+
+
 
     @staticmethod
     def error_message(player: Player, values):
         participant = player.participant
-        if values['rep_logic'] is None or values['rep_luck'] is None or values['check_probability'] is None:
+        errors = []
+        rep_logic = values.get('rep_logic')
+        rep_luck = values.get('rep_luck')
+        check_prob = values.get('check_probability')
+        if rep_logic is None or rep_luck is None or check_prob is None:
             return 'Please answer all questions.'
-        if values['rep_logic'] != participant.logic_sign_shown or values[
-            'rep_luck'] != participant.luck_sign_shown and values['rep_logic'] is not None and values['rep_luck'] is not None:
-            player.mistake_rep += 1
-            return 'Your answer does not match the information you received. Please read the instructions carefully, check the table, and try again.'
-        if values['check_probability'] != C.SIGNAL_WRONG_FQ and values['check_probability'] is not None:
-            player.mistake_prob += 1
-            return 'Your answer does not match the information you received. Please read the instructions carefully and try again.'
+        if (
+                rep_logic is not None
+                and rep_luck is not None
+                and (
+                rep_logic != participant.logic_sign_shown
+                or rep_luck != participant.luck_sign_shown
+        )
+        ):
+            participant.mistake_rep += 1
+            errors.append('rep')
+
+        if check_prob is not None:
+            try:
+                check_prob_int = int(check_prob)
+            except (ValueError, TypeError):
+                check_prob_int = None
+            if check_prob_int is not None and check_prob_int != C.SIGNAL_WRONG_FQ:
+                participant.mistake_prob += 1
+                errors.append('prob')
+
+        if errors:
+            return (
+                'Your answer does not match the information you received. '
+                'Please read the instructions carefully, check the table, and try again.'
+            )
+
+        #if values['rep_logic'] is None or values['rep_luck'] is None or values['check_probability'] is None:
+        #    return 'Please answer all questions.'
+        #if values['rep_logic'] != participant.logic_sign_shown or values[
+        #    'rep_luck'] != participant.luck_sign_shown and values['rep_logic'] is not None and values['rep_luck'] is not None:
+        #    participant.mistake_rep += 1
+        #    return 'Your answer does not match the information you received. Please read the instructions carefully, check the table, and try again.'
+        #if values['check_probability'] != C.SIGNAL_WRONG_FQ and values['check_probability'] is not None:
+        #    participant.mistake_prob += 1
+        #    return 'Your answer does not match the information you received. Please read the instructions carefully and try again.'
 
 
 page_sequence = [InstructionsFeedback, Feedback]
-    #[FeedbackNew, FeedbackSample
+    #[FeedbackNew, FeedbackSample]

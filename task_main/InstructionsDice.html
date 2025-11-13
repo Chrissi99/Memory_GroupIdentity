@@ -15,7 +15,7 @@
 </p>
 <h4> Score and Payment: </h4>
 <p>
-    The die is a fair dice with equal probability of rolling a 1, 2, 3, 4, 5 or 6. Thus, what you roll is completely random
+    The die is a fair die with equal probability of rolling a 1, 2, 3, 4, 5 or 6. Thus, what you roll is completely random
     and you have no influence on the outcome. <br>
 
     You can receive a bonus payment for this game which depends on your score.
@@ -30,7 +30,28 @@
     Please click on "Next" when you have understood the instructions and are ready to start the game.
 </p>
 
-    {{ formfields }}
     {{ next_button }}
 
+<input type="hidden" name="pagetime_die_instr" id="pagetime_die_instr" value="0">
+{{ formfield_errors 'pagetime_die_instr' }}
+
+{{ endblock }}
+
+{{ block styles }}
+<style>
+.hidden {
+	display:none;
+}
+</style>
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+let pageEnterTime = Date.now();
+
+document.querySelector("form").addEventListener("submit", function() {
+    let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
+    document.getElementById("pagetime_die_instr").value = duration.toFixed(2);
+});
+</script>
 {{ endblock }}

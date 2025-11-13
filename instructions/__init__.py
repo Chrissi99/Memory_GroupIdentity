@@ -26,27 +26,10 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession):
     import itertools
-    # treatment = itertools.cycle(['BeliefsNoMemory', 'Recall', 'BeliefsMemory']) # CHANGE? OR INCLUDE FOR MAIN
-    # treatment = itertools.cycle(['Recall', 'BeliefsMemory']) # for testing --> reinclude BeliefsNoMemory for experiment (or different sessions anyway)
-    # random.seed(10799)
-    # treatments = ['BeliefsNoMemory', 'Recall', 'BeliefsMemory']
-    # weights = [0.28, 0.36, 0.36]
-    treatment = itertools.cycle(['BeliefsNoMemory', 'Recall', 'BeliefsMemory',
-                                 'BeliefsNoMemory', 'Recall', 'BeliefsMemory',
-                                 'Recall', 'BeliefsMemory',
-                                 'BeliefsNoMemory', 'Recall', 'BeliefsMemory',
-                                 'BeliefsNoMemory', 'Recall', 'BeliefsMemory',
-                                 'BeliefsNoMemory', 'Recall', 'BeliefsMemory',
-                                 'Recall', 'BeliefsMemory',
-                                'BeliefsNoMemory', 'Recall', 'BeliefsMemory',
-                                'BeliefsNoMemory', 'Recall', 'BeliefsMemory',
-                                 'BeliefsNoMemory', 'Recall', 'BeliefsMemory',
-                                 ])
+    treatment = itertools.cycle(['BeliefsNoMemory', 'Recall', 'BeliefsMemory'])
     for p in subsession.get_players():
         if p.round_number == 1:
             p.participant.treatment = next(treatment)
-            # p.participant.treatment = 'BeliefsNoMemory'
-            # p.participant.treatment = random.choices(treatments, weights)[0]
             print(p.participant.treatment)
 
 

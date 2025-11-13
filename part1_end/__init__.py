@@ -1,4 +1,5 @@
 from otree.api import *
+import random
 
 
 doc = """
@@ -51,6 +52,18 @@ class Attention(Page):
         total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
         player.unfocused_attention2 = total_unfocused / 1000
         print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
+        # calculate post belief bonus for treatment BeliefsNoMemory
+        participant = player.participant
+        logic_refgroup_win = 1 if participant.logic_result == '>' else 0
+        luck_refgroup_win = 1 if participant.luck_result == '>' else 0
+        logic_winning_prob = 100 - 100 * (logic_refgroup_win - participant.post_logic / 100) ** 2
+        luck_winning_prob = 100 - 100 * (luck_refgroup_win - participant.post_luck / 100) ** 2
+        participant.post_bonus_task = random.choice(['logic', 'luck'])
+        if participant.post_bonus_task == 'logic':
+            participant.post_bonus = 2 if random.random() < logic_winning_prob else 0
+        else:
+            participant.post_bonus = 2 if random.random() < luck_winning_prob else 0
+        print(f"Post belief bonus task: {participant.post_bonus_task}, bonus: {participant.post_bonus}")
 
 
 class End_Part1(Page):

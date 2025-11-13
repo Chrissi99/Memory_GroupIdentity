@@ -9,7 +9,18 @@
 <h3> Background </h3>
 
 <p id="text">
-    In a previous study, participants who were supporters of either the {{participant.group}}s or the {{participant.outgroup}}s
+    In a previous study, participants who were supporters of either the
+    {{ if belief_ref == "ingroup" }}
+    {{participant.group}}s
+    {{ else }}
+    {{participant.outgroup}}s
+    {{ endif }}
+    or the
+    {{ if belief_ref == "ingroup" }}
+    {{participant.outgroup}}s
+    {{ else }}
+    {{participant.group}}s
+    {{ endif }}
     completed the same {{C.NUM_TASKS_W}} tasks that you have just completed:
     {{ if participant.task1 == "logic" }} Logic Task
     {{ elif participant.task1 == "luck" }} Luck Task
@@ -19,7 +30,18 @@
     {{ endif }}
 </p>
 <p>
-    For each task, a Team of {{ C.NUM_MEMBERS_W}} {{participant.group}}s competed against a Team of {{ C.NUM_MEMBERS_W}}  {{participant.outgroup}}s.
+    For each task, a team of {{ C.NUM_MEMBERS_W}}
+    {{ if belief_ref == "ingroup" }}
+    {{participant.group}}s
+    {{ else }}
+    {{participant.outgroup}}s
+    {{ endif }}
+    competed against a team of {{ C.NUM_MEMBERS_W}}
+    {{ if belief_ref == "ingroup" }}
+    {{participant.outgroup}}s.
+    {{ else }}
+    {{participant.group}}s.
+    {{ endif }}
     Teams were randomly selected and could consist of different people for each task.
 </p>
 
@@ -27,26 +49,50 @@
     <th width="5%"> </th>
     <th width="18%" style="text-align:left"> Task </th>
     <th width="8%" style="item-align:center">
-        {{ if participant.group == "Democrat" }}
-        <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
-        {{ else}}
-        <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+        {{ if belief_ref == "ingroup" }}
+            {{ if participant.group == "Democrat" }}
+            <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        {{ else }}
+            {{ if participant.outgroup == "Democrat" }}
+            <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
         {{ endif }}
     </th>
     <th width="18%" style="text-align:left">
-        {{ participant.group}}s <br>
+        {{ if belief_ref == "ingroup" }}
+            {{ participant.group}}s <br>
+        {{ else }}
+            {{ participant.outgroup}}s <br>
+        {{ endif }}
     </th>
     <th width="4%"> </th>
     <th width="5%"> </th>
     <th width="8%" style="item-align:left">
-        {{ if participant.outgroup == "Democrat" }}
-        <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
-        {{ else}}
-        <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+        {{ if belief_ref == "ingroup" }}
+            {{ if participant.outgroup == "Democrat" }}
+            <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
+        {{ else }}
+            {{ if participant.group == "Democrat" }}
+            <img class="logo" src="{% static "global/logo_democrat.png" %}" alt="logo of Democrats">
+            {{ else}}
+            <img class="logo" src="{% static "global/logo_republican.png" %}" alt="logo of Republicans">
+            {{ endif }}
         {{ endif }}
     </th>
     <th width="18%" style="text-align:left">
-        {{ participant.outgroup}}s <br>
+        {{ if belief_ref == "ingroup" }}
+            {{ participant.outgroup}}s <br>
+        {{ else }}
+            {{ participant.group}}s <br>
+        {{ endif }}
     </th>
     <tr height="5px" style="border-bottom: 3px solid black"></tr>
     <tr height="2px"></tr>
@@ -61,19 +107,35 @@
             {{ endif }}
         </td>
         <td colspan="2" style="text-align:center">
-            {{ if participant.group == "Democrat" }}
-            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
-            {{ else}}
-            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ if belief_ref == "ingroup" }}
+                {{ if participant.group == "Democrat" }}
+                <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+                {{ else}}
+                <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+                {{ endif }}
+            {{ else }}
+                {{ if participant.outgroup == "Democrat" }}
+                <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+                {{ else}}
+                <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+                {{ endif }}
             {{ endif }}
         </td>
         <td style="text-align:center"> <b>vs.</b> </td>
         <td> </td>
         <td colspan="2" style="text-align:center">
-            {{ if participant.outgroup == "Democrat" }}
-            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
-            {{ else}}
-            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ if belief_ref == "ingroup" }}
+                {{ if participant.outgroup == "Democrat" }}
+                <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+                {{ else}}
+                <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+                {{ endif }}
+            {{ else }}
+                {{ if participant.group == "Democrat" }}
+                <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+                {{ else}}
+                <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+                {{ endif }}
             {{ endif }}
         </td>
     </tr>
@@ -90,19 +152,35 @@
             {{ endif }}
         </td>
         <td colspan="2" style="text-align:center">
-            {{ if participant.group == "Democrat" }}
-            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
-            {{ else}}
-            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ if belief_ref == "ingroup" }}
+                {{ if participant.group == "Democrat" }}
+                <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+                {{ else}}
+                <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+                {{ endif }}
+            {{ else }}
+                {{ if participant.outgroup == "Democrat" }}
+                <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+                {{ else}}
+                <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+                {{ endif }}
             {{ endif }}
         </td>
         <td style="text-align:center"> <b>vs.</b> </td>
         <td> </td>
         <td colspan="2" style="text-align:center">
-            {{ if participant.outgroup == "Democrat" }}
-            <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
-            {{ else}}
-            <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+            {{ if belief_ref == "ingroup" }}
+                {{ if participant.outgroup == "Democrat" }}
+                <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+                {{ else}}
+                <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+                {{ endif }}
+            {{ else }}
+                {{ if participant.group == "Democrat" }}
+                <img class="group_img" src="{% static "global/group_democrat.png" %}" alt="logo of Democrats">
+                {{ else}}
+                <img class="group_img" src="{% static "global/group_republican.png" %}" alt="logo of Republicans">
+                {{ endif }}
             {{ endif }}
         </td>
     </tr>
@@ -143,7 +221,7 @@ The Competition:
         Example 1: The {{ingroup_ref}}s solved a total of 25 questions and the {{outgroup_ref}}s solved 23 questions: Team {{ingroup_ref}} won.
     </li>
     <li>
-        Example 2: The {{ingroup_ref}}s solved a total of 18 questions and the {{outgroup_ref}}s solved 18 questions: A coin flip determined the winner.
+        Example 2: The {{ingroup_ref}}s solved a total of 16 questions and the {{outgroup_ref}}s solved 16 questions: A coin flip determined the winner.
     </li>
     <li>
         Example 3: The {{ingroup_ref}}s solved a total of 18 questions and the {{outgroup_ref}}s solved 22 questions: Team {{outgroup_ref}} won.

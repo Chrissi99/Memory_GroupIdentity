@@ -7,7 +7,7 @@ Block 3
 
 <h4> Your Task </h4>
 <p>
-    Your task is to estimate the probability that the team of {{C.NUM_MEMBERS_W}}
+    Your task is to estimate the <b>probability that the team of {{C.NUM_MEMBERS_W}}
     {{ if participant.belief_ref == "ingroup" }}
     {{ participant.group }}s
     {{ elif participant.belief_ref == "outgroup" }}
@@ -18,7 +18,7 @@ Block 3
     {{ participant.outgroup }}s
     {{ elif participant.belief_ref == "outgroup" }}
     {{ participant.group }}s
-    {{ endif }}
+    {{ endif }} </b>
     in each of the {{C.NUM_TASKS}} tasks:
     {{ if participant.task1 == "logic" }} Logic Task
     {{ elif participant.task1 == "luck" }} Luck Task

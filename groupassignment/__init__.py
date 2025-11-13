@@ -23,7 +23,7 @@ class Subsession(BaseSubsession):
 
 
 def creating_session(subsession: Subsession):
-    task = itertools.cycle(['logic', 'luck'])
+    belief_refs = itertools.cycle(['ingroup', 'outgroup'])
     for p in subsession.get_players():
         if p.round_number == 1:
             task_numbers = list(range(1, C.NUM_TASKS + 1))
@@ -38,7 +38,8 @@ def creating_session(subsession: Subsession):
             p.participant.score_logic = 0
             prior = ["logic", "luck"]
             random.shuffle(prior)
-            p.participant.belief_ref = random.choice(C.BELIEF_REF)
+            #p.participant.belief_ref = random.choice(C.BELIEF_REF)
+            p.participant.belief_ref = next(belief_refs)
             print('belief_ref is', p.participant.belief_ref)
             p.participant.group_ref_background = random.choice(['Democrat', 'Republican'])
             p.participant.belief_example_value = random.choice(['low', 'high'])
