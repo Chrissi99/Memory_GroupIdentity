@@ -4,10 +4,19 @@
 
 {{ block content }}
 <h3> Procedure and Payment</h3>
-<!--<p>
-    Thank you for participating in this study!
-</p>-->
-<br>
+<p>
+    This study consists of {{C.TASKS_PART1_DIRECT}} blocks.
+    In each block, you can earn a bonus payment. At the end of the study, one block will be randomly selected to determine
+    your bonus payment. This is referred to as the "block-that-counts". Your payoff in this block-that-counts will be added to your participation fee
+    and paid out within one week.
+    <br>
+    Details about the potential bonus payment and instructions will be
+    provided before each block.
+</p>
+
+
+
+<!--
 <p>
     <b> This study consists of two parts</b>.
     Part II will take place in <u>{{C.BREAK_DURATION}}</u>.
@@ -29,6 +38,7 @@
     Details about the potential bonus payment and instructions will be
     provided before each block.
 </p>
+-->
 
 
     {{ next_button }}

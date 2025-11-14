@@ -27,6 +27,7 @@ class Subsession(BaseSubsession):
 def creating_session(subsession):
     import itertools
     treatment = itertools.cycle(['BeliefsNoMemory', 'Recall', 'BeliefsMemory'])
+    treatment = itertools.cycle(['BeliefsNoMemory'])
     for p in subsession.get_players():
         if p.round_number == 1:
             p.participant.treatment = next(treatment)
