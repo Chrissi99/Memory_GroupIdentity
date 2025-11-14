@@ -54,9 +54,9 @@ class TaskBreak(Page):
         luck_winning_prob = 100 - 100 * (luck_refgroup_win - participant.post2_luck / 100) ** 2
         participant.post2_bonus_task = random.choice(['logic', 'luck'])
         if participant.post2_bonus_task == 'logic':
-            participant.post2_bonus = 2 if random.random() < logic_winning_prob else 0
+            participant.post2_bonus = 2 if random.random() < (logic_winning_prob*0.01) else 0
         else:
-            participant.post2_bonus = 2 if random.random() < luck_winning_prob else 0
+            participant.post2_bonus = 2 if random.random() < (luck_winning_prob*0.01) else 0
         print(f"Post belief bonus task: {participant.post2_bonus_task}, bonus: {participant.post2_bonus}")
 
 

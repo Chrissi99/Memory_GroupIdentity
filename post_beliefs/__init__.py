@@ -29,6 +29,8 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     post_direct_logic = models.IntegerField()
     post_direct_luck = models.IntegerField()
+    post_direct_logic_transformed = models.IntegerField(initial=0)
+    post_direct_luck_transformed = models.IntegerField(initial=0)
     procedure_click_post1 = models.IntegerField(initial=0)
     procedure_time_post1 = models.FloatField(initial=0.0)
     pagetime_instr_post1 = models.FloatField(initial=0.0)
@@ -146,7 +148,9 @@ class PostLogic(Page):
     def before_next_page(player, timeout_happened):
         participant = player.participant
         if participant.belief_ref == "outgroup":
-            player.post_direct_logic = 100 - player.post_direct_logic
+            player.post_direct_logic_transformed = 100 - player.post_direct_logic
+        else :
+            player.post_direct_logic_transformed = player.post_direct_logic
         participant.post_logic = player.post_direct_logic
         print("post logic:", player.post_direct_logic)
         import json
@@ -241,7 +245,9 @@ class PostLuck(Page):
     def before_next_page(player, timeout_happened):
         participant = player.participant
         if participant.belief_ref == "outgroup":
-            player.post_direct_luck = 100 - player.post_direct_luck
+            player.post_direct_luck_transformed = 100 - player.post_direct_luck
+        else:
+            player.post_direct_luck_transformed = player.post_direct_luck
         participant.post_luck = player.post_direct_luck
         print("post luck:", player.post_direct_luck)
         import json

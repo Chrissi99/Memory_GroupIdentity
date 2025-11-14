@@ -129,9 +129,9 @@ class Feedback(Page):
         luck_winning_prob = 100 - 100 * (luck_refgroup_win - participant.prior_luck / 100) ** 2
         participant.prior_bonus_task = random.choice(['logic', 'luck'])
         if participant.prior_bonus_task == 'logic':
-            participant.prior_bonus = 2 if random.random() < logic_winning_prob else 0
+            participant.prior_bonus = 2 if random.random() < (logic_winning_prob*0.01) else 0
         else:
-            participant.prior_bonus = 2 if random.random() < luck_winning_prob else 0
+            participant.prior_bonus = 2 if random.random() < (luck_winning_prob*0.01) else 0
         print(f"Prior belief bonus task: {participant.prior_bonus_task}, bonus: {participant.prior_bonus}")
 
 

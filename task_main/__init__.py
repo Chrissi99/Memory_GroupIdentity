@@ -516,6 +516,9 @@ class DiceTask1(Page):
         if player.attention1 != "strongly disagree":
             player.attention1_passed = False
             participant.attention1_passed = False
+        else:
+            player.attention1_passed = True
+            participant.attention1_passed = True
 
         raw = player.focus_data_die or ""
         try:
@@ -572,7 +575,7 @@ class Background(Page):
             events = []
 
         total_unfocused = sum(e.get('unfocused_duration_ms', 0) for e in events)
-        player.unfocused_background = total_unfocused / 1000
+        player.unfocused_die = total_unfocused / 1000
 
         print(f"{player.participant.code} unfocused for {total_unfocused / 1000:.1f}s")
         print(events)

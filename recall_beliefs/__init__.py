@@ -78,6 +78,8 @@ class Player(BasePlayer):
     recall_confidence_luck = models.IntegerField(blank=True)
     post_memory_logic = models.IntegerField()
     post_memory_luck = models.IntegerField()
+    post_memory_logic_transformed = models.IntegerField(initial=0)
+    post_memory_luck_transformed = models.IntegerField(initial=0)
     prolific_id = models.StringField(
         label='Before we start, please enter your Prolific ID',
         blank=True,
@@ -469,7 +471,9 @@ class Post2Logic(Page):
     def before_next_page(player, timeout_happened):
         participant = player.participant
         if participant.belief_ref == "outgroup":
-            player.post_memory_logic = 100 - player.post_memory_logic
+            player.post_memory_logic_transformed = 100 - player.post_memory_logic
+        else:
+            player.post_memory_logic_transformed = player.post_memory_logic
         participant.post2_logic = player.post_memory_logic
         import json
         raw = player.focus_data_post2_logic or ""
@@ -571,7 +575,9 @@ class Post2Luck(Page):
     def before_next_page(player, timeout_happened):
         participant = player.participant
         if participant.belief_ref == "outgroup":
-            player.post_memory_luck = 100 - player.post_memory_luck
+            player.post_memory_luck_transformed = 100 - player.post_memory_luck
+        else:
+            player.post_memory_luck_transformed = player.post_memory_luck
         participant.post2_luck = player.post_memory_luck
         import json
         raw = player.focus_data_post2_luck or ""
