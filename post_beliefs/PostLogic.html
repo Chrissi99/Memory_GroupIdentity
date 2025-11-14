@@ -48,18 +48,18 @@
     {{ elif participant.task2 == "luck" }} Luck Task.
     {{ endif }}
 <br>
-        Remember that the
+        Remember that team
         {{ if participant.belief_ref == "ingroup" }}
     {{ participant.group }}
     {{ elif participant.belief_ref == "outgroup" }}
     {{ participant.outgroup }}
     {{ endif }}
-        team won if it had a higher total score than the
+        won if it had a higher total score than team
         {{ if participant.belief_ref == "ingroup" }}
     {{ participant.outgroup }}
     {{ elif participant.belief_ref == "outgroup" }}
     {{ participant.group }}
-    {{ endif }} team (or tied and won the coin flip).
+    {{ endif }} (or tied and won the coin flip).
 </p>
 <p>
     To give your estimate, you will use a slider on the next pages to state your probability estimate between 0% to 100% for each task.
@@ -72,30 +72,30 @@
 </p>
     <ul>
         <li>
-            High Probability (near 100%): If you are almost certain the
+            High Probability (near 100%): If you are almost certain that team
             {{ if participant.belief_ref == "ingroup" }}
             {{ participant.group }}
             {{ elif participant.belief_ref == "outgroup" }}
             {{ participant.outgroup }}
-            {{ endif }} team won.
+            {{ endif }} won.
         </li>
         <li>
-            Medium Probability (near 50%): If you are completely uncertain about whether the
+            Medium Probability (near 50%): If you are completely uncertain about whether team
             {{ if participant.belief_ref == "ingroup" }}
             {{ participant.group }}
             {{ elif participant.belief_ref == "outgroup" }}
             {{ participant.outgroup }}
             {{ endif }}
-            team won or lost.
+            won or lost.
         </li>
         <li>
-            Low Probability (near 0%): If you are almost certain the
+            Low Probability (near 0%): If you are almost certain that team
             {{ if participant.belief_ref == "ingroup" }}
             {{ participant.group }}
             {{ elif participant.belief_ref == "outgroup" }}
             {{ participant.outgroup }}
             {{ endif }}
-            team lost.
+            lost.
         </li>
     </ul>
 

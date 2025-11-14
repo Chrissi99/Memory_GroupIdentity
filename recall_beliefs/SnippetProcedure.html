@@ -3,13 +3,13 @@
 
 <p>
     How a given answer maps into your chance of winning ${{C.PRIZE}} is based on a formula that is designed to ensure
-    that you have the best chance of winning when you state your true belief that Team
+    that you have the best chance of winning when you state your true belief that team
     {{ if participant.belief_ref == "ingroup" }}
     {{ participant.group2 }}
     {{ elif participant.belief_ref == "outgroup" }}
     {{ participant.outgroup2 }}
     {{ endif }}
-    won against Team
+    won against team
     {{ if participant.belief_ref == "ingroup" }}
     {{ participant.outgroup2 }}.
     {{ elif participant.belief_ref == "outgroup" }}
@@ -67,8 +67,8 @@
 <h4>How the formula works:</h4>
 The formula gives you a higher chance of winning the closer your reported belief (r) is to what actually happened (R):
 <ul>
-    <li>If Team Republican won (R=1), your winning chance is higher the larger your reported probability.</li>
-    <li>If Team Republican lost (R=0), your winning chance is higher the smaller your reported probability.</li>
+    <li>If team Republican won (R=1), your winning chance is higher the larger your reported probability.</li>
+    <li>If team Republican lost (R=0), your winning chance is higher the smaller your reported probability.</li>
 </ul>
 <p>
     Since you don’t know the true result in advance, your report should reflect how likely you think each outcome is — that is,
@@ -84,13 +84,13 @@ The formula gives you a higher chance of winning the closer your reported belief
 
 <h4> Example: </h4>
 <p>
-    Suppose you believe that Team
+    Suppose you believe that team
     {{ if participant.belief_ref == "ingroup" }}
     {{ participant.group2 }}
     {{ elif participant.belief_ref == "outgroup" }}
     {{ participant.outgroup2 }}
     {{ endif }}
-    won against Team
+    won against team
     {{ if participant.belief_ref == "ingroup" }}
     {{ participant.outgroup2 }}
     {{ elif participant.belief_ref == "outgroup" }}
@@ -102,14 +102,14 @@ The formula gives you a higher chance of winning the closer your reported belief
 <p style="margin-top: -10px;">
 There are two possibilities:
     <ul>
-            <li> If Team
+            <li> If team
             {{ if participant.belief_ref == "ingroup" }}
             {{ participant.group2 }}
             {{ elif participant.belief_ref == "outgroup" }}
             {{ participant.outgroup2 }}
             {{ endif }} won (R=1), your winning probability based on the formula is: {{ prob_r1 }}%.
             </li>
-            <li> If Team
+            <li> If team
             {{ if participant.belief_ref == "ingroup" }}
             {{ participant.outgroup2 }}
             {{ elif participant.belief_ref == "outgroup" }}
@@ -118,7 +118,7 @@ There are two possibilities:
             </li>
     </ul>
 
-Because, in this example, you think they win 68% of the time, your expected winning probability is:
+Because, in this example, you think they win {{ belief_example }}% of the time, your expected winning probability is:
 </p>
 <p style="text-align:center;">
     {{ belief_example }}%×{{ prob_r1 }}% + {{ belief_example_compl }}%×{{ prob_r0 }}% = {{ prob_avg }}%
@@ -130,7 +130,7 @@ Because, in this example, you think they win 68% of the time, your expected winn
 
 <ul>
     <li>
-        If Team
+        If team
         {{ if participant.belief_ref == "ingroup" }}
         {{ participant.group2 }}
         {{ elif participant.belief_ref == "outgroup" }}
@@ -139,7 +139,7 @@ Because, in this example, you think they win 68% of the time, your expected winn
         your winning probability is: {{ dev_r1 }}%.
     </li>
     <li>
-        If Team
+        If team
         {{ if participant.belief_ref == "ingroup" }}
         {{ participant.outgroup2 }}
         {{ elif participant.belief_ref == "outgroup" }}
@@ -148,7 +148,7 @@ Because, in this example, you think they win 68% of the time, your expected winn
         your winning probability is: {{ dev_r0 }}%.
     </li>
     <li>
-        Since, in this example, Team
+        Since, in this example, team
         {{ if participant.belief_ref == "ingroup" }}
         {{ participant.outgroup2 }}
         {{ elif participant.belief_ref == "outgroup" }}
