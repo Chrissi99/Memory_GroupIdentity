@@ -9,11 +9,11 @@
 
     <p class="center">
     {{ if participant.belief_ref == "ingroup" }}
-    What do you think is the <b>probability</b> that the team of {{C.NUM_MEMBERS_W}} {{ participant.group }}s won against the
-    team of {{C.NUM_MEMBERS_W}} {{participant.outgroup}}s in the <b>Luck Task</b>? <br>
+    What do you think is the <b>probability that the team of {{C.NUM_MEMBERS_W}} {{ participant.group }}s won against the
+    team of {{C.NUM_MEMBERS_W}} {{participant.outgroup}}s</b> in the <b>Luck Task</b>? <br>
     {{ else }}
-    What do you think is the <b>probability</b> that the team of {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}s won against the
-    team of {{C.NUM_MEMBERS_W}} {{participant.group}}s in the <b>Luck Task</b>? <br>
+    What do you think is the <b>probability that the team of {{C.NUM_MEMBERS_W}} {{ participant.outgroup }}s won against the
+    team of {{C.NUM_MEMBERS_W}} {{participant.group}}s</b> in the <b>Luck Task</b>? <br>
     {{ endif }}
     Remember that your chance of winning the ${{C.PRIZE}} is highest if you give your true estimate.<br>
         If you want to read the instructions again, click <b id="instructions_trigger" style="color:blue">here</b>.

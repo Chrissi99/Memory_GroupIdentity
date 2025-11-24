@@ -41,6 +41,7 @@ def creating_session(subsession: Subsession):
             #p.participant.belief_ref = random.choice(C.BELIEF_REF)
             p.participant.belief_ref = next(belief_refs)
             print('belief_ref is', p.participant.belief_ref)
+            # p.participant.group_ref = participant.group if belief_ref == 'ingroup' else participant.outgroup
             p.participant.group_ref_background = random.choice(['Democrat', 'Republican'])
             p.participant.belief_example_value = random.choice(['low', 'high'])
             print('belief_example_value is', p.participant.belief_example_value)
@@ -90,6 +91,11 @@ class Politics(Page):
         print('group:',participant.group)
         print(participant.group_state)
         print('outgroup:', participant.outgroup)
+        if participant.belief_ref == 'ingroup':
+            participant.group_ref = participant.group
+        else:
+            participant.group_ref = participant.outgroup
+        print('group_ref:', participant.group_ref)
 
 
 page_sequence = [Politics]

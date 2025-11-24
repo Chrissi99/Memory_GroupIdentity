@@ -305,12 +305,6 @@ class Prior_Luck(Page):
         else:
             participant.logic_sig_good_transf = 1 if participant.r1_sign == '>' else 0
             participant.luck_sig_good_transf = 1 if participant.r2_sign == '>' else 0
-        #if participant.belief_ref == "outgroup":
-        #    participant.logic_sign_shown = '<' if participant.r1_sign == '>' else '>'
-        #    participant.luck_sign_shown = '<' if participant.r2_sign == '>' else '>'
-        #else:
-        #    participant.logic_sign_shown = participant.r1_sign
-        #    participant.luck_sign_shown = participant.r2_sign
         participant.logic_sign_shown = participant.r1_sign
         participant.luck_sign_shown = participant.r2_sign
         print("logic:", participant.logic_result, participant.r1_sign, participant.logic_sign_shown, participant.logic_sig_good_transf)

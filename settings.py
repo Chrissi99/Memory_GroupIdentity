@@ -65,6 +65,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 
 PARTICIPANT_FIELDS = ['test_id', 'id_worked',
                       'treatment', 'group', 'outgroup', 'group_state', 'order_venn',
+                      'group_ref',
                       'belief_ref', 'group_ref_background',
                       'task_rounds', 'treat_first', 'task_order',
                         'task1', 'task2', 'score_logic', 'score_luck',

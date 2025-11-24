@@ -67,8 +67,20 @@
 <h4>How the formula works:</h4>
 The formula gives you a higher chance of winning the closer your reported belief (r) is to what actually happened (R):
 <ul>
-    <li>If team Republican won (R=1), your winning chance is higher the larger your reported probability.</li>
-    <li>If team Republican lost (R=0), your winning chance is higher the smaller your reported probability.</li>
+    <li>If team
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.group }}
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.outgroup }}
+        {{ endif }}
+        won (R=1), your winning chance is higher the larger your reported probability.</li>
+    <li>If team
+        {{ if participant.belief_ref == "ingroup" }}
+        {{ participant.group }}
+        {{ elif participant.belief_ref == "outgroup" }}
+        {{ participant.outgroup }}
+        {{ endif }}
+        lost (R=0), your winning chance is higher the smaller your reported probability.</li>
 </ul>
 <p>
     Since you don’t know the true result in advance, your report should reflect how likely you think each outcome is — that is,
