@@ -8,12 +8,12 @@ SESSION_CONFIGS = [
         #               'recall_beliefs', 'groupiness_part2', 'survey_main'],
          #num_demo_participants=20,
      #),
-    dict(
-        name='pre_experiment',
-        display_name='pre_experiment',
-        num_demo_participants=20,
-        app_sequence=['pre_intro', 'task_pre', 'pre_survey'],
-    ),
+    #dict(
+    #    name='pre_experiment',
+    #    display_name='pre_experiment',
+    #    num_demo_participants=20,
+    #    app_sequence=['pre_intro', 'task_pre', 'pre_survey'],
+    #),
     dict(
         name='main_part1',
          app_sequence=['welcome', 'instructions', 'groupassignment', 'groupidentification', 'task_main',
