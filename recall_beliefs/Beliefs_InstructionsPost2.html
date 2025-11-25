@@ -1,13 +1,19 @@
 {{ block title }}
-{{ if participant.treat_first == "BELIEFS" and participant.treatment == "BeliefsMemory" }}
-Block 4
-{{ elif participant.treat_first == "RECALL" }}
-Block 5
-{{ elif participant.treat_first == "BELIEFS" and participant.treatment == "BeliefsNoMemory" }}
-Block 5
-{{ endif }}
 {{ endblock }}
 {{ block content }}
+{{ if participant.treatment == "BeliefsNoMemory"}}
+    {{ if participant.treat_first == "RECALL" }}
+    <h2> Block 6 </h2>
+    {{ elif participant.treat_first == "BELIEFS" }}
+    <h2> Block 5 </h2>
+    {{ endif }}
+{{ else }}
+    {{ if participant.treat_first == "RECALL" }}
+    <h2> Block 5 </h2>
+    {{ elif participant.treat_first == "BELIEFS" }}
+    <h2> Block 4 </h2>
+    {{ endif }}
+{{ endif }}
 
 
 

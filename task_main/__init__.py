@@ -553,13 +553,15 @@ class Background(Page):
     @staticmethod
     def vars_for_template(player):
         participant = player.participant
-        ingroup_ref = participant.group_ref_background
-        outgroup_ref = "Democrat" if ingroup_ref == "Republican" else "Republican"
+        ref_background = participant.group_ref_background
         belief_ref = participant.belief_ref
+        group_ref = participant.group_ref
+        outgroup_ref = "Democrat" if group_ref == "Republican" else "Republican"
         return {
-            'ingroup_ref': ingroup_ref,
-            'outgroup_ref': outgroup_ref,
+            'ref_background': ref_background,
             'belief_ref': belief_ref,
+            'group_ref': group_ref,
+            'outgroup_ref': outgroup_ref,
         }
 
 

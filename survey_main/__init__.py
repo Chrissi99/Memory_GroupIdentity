@@ -152,6 +152,7 @@ class Player(BasePlayer):
     pagetime_survey = models.FloatField(initial=0.0)
     unfocused_survey = models.FloatField(initial=0.0)
     focus_data_survey = models.LongStringField(blank=True)
+    keystrokes = models.LongStringField()
 
 
 # PAGES
@@ -186,7 +187,8 @@ class Survey(Page):
                    #'political_affiliation', 'political_orientation','feedback_trust',
                    'information_search', 'information_source',
                     'memory', #'understand', 'recall_memory'
-                    'purpose', 'comment', 'attention_check', 'effort_report', 'pasteAttempts', 'pagetime_survey', 'focus_data_survey']
+                    'purpose', 'comment', 'attention_check', 'effort_report', 'pasteAttempts', 'pagetime_survey', 'focus_data_survey',
+                     'keystrokes']
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):

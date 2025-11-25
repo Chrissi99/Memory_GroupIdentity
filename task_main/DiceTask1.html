@@ -3,8 +3,6 @@
     Block 1 - Luck Task
 {{ elif participant.task2 == "luck" }}
     Block 2 - Luck Task
-{{ elif participant.task3 == "luck" }}
-    Block 3 - Luck Task
 {{ endif }}
 {{ endblock }}
 {{ block content }}
@@ -236,7 +234,7 @@ let pageEnterTime = Date.now();
 
 document.querySelector("form").addEventListener("submit", function() {
     let duration = (Date.now() - pageEnterTime) / 1000.0;  // seconds
-    document.getElementById("pagetime_die_instr").value = duration.toFixed(2);
+    document.getElementById("pagetime_die").value = duration.toFixed(2);
 });
 </script>
 <script>

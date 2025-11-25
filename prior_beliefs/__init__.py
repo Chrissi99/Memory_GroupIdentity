@@ -265,7 +265,6 @@ class Prior_Luck(Page):
         participant.prior_luck = player.prior_luck
         print("prior luck:", player.prior_luck)
         print("transformed prior luck:", player.prior_luck_transformed)
-        participant = player.participant
         #ingroup = df[df['group'] == participant.group]
         #outgroup = df[df['group'] == participant.outgroup]
         ingroup = df[df['group'] == participant.group] if participant.belief_ref == "ingroup" else df[df['group'] == participant.outgroup]
@@ -283,13 +282,13 @@ class Prior_Luck(Page):
         if participant.sample1_r1 > participant.sample2_r1:
             participant.logic_result = '>'
             participant.r1_sign = random.choices(['>', '<'], weights=[2, 1], k=1)[
-                0]  # random draw between > and <, but with 66.66% probability for >
+                0]  # random draw between > and <, but with 2/3 probability for >
         elif participant.sample1_r1 < participant.sample2_r1:
             participant.logic_result = '<'
             participant.r1_sign = random.choices(['>', '<'], weights=[1, 2], k=1)[0]
         else:
             participant.logic_result = random.choice(['>', '<'])
-            participant.r1_sign = participant.logic_result
+            participant.r1_sign = random.choices(['>', '<'], weights=[1, 2], k=1)[0] if participant.logic_result == '<' else random.choices(['>', '<'], weights=[2, 1], k=1)[0]
         if participant.sample1_r2 > participant.sample2_r2:
             participant.luck_result = '>'
             participant.r2_sign = random.choices(['>', '<'], weights=[2, 1], k=1)[0]
@@ -298,7 +297,7 @@ class Prior_Luck(Page):
             participant.r2_sign = random.choices(['>', '<'], weights=[1, 2], k=1)[0]
         else:
             participant.luck_result = random.choice(['>', '<'])
-            participant.r2_sign = participant.luck_result
+            participant.r2_sign = random.choices(['>', '<'], weights=[1, 2], k=1)[0] if participant.luck_result == '<' else random.choices(['>', '<'], weights=[2, 1], k=1)[0]
         if participant.belief_ref == "outgroup":
             participant.logic_sig_good_transf = 1 if participant.r1_sign == '<' else 0
             participant.luck_sig_good_transf = 1 if participant.r2_sign == '<' else 0

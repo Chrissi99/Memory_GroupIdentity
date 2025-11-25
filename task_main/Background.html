@@ -213,21 +213,36 @@ The Competition:
     <div id="logiccaption">
 <h4> Examples: </h4>
 <p>
-    In the Logic Task, the sum of solved questions from all {{ C.NUM_MEMBERS_W}} {{ingroup_ref}}s was compared to the sum of
+    In the Logic Task, the sum of solved questions from all {{ C.NUM_MEMBERS_W}} {{group_ref}}s was compared to the sum of
     solved questions from all {{ C.NUM_MEMBERS_W}} {{outgroup_ref}}s.
 </p>
+{{ if ref_background == "ingroup" }}
 <ul>
     <li>
-        Example 1: The {{ingroup_ref}}s solved a total of 25 questions and the {{outgroup_ref}}s solved 23 questions: Team {{ingroup_ref}} won.
+        Example 1: The {{group_ref}}s solved a total of 25 questions and the {{outgroup_ref}}s solved 23 questions: Team {{group_ref}} won.
     </li>
     <li>
-        Example 2: The {{ingroup_ref}}s solved a total of 16 questions and the {{outgroup_ref}}s solved 16 questions: A coin flip determined the winner.
+        Example 2: The {{group_ref}}s solved a total of 16 questions and the {{outgroup_ref}}s solved 16 questions: A coin flip determined the winner.
     </li>
     <li>
-        Example 3: The {{ingroup_ref}}s solved a total of 18 questions and the {{outgroup_ref}}s solved 22 questions: Team {{outgroup_ref}} won.
+        Example 3: The {{group_ref}}s solved a total of 18 questions and the {{outgroup_ref}}s solved 22 questions: Team {{outgroup_ref}} won.
     </li>
 </ul>
-
+{{ elif ref_background == "outgroup" }}
+<ul>
+    <li>
+        Example 1: The {{group_ref}}s solved a total of 18 questions and the {{outgroup_ref}}s solved 22 questions: Team {{outgroup_ref}} won.
+    </li>
+    <li>
+        Example 2: The {{group_ref}}s solved a total of 16 questions and the {{outgroup_ref}}s solved 16 questions: A coin flip determined the winner.
+    </li>
+    <li>
+        Example 3: The {{group_ref}}s solved a total of 25 questions and the {{outgroup_ref}}s solved 23 questions: Team {{group_ref}} won.
+    </li>
+</ul>
+{{ else }}
+        Error!
+{{ endif }}
 
         <br>
 </div>

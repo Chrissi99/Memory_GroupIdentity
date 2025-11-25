@@ -105,6 +105,7 @@
 <input type="hidden" name="pagetime_survey" id="pagetime_survey" value="0">
 {{ formfield_errors 'pagetime_survey' }}
 <input type="hidden" name="focus_data_survey" id="id_focus_data" />
+<input type="hidden" name="keystrokes" id="keystrokes_log">
 
 {{ endblock }}
 
@@ -165,5 +166,22 @@ function updateHidden() {
 setInterval(updateHidden, 1000);
 window.addEventListener('beforeunload', updateHidden);
 document.addEventListener('visibilitychange', updateHidden);
+</script>
+<script>
+    const input = document.getElementById('purpose');
+    const logField = document.getElementById('keystrokes_log');
+
+    let log = [];
+
+    input.addEventListener('keydown', function(event) {
+        const entry = {
+            key: event.key,
+            time: Date.now(),
+            value: input.value,
+            cursor: input.selectionStart
+        };
+        log.push(entry);
+        logField.value = JSON.stringify(log);
+    });
 </script>
 {{ endblock }}

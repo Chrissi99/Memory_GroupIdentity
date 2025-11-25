@@ -42,7 +42,7 @@ def creating_session(subsession: Subsession):
             p.participant.belief_ref = next(belief_refs)
             print('belief_ref is', p.participant.belief_ref)
             # p.participant.group_ref = participant.group if belief_ref == 'ingroup' else participant.outgroup
-            p.participant.group_ref_background = random.choice(['Democrat', 'Republican'])
+            p.participant.group_ref_background = random.choice(['ingroup', 'outgroup'])
             p.participant.belief_example_value = random.choice(['low', 'high'])
             print('belief_example_value is', p.participant.belief_example_value)
             p.participant.belief_example_direction = random.choice(['over', 'under'])

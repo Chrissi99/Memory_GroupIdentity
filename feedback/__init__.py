@@ -46,10 +46,6 @@ class Player(BasePlayer):
         label="",
         blank=True,
     )
-    rep_effort = models.StringField(
-        label="",
-        blank=True,
-    )
     rep_luck = models.StringField(
         label="",
         blank=True,
