@@ -36,8 +36,9 @@ class C(BaseConstants):
     SIGNAL_ACCURACY = "70"
     SIGNAL_WRONG = "30"
     PARTS_MEMORY = "six"
-    BLOCKS_FIRST = "four"
-    BLOCKS_SECOND = "two"
+    BLOCKS_FIRST_DIRECT = "four"
+    BLOCKS_FIRST_MEMORY = "three"
+    BLOCKS_SECOND = "three"
     SIGNAL_ACC_FQ = 2
     SIGNAL_TOT_FQ = 3
     SIGNAL_WRONG_FQ = 1
